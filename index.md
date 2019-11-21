@@ -13,7 +13,7 @@ layout: default
 
 <p>
   <center> 
-    1. To act as a personal portfolio. Basically a place to compile code samples, projects, and experience in one, easy-to-access location. 
+    1. To act as a personal portfolio. Essentially a place to compile code samples, projects, and experience in one, easy-to-access location. 
   </center>
 </p>
 
