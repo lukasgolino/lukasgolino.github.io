@@ -36,7 +36,8 @@ layout: default
 </p>
 
 
-
+[Linkedin](https://www.linkedin.com/in/lukasgolino/).
+[ResearchGate](https://www.researchgate.net/profile/Lukas_Golino).
 
 
 
