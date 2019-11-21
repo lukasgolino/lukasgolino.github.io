@@ -3,15 +3,15 @@ layout: default
 ---
 
 
-#Introduction
+# Introduction
 
-<center> Hello. Welcome to my website. This website is a work in progress and has been created for two reasons... </center>
+<center> Hello. Welcome to my website. This website is still currently under construction and has been created for two reasons: </center>
 
-<center> 1. To act as a personal portfolio. Basically somewhere to compile code samples, projects, and experience in one easy to access place. </center>
+<center> 1. To act as a personal portfolio. Basically a place to compile code samples, projects, and experience in one, easy-to-access location. </center>
 
 <center> 2. To begin working with and learning web development. </center>
 
-<center> So please, take a look around, read my dissertation, download my CV, play my games (none of which is doable yet) and contact me if you have any questions! Good luck! </center>
+<center> So please, take a look around, read my dissertation (not uploaded yet), download my CV (not uploaded yet), play my games (not uploaded yet) and contact me if you have any questions! Good luck! </center>
 
 
 
@@ -25,7 +25,7 @@ layout: default
 
 
 
-
+<!--
 # Default Information
 
 Everything below this line will be dead soon.
@@ -152,3 +152,4 @@ Long, single-line code blocks should not wrap. They should horizontally scroll i
 ```
 The final element.
 ```
+-->
