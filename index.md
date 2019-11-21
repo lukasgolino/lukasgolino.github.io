@@ -2,6 +2,37 @@
 layout: default
 ---
 
+
+<center> # Introduction </center>
+
+<center> Hello. Welcome to my website. This website is a work in progress and has been created for two reasons... </center>
+
+<center> 1. To act as a personal portfolio. Basically somewhere to compile code samples, projects, and experience in one easy to access place. <center>
+
+<center> 2. To begin working with and learning web development. <center>
+
+<center> So please, take a look around, read my dissertation, download my CV, play my games (none of which is doable yet) and contact me if you have any questions! Good luck! <center>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Default Information
+
+Everything below this line will be dead soon.
+
+
+
+
 Text can be **bold**, _italic_, ~~strikethrough~~ or `keyword`.
 
 [Link to another page](./another-page.html).
