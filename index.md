@@ -16,6 +16,7 @@ layout: default
     1. To act as a personal portfolio. Basically a place to compile code samples, projects, and experience in one, easy-to-access location. 
   </center>
 
+
   <center> 
     2. To begin working with and learning web development. 
   </center>
