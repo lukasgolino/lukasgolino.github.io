@@ -25,11 +25,15 @@ layout: default
 
 <p>
   <center>
-    So please, take a look around, read my dissertation (not uploaded yet), download my CV (not uploaded yet), play my games (not uploaded yet) and contact me if you have any questions! Good luck!
+    So please, take a look around, read my dissertation (not uploaded yet), download my CV (not uploaded yet), play my games (not uploaded yet) and contact me if you have any questions!
   </center>
 </p>
 
-
+<p>
+  <center>
+    Good luck!
+  </center>
+</p>
 
 
 
