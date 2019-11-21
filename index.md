@@ -5,13 +5,18 @@ layout: default
 
 # Introduction
 
+
 <center> Hello. Welcome to my website. This website is still currently under construction and has been created for two reasons: </center>
+
 
 <center> 1. To act as a personal portfolio. Basically a place to compile code samples, projects, and experience in one, easy-to-access location. </center>
 
+
 <center> 2. To begin working with and learning web development. </center>
 
+
 <center> So please, take a look around, read my dissertation (not uploaded yet), download my CV (not uploaded yet), play my games (not uploaded yet) and contact me if you have any questions! Good luck! </center>
+
 
 
 
