@@ -1,7 +1,7 @@
 ---
 layout: default
 ---
-
+<HEAD>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-153188298-1"></script>
 <script>
@@ -11,7 +11,7 @@ layout: default
 
   gtag('config', 'UA-153188298-1');
 </script>
-
+</HEAD>
 
 # Introduction
 
