@@ -2,5 +2,5 @@ title: Lukas Golino
 description: "Personal website and portfolio."
 email: "lukas.golino@hotmail.co.uk"
 show_downloads: false
-google_analytics: false
+google_analytics: true
 theme: jekyll-theme-hacker
