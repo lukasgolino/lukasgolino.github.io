@@ -21,35 +21,35 @@
 
 # Introduction
 
-	<p>
+<p>
 	<center> 
 		Hello. Welcome to my website. This website is still currently under construction and has been created for two reasons: 
 	</center>
-	</p>
+</p>
 
-	<p>
+<p>
 	<center> 
 		1. To act as a personal portfolio. Essentially a place to compile code samples, projects, and experience in one, easy-to-access location. 
 	</center>
-	</p>
+</p>
 
-	<p>
+<p>
 	<center> 
 		2. To begin working with and learning web development. 
 	</center>
-	</p>
+</p>
 
-	<p>
+<p>
 	<center>
 		So please, take a look around, read my dissertation (not uploaded yet), download my CV (not uploaded yet), play my games (not uploaded yet) and contact me if you have any questions!
 	</center>
-	</p>
+</p>
 
-	<p>
+<p>
 	<center>
 		Good luck!
 	</center>
-	</p>
+</p>
 
 
 [Linkedin.](https://www.linkedin.com/in/lukasgolino/) 
