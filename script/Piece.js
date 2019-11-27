@@ -124,7 +124,7 @@
 			this.addCircle(this.x, this.y, r, ctx);
 		}
 		ctx.restore();
-		window.setInterval(onClick, 10000);
+		window.setInterval(onClick, 2000);
 		return false;
 	}
 		
