@@ -25,3 +25,5 @@ Config.bounceRandomAngle = 25;//in degrees, max random change in angle when boun
 Config.circlesPerFrame = 24;
 
 Config.resetOnResume = true;
+
+Config.width = 100;
