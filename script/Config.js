@@ -26,4 +26,5 @@ Config.circlesPerFrame = 24;
 
 Config.resetOnResume = true;
 
-Config.width = 100;
+Config.desktopWidth = 100;
+Config.mobileWidth = 50;
