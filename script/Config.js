@@ -20,7 +20,7 @@ Config.offset = .0025;//offset per frame, relative to window diagonal
 
 Config.margin = -.04;//relative to smallest dimension
 
-Config.bounceRandomAngle = 1;//in degrees, max random change in angle when bouncing
+Config.bounceRandomAngle = 25;//in degrees, max random change in angle when bouncing
 
 Config.circlesPerFrame = 24;
 
