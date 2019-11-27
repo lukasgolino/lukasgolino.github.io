@@ -37,7 +37,8 @@ layout: default
 
 [Linkedin.](https://www.linkedin.com/in/lukasgolino/) 
 [ResearchGate.](https://www.researchgate.net/profile/Lukas_Golino)
-[Main Page.](./mainpage.html)
+[Main Page.](./mainpage.html) 
+[Weird Page.](./index1.html)
 
 
 
