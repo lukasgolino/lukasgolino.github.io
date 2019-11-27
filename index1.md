@@ -5,9 +5,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
 	<title>worm</title>
 	<script>var createjs = window;</script>
-	<script type="text/javascript" src="libs.min.js"></script>
-	<script type="text/javascript" src="Config.js"></script>
-	<script type="text/javascript" src="Piece.js"></script>
+	<script type="text/javascript" src="script/libs.min.js"></script>
+	<script type="text/javascript" src="script/Config.js"></script>
+	<script type="text/javascript" src="script/Piece.js"></script>
 
 	<style>
 		body { margin:0; overflow:hidden; }
