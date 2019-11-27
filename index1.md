@@ -16,8 +16,10 @@
 <body onload="init('myCanvas', Piece, Config);">
 	<canvas id="myCanvas" style="position:absolute;z-index:2;left:0;top:0;" resize="false" width="150" height="100"></canvas>
 	<div id="output" style="color:white;z-index:1; position:absolute;left:0;top:0px;font-size:10px;"></div>
+</body>
+</html>
 
-	# Introduction
+# Introduction
 
 	<p>
 	<center> 
@@ -54,5 +56,3 @@
 [ResearchGate.](https://www.researchgate.net/profile/Lukas_Golino)
 [Main Page.](./mainpage.html) 
 [Weird Page.](./index1.html)
-</body>
-</html>
