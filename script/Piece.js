@@ -86,7 +86,7 @@
 		this.changeAngle(Math.floor(Math.random()*4) * PI2 + PI4);
 		//Lukas
 		this.colors = generateRandomColourPair();
-		this.colors = pick(this.config.colorPairs);
+		//this.colors = pick(this.config.colorPairs);
 	}
 	p.changeAngle = function(angle)
 	{
