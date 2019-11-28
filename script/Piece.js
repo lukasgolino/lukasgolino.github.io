@@ -25,11 +25,11 @@
 	{
 		var that = this;
 		//this.stage.addEventListener("stagemousemove", function(e) { that.onMouseMove(e); });
-		this.stage.addEventListener("stagemouseup", function() { that.onClick(); });
+		this.stage.addEventListener("stagemouseup", function(e) { that.onClick(e); });
 		//this.stage.addEventListener("dblclick", function(e) { that.onDoubleClick(e); });//dbl click not fired for touch
 	}
 	
-	p.onClick = function()
+	p.onClick = function(e)
 	{
 		var t = Date.now();
 		if (t-this.lastClick<250)
