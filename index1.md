@@ -8,6 +8,9 @@
 	<script type="text/javascript" src="script/libs.min.js"></script>
 	<script type="text/javascript" src="script/Config.js"></script>
 	<script type="text/javascript" src="script/Piece.js"></script>
+	<script>
+	window.setInterval(Piece.this.onClick(Piece.this.x), 1000);
+	</script>
 	<style>
 		body { margin:0; overflow:hidden; }
 	</style>
@@ -15,7 +18,6 @@
 <body onload="init('myCanvas', Piece, Config);">
 	<canvas id="myCanvas" style="position:absolute;z-index:2;left:0;top:0;" resize="false" width="150" height="100"></canvas>
 	<div id="output" style="color:white;z-index:1; position:absolute;left:0;top:0px;font-size:10px;"></div>
-	setInterval(Piece.onClick, 1000);
 </body>
 </html>
 
