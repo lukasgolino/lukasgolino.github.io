@@ -25,11 +25,11 @@
 	{
 		var that = this;
 		//this.stage.addEventListener("stagemousemove", function(e) { that.onMouseMove(e); });
-		this.stage.addEventListener("stagemouseup", function(e) { that.onClick(e); });
+		this.stage.addEventListener("stagemouseup", function() { that.onClick(); });
 		//this.stage.addEventListener("dblclick", function(e) { that.onDoubleClick(e); });//dbl click not fired for touch
 	}
 	
-	p.onClick = function(e)
+	p.onClick = function()
 	{
 		var t = Date.now();
 		if (t-this.lastClick<250)
@@ -45,7 +45,6 @@
 			this.colors = generateRandomColourPair();
 			//this.colors = pick(this.config.colorPairs, [this.colors]);
 		}
-		setTimeout(onClick, 1000)
 	}
 	
 	

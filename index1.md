@@ -8,9 +8,6 @@
 	<script type="text/javascript" src="script/libs.min.js"></script>
 	<script type="text/javascript" src="script/Config.js"></script>
 	<script type="text/javascript" src="script/Piece.js"></script>
-	<script>
-	window.setInterval(Piece.this.onClick(Piece.this.x), 1000);
-	</script>
 	<style>
 		body { margin:0; overflow:hidden; }
 	</style>
