@@ -42,7 +42,7 @@
 		{
 			this.lastClick = t;
 			//Lukas1
-			this.colors = generateRandomColourPair();
+			this.resetColours();
 			//this.colors = pick(this.config.colorPairs, [this.colors]);
 		}
 	}
