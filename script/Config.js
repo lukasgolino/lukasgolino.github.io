@@ -28,4 +28,4 @@ Config.resetOnResume = true;
 
 Config.desktopWidth = 100;
 Config.mobileWidth = 50;
-Config.clickTimer = 1000;
+Config.clickTimer = 10000;

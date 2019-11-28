@@ -171,6 +171,11 @@
 		pair = [c1, c2];
 		return pair;
 	}
+
+	var resetColours = function()
+	{
+		this.colors = generateRandomColourPair();
+	}
 	
 	window.Piece = Piece;
 }(window));
