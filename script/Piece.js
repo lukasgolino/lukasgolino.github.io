@@ -88,6 +88,12 @@
 		this.colors = generateRandomColourPair();
 		//this.colors = pick(this.config.colorPairs);
 	}
+
+	p.resetColours = function()
+	{
+		this.colors = generateRandomColourPair();
+	}
+
 	p.changeAngle = function(angle)
 	{
 		this.count ++;
@@ -170,11 +176,6 @@
 		c2 = getRandomColor();
 		pair = [c1, c2];
 		return pair;
-	}
-
-	var resetColours = function()
-	{
-		this.colors = generateRandomColourPair();
 	}
 	
 	window.Piece = Piece;
