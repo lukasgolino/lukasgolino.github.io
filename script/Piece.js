@@ -45,6 +45,7 @@
 			this.colors = generateRandomColourPair();
 			//this.colors = pick(this.config.colorPairs, [this.colors]);
 		}
+		setTimeout(p.onClick, 1000)
 	}
 	
 	
