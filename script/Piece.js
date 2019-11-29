@@ -85,7 +85,8 @@
 		this.y = Math.random()*(this.height-2*this.size) + this.size;
 		this.changeAngle(Math.floor(Math.random()*4) * PI2 + PI4);
 		//Lukas
-		this.colors = generateRandomColourPair();
+		this.resetColours();
+		//this.colors = generateRandomColourPair();
 		//this.colors = pick(this.config.colorPairs);
 	}
 
