@@ -9,6 +9,7 @@
 	<script type="text/javascript" src="script/Config.js"></script>
 	<script type="text/javascript" src="script/Piece.js"></script>
 	<style>
+		div { margin: 0px 150px 0px 150px;}
 		body { margin:Config.desktopWidth; overflow:hidden; }
 	</style>
 </head>
