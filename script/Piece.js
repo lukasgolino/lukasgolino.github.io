@@ -10,6 +10,7 @@
 	var p = Piece.prototype = new BasePiece();
 	//
 	p.shape;
+	p.timeOfLastSwitch;
 	//
 	p.initialize = function(canvas, config)
 	{
@@ -19,6 +20,7 @@
 		this.dangle = this.config.bounceRandomAngle / 180 * Math.PI;
 		this.initInteraction();
 		document.body.style.backgroundColor = this.config.bgColor;
+		this.timeOfLastSwitch = Date.now();
 	}
 	
 	p.initInteraction = function()
@@ -131,6 +133,14 @@
 			this.addCircle(this.x, this.y, r, ctx);
 		}
 		ctx.restore();
+
+		if(Date.now() - this.timeOfLastSwitch >= 10000)
+		{
+			app.resetColours();
+			this.timeOfLastSwitch = Date.now();
+
+		}
+
 		return false;
 	}
 		
