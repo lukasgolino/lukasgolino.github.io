@@ -16,8 +16,8 @@
 	</style>
 </head>
 <body onload="init('myCanvas', Piece, Config); init('myCanvas1', Piece, Config);">
-	<canvas class ="left" id="myCanvas" style="position:absolute;z-index:2;left:0;top:0;" resize="false" width="150" height="100%"></canvas>
-	<canvas class="right" id="myCanvas1" style="position:absolute;z-index:2;left:device-width-Config.desktopWidth;top:0;" resize="false" width="150" height="100%"></canvas>
+	<canvas class ="left" id="myCanvas" resize="false" height="100%"></canvas>
+	<canvas class="right" id="myCanvas1" resize="false" height="100%"></canvas>
 	<div id="output" style="color:white;z-index:1; position:absolute;left:0;top:0px;font-size:10px;"></div>
 </body>
 </html>
