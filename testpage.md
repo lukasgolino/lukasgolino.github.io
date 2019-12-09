@@ -71,9 +71,9 @@ footer {
 <body onload="init('myCanvas', Piece, Config);">
 
 <section>
-	<aside>
-		<canvas id="myCanvas" style="position:absolute;z-index:2;left:0;top:0;" resize="false" width="150" height="100"</canvas>
-	</aside>
+
+<canvas id="myCanvas" style="position:absolute;z-index:2;left:0;top:0;" resize="false" width="150" height="100"</canvas>
+
 	
 <article>
 	<h1>London</h1>
