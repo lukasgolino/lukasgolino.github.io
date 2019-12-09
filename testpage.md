@@ -3,9 +3,9 @@
 <title>CSS Template</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-	<script type="text/javascript" src="script/libs.min.js"></script>
-	<script type="text/javascript" src="script/Config.js"></script>
-	<script type="text/javascript" src="script/Piece.js"?></script>
+<script type="text/javascript" src="script/libs.min.js"></script>
+<script type="text/javascript" src="script/Config.js"></script>
+<script type="text/javascript" src="script/Piece.js"?></script>
 <style>
 * {
   box-sizing: border-box;
@@ -70,10 +70,10 @@ footer {
 </head>
 <body onload="init('myCanvas', Piece, Config);">
 
-<section>
+
 
 <canvas id="myCanvas" style="position:absolute;z-index:2;left:0;top:0;" resize="false" width="150" height="100"</canvas>
-
+<section>
 	
 <article>
 	<h1>London</h1>
