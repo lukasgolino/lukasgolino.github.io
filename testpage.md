@@ -3,6 +3,9 @@
 <title>CSS Template</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script type="text/javascript" src="script/libs.min.js"></script>
+	<script type="text/javascript" src="script/Config.js"></script>
+	<script type="text/javascript" src="script/Piece.js"?></script>
 <style>
 * {
   box-sizing: border-box;
@@ -65,32 +68,26 @@ footer {
 }
 </style>
 </head>
-<body onload="init('myCanvas', Piece, Config);>
+<body onload="init('myCanvas', Piece, Config);">
 
 <section>
-  <aside>
-  	<script type="text/javascript" src="script/libs.min.js">
-	   <script type="text/javascript" src="script/Config.js">
-	    <script type="text/javascript" src="script/Piece.js">
-          <canvas id="myCanvas" style="position:absolute;z-index:2;left:0;top:0;" resize="false" width="150" height="100"></canvas>
-      </script>
-     </script>
-    </script>
-  </aside>
-  
-  <article>
-    <h1>London</h1>
-    <p>London is the capital city of England. It is the most populous city in the  United Kingdom, with a metropolitan area of over 13 million inhabitants.</p>
-    <p>Standing on the River Thames, London has been a major settlement for two millennia, its history going back to its founding by the Romans, who named it Londinium.</p>
-  </article>
-  
-  <aside>
-    <ul>
-      <li><a href="#">London</a></li>
-      <li><a href="#">Paris</a></li>
-      <li><a href="#">Tokyo</a></li>
-    </ul>
-  </aside>
+	<aside>
+		<canvas id="myCanvas" style="position:absolute;z-index:2;left:0;top:0;" resize="false" width="150" height="100"</canvas>
+	</aside>
+	
+<article>
+	<h1>London</h1>
+	<p>London is the capital city of England. It is the most populous city in the  United Kingdom, with a metropolitan area of over 13 million inhabitants.</p>
+	<p>Standing on the River Thames, London has been a major settlement for two millennia, its history going back to its founding by the Romans, who named it Londinium.</p>
+</article>
+	
+<aside>
+	<ul>
+		<li><a href="#">London</a></li>
+		<li><a href="#">Paris</a></li>
+		<li><a href="#">Tokyo</a></li>
+	</ul>
+</aside>
   
 </section>
 
