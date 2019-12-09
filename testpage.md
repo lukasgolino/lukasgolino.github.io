@@ -3,7 +3,6 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
-	<title>worm</title>
 	<script>var createjs = window;</script>
 	<script type="text/javascript" src="script/libs.min.js"></script>
 	<script type="text/javascript" src="script/Config.js"></script>
@@ -17,7 +16,6 @@
 <body onload="init('myCanvas', Piece, Config); init('myCanvas1', Piece, Config);">
 	<canvas class ="left" id="myCanvas"></canvas>
 	<canvas class="right" id="myCanvas1"></canvas>
-	<div id="output" style="color:white;z-index:1; position:absolute;left:0;top:0px;font-size:10px;"></div>
 </body>
 </html>
 
