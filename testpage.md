@@ -9,17 +9,16 @@
 	<script type="text/javascript" src="script/Piece.js"></script>
 	<style>
 		body { margin:Config.desktopWidth; overflow:hidden; }
-		canvas.left {  float: left; width: 10%; padding-right: 50px; height:100% }
-		canvas.right { float: right; width: 10%; padding-left: 50px; height:100% }
+		canvas.left {  float: left; width: 10%; height:100% }
+		canvas.right { float: right; width: 10%; height:100% }
+		article {float:left; width: 80%; padding:50px;}
 	</style>
 </head>
 <body onload="init('myCanvas', Piece, Config); init('myCanvas1', Piece, Config);">
 	<canvas class ="left" id="myCanvas"></canvas>
-	<canvas class="right" id="myCanvas1"></canvas>
-</body>
-</html>
-
-# Introduction
+	
+<article>
+		# Introduction
 
 <p>
 	<center> 
@@ -57,3 +56,11 @@
 [Main Page.](./mainpage.html) 
 [Weird Page.](./index1.html)
 [Test Page.](./testpage.html)
+<article>
+	
+<canvas class="right" id="myCanvas1"></canvas>
+
+</body>
+</html>
+
+
