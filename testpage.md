@@ -9,15 +9,14 @@
 	<script type="text/javascript" src="script/Config.js"></script>
 	<script type="text/javascript" src="script/Piece.js"></script>
 	<style>
-		div { margin: 0px 150px 0px 150px;}
 		body { margin:Config.desktopWidth; overflow:hidden; }
-		canvas.left {  float: left; width: 10%; }
-		canvas.right { float: right; width: 10%  }
+		canvas.left {  float: left; width: 10%; padding-right: 50px; height:100% }
+		canvas.right { float: right; width: 10%; padding-left: 50px; height:100% }
 	</style>
 </head>
 <body onload="init('myCanvas', Piece, Config); init('myCanvas1', Piece, Config);">
-	<canvas class ="left" id="myCanvas" resize="false" height="100%"></canvas>
-	<canvas class="right" id="myCanvas1" resize="false" height="100%"></canvas>
+	<canvas class ="left" id="myCanvas"></canvas>
+	<canvas class="right" id="myCanvas1"></canvas>
 	<div id="output" style="color:white;z-index:1; position:absolute;left:0;top:0px;font-size:10px;"></div>
 </body>
 </html>
