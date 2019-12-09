@@ -1,93 +1,60 @@
-<html lang="en">
+<html>
 <head>
-	
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script type="text/javascript" src="script/libs.min.js"></script>
-<script type="text/javascript" src="script/Config.js"></script>
-<script type="text/javascript" src="script/Piece.js"?></script>
-
-<style>
-* 
-{
-  box-sizing: border-box;
-}
-
-body
-{
-  font-family: Arial, Helvetica, sans-serif;
-}
-header 
-{
-  padding: 30px;
-  text-align: center;
-  font-size: 35px;
-  color: white;
-}
-section 
-{
-  display: -webkit-flex;
-  display: flex;
-}
-aside 
-{
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  padding: 20px;
-}
-nav ul 
-{
-  list-style-type: none;
-  padding: 0;
-}
-article 
-{
-  -webkit-flex: 3;
-  -ms-flex: 3;
-  flex: 3;
-  padding: 10px;
-}
-footer 
-{
-  padding: 10px;
-  text-align: center;
-  color: white;
-}
-@media (max-width: 600px) 
-{
-  section {
-    -webkit-flex-direction: column;
-    flex-direction: column;
-  }
-}
-
-</style>
-
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+	<title>worm</title>
+	<script>var createjs = window;</script>
+	<script type="text/javascript" src="script/libs.min.js"></script>
+	<script type="text/javascript" src="script/Config.js"></script>
+	<script type="text/javascript" src="script/Piece.js"></script>
+	<style>
+		div { margin: 0px 150px 0px 150px;}
+		body { margin:Config.desktopWidth; overflow:hidden; }
+	</style>
 </head>
-
-<body onload="init('myCanvas', Piece, Config);">
-
-<canvas id="myCanvas" style="position:absolute;z-index:2;left:0;top:0;" resize="false" width="150" height="100"</canvas>
-<section>
-	
-<article>
-	<h1>London</h1>
-	<p>London is the capital city of England. It is the most populous city in the  United Kingdom, with a metropolitan area of over 13 million inhabitants.</p>
-	<p>Standing on the River Thames, London has been a major settlement for two millennia, its history going back to its founding by the Romans, who named it Londinium.</p>
-</article>
-	
-<aside>
-	<ul>
-		<li><a href="#">London</a></li>
-		<li><a href="#">Paris</a></li>
-		<li><a href="#">Tokyo</a></li>
-	</ul>
-</aside>
-  
-</section>
-
-
-
+<body onload="init('myCanvas', Piece, Config); init('myCanvas1', Piece, Config);">
+	<canvas id="myCanvas" style="position:absolute;z-index:2;left:0;top:0;" resize="false" width="150" height="100"></canvas>
+	<canvas id="myCanvas1" style="position:absolute;z-index:2;left:device-width-Config.desktopWidth;top:0;" resize="false" width="150" height="100"></canvas>
+	<div id="output" style="color:white;z-index:1; position:absolute;left:0;top:0px;font-size:10px;"></div>
 </body>
 </html>
+
+# Introduction
+
+<p>
+	<center> 
+		Hello. Welcome to my website. This website is still currently under construction and has been created for two reasons: 
+	</center>
+</p>
+
+<p>
+	<center> 
+		1. To act as a personal portfolio. Essentially a place to compile code samples, projects, and experience in one, easy-to-access location. 
+	</center>
+</p>
+
+<p>
+	<center> 
+		2. To begin working with and learning web development. 
+	</center>
+</p>
+
+<p>
+	<center>
+		So please, take a look around, read my dissertation (not uploaded yet), download my CV (not uploaded yet), play my games (not uploaded yet) and contact me if you have any questions!
+	</center>
+</p>
+
+<p>
+	<center>
+		Good luck!
+	</center>
+</p>
+
+
+[Linkedin.](https://www.linkedin.com/in/lukasgolino/) 
+[ResearchGate.](https://www.researchgate.net/profile/Lukas_Golino)
+[Main Page.](./mainpage.html) 
+[Weird Page.](./index1.html)
+[Test Page.](./testpage.html)
