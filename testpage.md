@@ -65,15 +65,17 @@ footer {
 }
 </style>
 </head>
-<body>
+<body onload="init('myCanvas', Piece, Config);>
 
 <section>
   <aside>
-    <ul>
-      <li><a href="#">London</a></li>
-      <li><a href="#">Paris</a></li>
-      <li><a href="#">Tokyo</a></li>
-    </ul>
+  	<script type="text/javascript" src="script/libs.min.js">
+	   <script type="text/javascript" src="script/Config.js">
+	    <script type="text/javascript" src="script/Piece.js">
+          <canvas id="myCanvas" style="position:absolute;z-index:2;left:0;top:0;" resize="false" width="150" height="100"></canvas>
+      </script>
+     </script>
+    </script>
   </aside>
   
   <article>
