@@ -10,7 +10,7 @@
 	<style>
 		body { margin:Config.desktopWidth; overflow:hidden; }
 		canvas.left {  float: left; width: 10%; height:100% }
-		canvas.right { float: right; width: 10%; height:100% }
+		canvas.right { float: left; width: 10%; height:100% }
 		article {float:left; width: 80%; padding:50px;}
 	</style>
 </head>
