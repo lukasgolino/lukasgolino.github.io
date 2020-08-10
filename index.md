@@ -2,59 +2,31 @@
 layout: default
 ---
 
-<center>
-<h1>
-About Me
-</h1>
-</center>
+.row{
+  width: 390px;
+}
+.row div{
+  float:left;
+  width: 50px;
+  padding: 25px;
+  border: 5px solid black;
+  margin: 10px;
+}
 
-<p>
-  <center> 
-    Hello. Welcome to my website. This website is still currently under construction and has been created for two reasons: 
-  </center>
-</p>
 
-<center>
-<h1>
-Projects
-</h1>
-</center>
-
-<p>
-  <center> 
-    1. To act as a personal portfolio. Essentially a place to compile code samples, projects, and experience in one, easy-to-access location. 
-  </center>
-</p>
-
-<p>
-  <center> 
-    2. To begin working with and learning web development. 
-  </center>
-</p>
-
-<center>
-<h1>
-Links
-</h1>
-</center>
-
-<p>
-  <center>
-    So please, take a look around, read my dissertation (not uploaded yet), download my CV (not uploaded yet), play my games (not uploaded yet) and contact me if you have any questions!
-  </center>
-</p>
-
-<p>
-  <center>
-    Good luck!
-  </center>
-</p>
-
-<center>
-<h1>
-Contact
-</h1>
-</center>
+<div class="row">
+    <div>Current Project</div>
+    <div>CV</div>
+    <div>Software</div>
+</div>
+<div class="row">
+    <div>About Me</div>
+    <div>Tinder</div>
+    <div>Music</div>
+</div>
+<div class="row">
+    <div>CV</div>
+</div>
 
 [Linkedin.](https://www.linkedin.com/in/lukasgolino/) 
 [ResearchGate.](https://www.researchgate.net/profile/Lukas_Golino)
