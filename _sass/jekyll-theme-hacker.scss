@@ -233,7 +233,17 @@ hr {
 */
 
 a {
-  color: #63c0f5;
+  color: #239ADC;
+  text-shadow: 0 0 5px rgba(104, 182, 255, 0.5);
+}
+
+a:hover {
+  color: #1B49E4;
+  text-shadow: 0 0 5px rgba(104, 182, 255, 0.5);
+}
+
+a:visited {
+  color: #DC6523;
   text-shadow: 0 0 5px rgba(104, 182, 255, 0.5);
 }
 
