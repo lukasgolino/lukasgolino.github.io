@@ -4,7 +4,7 @@ layout: default
 
 <table style="width:100%">
   <tr>
-    <th>[About Me](./aboutme.html) </th>
+    <th> <a href="aboutme.html">About Me</a> </th>
     <th>[Current Project](./currentproject.html) </th>
     <th>[CV](./cv.html) </th>
   </tr>
