@@ -2,7 +2,7 @@
 layout: default
 ---
 
-<table style="width:100%">
+<table>
   <tr>
     <th> <a href="aboutme.html">About Me</a> </th>
     <th> <a href="currentproject.html">Current Project</a> </th>
