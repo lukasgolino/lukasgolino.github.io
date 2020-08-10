@@ -9,14 +9,14 @@ layout: default
     <th> <a href="cv.html">CV</a></th>
   </tr>
   <tr>
-    <td> <a href="software.html">Software</a></td>
-    <td> <a href="music.html">Music</a></td>
-    <td> <a href="tinder.html">Tinder</a></td>
+    <th> <a href="software.html">Software</a></th>
+    <th> <a href="music.html">Music</a></th>
+    <th> <a href="tinder.html">Tinder</a></th>
   </tr>
   <tr>
-  <td> . </td>
-    <td> <a href="contact.html">Contact</a> </td>
-	<td> . </td>
+  <th>  </th>
+    <th> <a href="contact.html">Contact</a> </th>
+	<th>  </th>
   </tr>
 </table>
 
