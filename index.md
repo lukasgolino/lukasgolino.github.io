@@ -4,17 +4,17 @@ layout: default
 
 <table style="width:100%">
   <tr>
-    <th>About Me</th>
-    <th>Current Project</th>
-    <th>CV</th>
+    <th>[About Me](./aboutme.html) </th>
+    <th>[Current Project](./currentproject.html) </th>
+    <th>[CV](./cv.html) </th>
   </tr>
   <tr>
-    <td>Software</td>
-    <td>Music</td>
-    <td>Tinder</td>
+    <td>[Software](./software.html) </td>
+    <td>[Music](./music.html) </td>
+    <td>[Tinder](./tinder.html) </td>
   </tr>
   <tr>
-    <td>Contact</td>
+    <td>[Contact](./contact.html) </td>
   </tr>
 </table>
 
