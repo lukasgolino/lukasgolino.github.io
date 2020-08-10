@@ -5,16 +5,18 @@ layout: default
 <table style="width:100%">
   <tr>
     <th> <a href="aboutme.html">About Me</a> </th>
-    <th>[Current Project](./currentproject.html) </th>
-    <th>[CV](./cv.html) </th>
+    <th> <a href="currentproject.html">Current Project</a> </th>
+    <th> <a href="cv.html">CV</a></th>
   </tr>
   <tr>
-    <td>[Software](./software.html) </td>
-    <td>[Music](./music.html) </td>
-    <td>[Tinder](./tinder.html) </td>
+    <td> <a href="software.html">Software</a></td>
+    <td> <a href="music.html">Music</a></td>
+    <td> <a href="tinder.html">Tinder</a></td>
   </tr>
   <tr>
-    <td>[Contact](./contact.html) </td>
+  <td> </td>
+    <td> <a href="contact.html">Contact</a> </td>
+	<td> </td>
   </tr>
 </table>
 
