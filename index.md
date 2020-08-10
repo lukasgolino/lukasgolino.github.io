@@ -2,13 +2,19 @@
 layout: default
 ---
 
-# Introduction
+<center>
+# About Me
+</center>
 
 <p>
   <center> 
     Hello. Welcome to my website. This website is still currently under construction and has been created for two reasons: 
   </center>
 </p>
+
+<center>
+# Projects
+</center>
 
 <p>
   <center> 
@@ -22,6 +28,10 @@ layout: default
   </center>
 </p>
 
+<center>
+# Links
+</center>
+
 <p>
   <center>
     So please, take a look around, read my dissertation (not uploaded yet), download my CV (not uploaded yet), play my games (not uploaded yet) and contact me if you have any questions!
@@ -34,6 +44,9 @@ layout: default
   </center>
 </p>
 
+<center>
+# Contact
+</center>
 
 [Linkedin.](https://www.linkedin.com/in/lukasgolino/) 
 [ResearchGate.](https://www.researchgate.net/profile/Lukas_Golino)
