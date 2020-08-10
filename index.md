@@ -3,7 +3,9 @@ layout: default
 ---
 
 <center>
-# About Me
+<h1>
+About Me
+</h1>
 </center>
 
 <p>
@@ -13,7 +15,9 @@ layout: default
 </p>
 
 <center>
-# Projects
+<h1>
+Projects
+</h1>
 </center>
 
 <p>
@@ -29,7 +33,9 @@ layout: default
 </p>
 
 <center>
-# Links
+<h1>
+Links
+</h1>
 </center>
 
 <p>
@@ -45,7 +51,9 @@ layout: default
 </p>
 
 <center>
-# Contact
+<h1>
+Contact
+</h1>
 </center>
 
 [Linkedin.](https://www.linkedin.com/in/lukasgolino/) 
