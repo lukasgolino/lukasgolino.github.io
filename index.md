@@ -14,9 +14,9 @@ layout: default
     <td> <a href="tinder.html">Tinder</a></td>
   </tr>
   <tr>
-  <td> </td>
+  <td> . </td>
     <td> <a href="contact.html">Contact</a> </td>
-	<td> </td>
+	<td> . </td>
   </tr>
 </table>
 
