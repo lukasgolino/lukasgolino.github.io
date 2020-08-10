@@ -2,31 +2,21 @@
 layout: default
 ---
 
-.row{
-  width: 390px;
-}
-.row div{
-  float:left;
-  width: 50px;
-  padding: 25px;
-  border: 5px solid black;
-  margin: 10px;
-}
-
-
-<div class="row">
-    <div>Current Project</div>
-    <div>CV</div>
-    <div>Software</div>
-</div>
-<div class="row">
-    <div>About Me</div>
-    <div>Tinder</div>
-    <div>Music</div>
-</div>
-<div class="row">
-    <div>CV</div>
-</div>
+<table style="width:100%">
+  <tr>
+    <th>About Me</th>
+    <th>Current Project</th>
+    <th>CV</th>
+  </tr>
+  <tr>
+    <td>Software</td>
+    <td>Music</td>
+    <td>Tinder</td>
+  </tr>
+  <tr>
+    <td>Contact</td>
+  </tr>
+</table>
 
 [Linkedin.](https://www.linkedin.com/in/lukasgolino/) 
 [ResearchGate.](https://www.researchgate.net/profile/Lukas_Golino)
