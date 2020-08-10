@@ -20,10 +20,7 @@ layout: default
   </tr>
 </table>
 
-[Linkedin.](https://www.linkedin.com/in/lukasgolino/) 
-[ResearchGate.](https://www.researchgate.net/profile/Lukas_Golino)
-[Main Page.](./mainpage.html) 
-[Weird Page.](./index1.html)
+
 
 
 
@@ -35,7 +32,10 @@ layout: default
 
 <!--
 # Default Information
-
+[Linkedin.](https://www.linkedin.com/in/lukasgolino/) 
+[ResearchGate.](https://www.researchgate.net/profile/Lukas_Golino)
+[Main Page.](./mainpage.html) 
+[Weird Page.](./index1.html)
 Everything below this line will be dead soon.
 
 
