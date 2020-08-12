@@ -2,8 +2,14 @@
 layout: default
 ---
 
-## Welcome to another page
+## CV
 
-_yay_
+# Click below to download a copy of my CV
 
-[back](./)
+
+<a href="LukasGolinoCV.docx" download>
+  <img src="upload-2935442_1280.png" alt="downloadCV">
+</a>
+
+
+[Home](./)
