@@ -2,7 +2,7 @@
 layout: default
 ---
 
-## Coming Soon
+## Music Coming Soon
 
 <center>
 <img src="sinking.jpg" width="1080px" height="1080px">
