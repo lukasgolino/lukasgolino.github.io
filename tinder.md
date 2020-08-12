@@ -2,8 +2,6 @@
 layout: default
 ---
 
-## Welcome to another page
+## That's right bitch I have a website, now swipe right. 
 
-_yay_
-
-[back](./)
+[Home](./)
