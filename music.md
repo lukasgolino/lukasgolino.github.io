@@ -2,8 +2,10 @@
 layout: default
 ---
 
-## Welcome to another page
+## Coming Soon
 
-_yay_
+<center>
+<img src="sinking.jpg" width="1080px" height="1080px">
+</center>
 
-[back](./)
+[Home](./)
