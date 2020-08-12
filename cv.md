@@ -8,7 +8,7 @@ layout: default
 
 <iframe src="CVpdf.pdf" style="width:100%; height:1000px;"></iframe>
 
-</p>
+</br>
 
 
 <h1>Or click below to download</h1>
