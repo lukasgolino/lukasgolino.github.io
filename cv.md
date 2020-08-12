@@ -9,7 +9,11 @@ layout: default
 <iframe src="CVpdf.pdf" style="width:100%; height:1000px;"></iframe>
 
 <br>
+<<<<<<< HEAD
 <br>
+=======
+
+>>>>>>> 647a21f95b6320c024fbf57b915b607db046088e
 
 <h1>Or click below to download</h1>
 
