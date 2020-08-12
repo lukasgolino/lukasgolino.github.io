@@ -7,7 +7,7 @@ layout: default
 <h1>CV</h1>
 
 <a href="LukasGolinoCV.docx" download>
-    <img src="upload-2935442_1280.png" alt="downloadCV" width="200" height="200">
+    <img src="586abf66b6fc1117b60b2752.png" alt="downloadCV" width="200" height="200">
 </a>
 
 </center>
