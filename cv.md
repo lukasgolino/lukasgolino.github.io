@@ -13,7 +13,6 @@ layout: default
 </center>
 
 
-<iframe src="CVpdf.pdf"></iframe>
-<object src="CVpdf.pdf"><embed src="CVpdf.pdf"></embed></object>
+<iframe src="CVpdf.pdf" style="width:100%; height:100%;"></iframe>
 
 [Home](./)
