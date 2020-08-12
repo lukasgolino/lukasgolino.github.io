@@ -2,12 +2,14 @@
 layout: default
 ---
 
+<center>
+
 ## CV
 
-<center>
-    <a href="LukasGolinoCV.docx" download>
-    <img src="upload-2935442_1280.png" alt="downloadCV" width="100" height="100">
-    </a>
-</center>
+<a href="LukasGolinoCV.docx" download>
+    <img src="upload-2935442_1280.png" alt="downloadCV" width="200" height="200">
+</a>
 
 [Home](./)
+
+</center>
