@@ -6,9 +6,9 @@ layout: default
 
 <h1>View CV in browser</h1>
 
-<iframe src="CVpdf.pdf" style="width:100%; height:500px;"></iframe>
+<iframe src="CVpdf.pdf" style="width:100%; height:1000px;"></iframe>
 
-
+</p>
 
 
 <h1>Or click below to download</h1>
