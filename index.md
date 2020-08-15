@@ -11,7 +11,7 @@ layout: default
   <tr>
     <th> <a href="software.html">Software</a></th>
     <th> <a href="music.html">Music</a></th>
-    <th> <a href="tinder.html">Tinder</a></th>
+    <th> <a href="tinder.html">Socials</a></th>
   </tr>
   <tr>
   <th>  </th>
