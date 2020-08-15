@@ -2,6 +2,24 @@
 layout: default
 ---
 
-## That's right bitch I have a website, now swipe right. 
+## Instagram
+
+## Snapchat
+
+## Linkedin
+
+## ResearchGate
+
+## Goodreads
+
+## Facebook
+
+## Tinder
+
+## AOTY
+
+## Soundcloud
+
+## Bandlab
 
 [Home](./)
