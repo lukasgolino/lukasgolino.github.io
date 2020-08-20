@@ -14,8 +14,6 @@ layout: default
 
 ## Facebook
 
-## Tinder
-
 ## AOTY
 
 ## Soundcloud
