@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Travel Gallery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --panel: rgba(255, 255, 255, 0.82);
+      --ink: #0f1720;
+      --muted: #516273;
+      --line: rgba(15, 23, 32, 0.1);
+      --accent: #1f7a8c;
+      --shadow: 0 16px 50px rgba(10, 25, 41, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Manrope", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 14%, rgba(31, 122, 140, 0.18), transparent 36%),
+        radial-gradient(circle at 86% 18%, rgba(191, 219, 247, 0.55), transparent 32%),
+        linear-gradient(160deg, #edf2f7 0%, #f8fafc 45%, #e9f1f8 100%);
+      min-height: 100vh;
+      padding: 2rem 1rem 3rem;
+    }
+
+    .page {
+      width: min(1280px, 100%);
+      margin: 0 auto;
+    }
+
+    header {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+      padding: 2rem clamp(1.2rem, 2.5vw, 2.4rem) 1.6rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .breadcrumb {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .breadcrumb a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 3.2vw, 2.9rem);
+      letter-spacing: -0.03em;
+    }
+
+    .meta {
+      margin-top: 0.55rem;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .collage {
+      columns: 4 240px;
+      column-gap: 0.7rem;
+    }
+
+    .collage-item {
+      break-inside: avoid;
+      margin-bottom: 0.7rem;
+      cursor: zoom-in;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(10, 20, 30, 0.18);
+    }
+
+    .collage-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1), filter 0.3s ease;
+    }
+
+    .collage-item:hover img {
+      transform: scale(1.04);
+      filter: brightness(1.06) saturate(1.1);
+    }
+
+    .empty {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 1rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-top: 1rem;
+    }
+
+    #lb {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(8, 14, 20, 0.92);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      cursor: zoom-out;
+      backdrop-filter: blur(6px);
+    }
+
+    #lb.open {
+      display: flex;
+    }
+
+    #lb img {
+      max-width: 92vw;
+      max-height: 90vh;
+      border-radius: 14px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+      object-fit: contain;
+      cursor: default;
+    }
+
+    #lb-close {
+      position: fixed;
+      top: 1.2rem;
+      right: 1.4rem;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #fff;
+      font: 700 1.4rem "Manrope", sans-serif;
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #lb-prev,
+    #lb-next {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font: 700 1.4rem "Manrope", sans-serif;
+      width: 2.8rem;
+      height: 2.8rem;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #lb-prev {
+      left: 1.2rem;
+    }
+
+    #lb-next {
+      right: 1.2rem;
+    }
+
+    @media (max-width: 640px) {
+      .collage {
+        columns: 2 160px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page">
+    <header>
+      <p class="breadcrumb">
+        <a href="/">Home</a> &rsaquo;
+        <a href="/travels.html">Travels</a> &rsaquo;
+        <span id="crumb-country">Trip</span>
+      </p>
+      <h1 id="page-title">Travel Gallery</h1>
+      <p class="meta" id="meta-text">Click any photo to view full size. Use arrows or keyboard keys to browse.</p>
+    </header>
+
+    <div class="collage" id="collage"></div>
+    <div class="empty" id="empty" hidden></div>
+  </div>
+
+  <div id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button id="lb-close" aria-label="Close">&times;</button>
+    <button id="lb-prev" aria-label="Previous">&#8592;</button>
+    <img id="lb-img" src="" alt="" />
+    <button id="lb-next" aria-label="Next">&#8594;</button>
+  </div>
+
+  <script>
+    const IMAGE_EXT_RE = /\.(jpe?g|png|webp)$/i;
+
+    function toTitleCase(value) {
+      return value
+        .split(" ")
+        .filter(Boolean)
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+        .join(" ");
+    }
+
+    async function fetchImagesFromJsonManifest(expectedPrefix) {
+      try {
+        const response = await fetch("/assets/images/travels/index.json", { cache: "no-store" });
+        if (!response.ok) return [];
+        const data = await response.json();
+        if (!Array.isArray(data)) return [];
+        return data.filter((path) => typeof path === "string" && path.startsWith(expectedPrefix) && IMAGE_EXT_RE.test(path));
+      } catch (_err) {
+        return [];
+      }
+    }
+
+    async function fetchImagesFromDirectoryIndex(expectedPrefix) {
+      try {
+        const response = await fetch(expectedPrefix, { cache: "no-store" });
+        if (!response.ok) return [];
+        const html = await response.text();
+
+        const hrefMatches = Array.from(html.matchAll(/href=["']([^"']+)["']/gi)).map((m) => m[1]);
+
+        const paths = hrefMatches
+          .filter((href) => IMAGE_EXT_RE.test(href))
+          .map((href) => {
+            const cleanHref = href.replace(/^\./, "");
+            if (cleanHref.startsWith("http://") || cleanHref.startsWith("https://") || cleanHref.startsWith("/")) {
+              return cleanHref;
+            }
+            return `${expectedPrefix}${cleanHref}`;
+          })
+          .map((path) => encodeURI(path));
+
+        return [...new Set(paths)];
+      } catch (_err) {
+        return [];
+      }
+    }
+
+    async function fetchImagesFromGitHub(year, countrySlug) {
+      if (!year || !countrySlug) return [];
+
+      const repoOwner = "lukasgolino";
+      const repoName = "lukasgolino.github.io";
+      const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/assets/images/travels/${year}/${countrySlug}`;
+
+      try {
+        const response = await fetch(apiUrl, { headers: { Accept: "application/vnd.github+json" } });
+        if (!response.ok) return [];
+
+        const files = await response.json();
+        if (!Array.isArray(files)) return [];
+
+        return files
+          .filter((file) => typeof file.name === "string" && IMAGE_EXT_RE.test(file.name))
+          .map((file) => encodeURI(`/${file.path}`));
+      } catch (_err) {
+        return [];
+      }
+    }
+
+    function renderCollage(images, countryLabel, year) {
+      const collage = document.getElementById("collage");
+      const empty = document.getElementById("empty");
+
+      collage.innerHTML = "";
+
+      images.forEach((src, idx) => {
+        const item = document.createElement("div");
+        item.className = "collage-item";
+
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = `${countryLabel} ${year} photo ${idx + 1}`;
+        img.loading = "lazy";
+
+        item.appendChild(img);
+        collage.appendChild(item);
+      });
+
+      if (!images.length) {
+        const params = new URLSearchParams(window.location.search);
+        const countrySlug = (params.get("country") || "").toLowerCase();
+        const selectedYear = params.get("year") || "";
+        const expectedPrefix = `/assets/images/travels/${selectedYear}/${countrySlug}/`;
+        empty.hidden = false;
+        empty.innerHTML = `No images found yet.<br/>Drop photos into: <strong>${expectedPrefix}</strong>`;
+      } else {
+        empty.hidden = true;
+      }
+
+      setupLightbox();
+    }
+
+    function setupLightbox() {
+      const items = Array.from(document.querySelectorAll(".collage-item img"));
+      const lb = document.getElementById("lb");
+      const lbImg = document.getElementById("lb-img");
+      let current = 0;
+
+      function open(idx) {
+        if (!items.length) return;
+        current = (idx + items.length) % items.length;
+        lbImg.src = items[current].src;
+        lbImg.alt = items[current].alt;
+        lb.classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+
+      function close() {
+        lb.classList.remove("open");
+        lbImg.src = "";
+        document.body.style.overflow = "";
+      }
+
+      items.forEach((img, i) => img.parentElement.addEventListener("click", () => open(i)));
+      document.getElementById("lb-close").onclick = (e) => { e.stopPropagation(); close(); };
+      document.getElementById("lb-prev").onclick = (e) => { e.stopPropagation(); open(current - 1); };
+      document.getElementById("lb-next").onclick = (e) => { e.stopPropagation(); open(current + 1); };
+      lb.onclick = close;
+      lbImg.onclick = (e) => e.stopPropagation();
+
+      document.onkeydown = (e) => {
+        if (!lb.classList.contains("open")) return;
+        if (e.key === "Escape") close();
+        if (e.key === "ArrowLeft") open(current - 1);
+        if (e.key === "ArrowRight") open(current + 1);
+      };
+    }
+
+    async function init() {
+      const params = new URLSearchParams(window.location.search);
+      const countrySlug = (params.get("country") || "").toLowerCase();
+      const year = params.get("year") || "";
+      const countryLabel = params.get("label") ||
+        (countrySlug ? toTitleCase(countrySlug.replace(/-/g, " ")) : "Trip");
+
+      document.getElementById("crumb-country").textContent = `${countryLabel} ${year}`.trim();
+      document.getElementById("page-title").textContent = `${countryLabel} ${year}`.trim();
+
+      const expectedPrefix = `/assets/images/travels/${year}/${countrySlug}/`;
+
+      let images = await fetchImagesFromJsonManifest(expectedPrefix);
+
+      if (!images.length) {
+        images = await fetchImagesFromDirectoryIndex(expectedPrefix);
+      }
+
+      if (!images.length) {
+        images = await fetchImagesFromGitHub(year, countrySlug);
+      }
+
+      renderCollage(images, countryLabel, year);
+    }
+
+    init();
+  </script>
+</body>
+
+</html>

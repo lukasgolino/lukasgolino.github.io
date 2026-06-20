@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Contact</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+	<style>
+		:root {
+			--panel: rgba(255, 255, 255, 0.82);
+			--ink: #0f1720;
+			--muted: #516273;
+			--line: rgba(15, 23, 32, 0.1);
+			--accent: #1f7a8c;
+			--accent-strong: #176778;
+			--shadow: 0 16px 50px rgba(10, 25, 41, 0.12);
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			min-height: 100vh;
+			font-family: "Manrope", sans-serif;
+			color: var(--ink);
+			background:
+				radial-gradient(circle at 12% 16%, rgba(31, 122, 140, 0.2), transparent 38%),
+				radial-gradient(circle at 86% 18%, rgba(191, 219, 247, 0.62), transparent 32%),
+				linear-gradient(160deg, #edf2f7 0%, #f8fafc 45%, #e9f1f8 100%);
+			display: grid;
+			place-items: center;
+			padding: 2rem 1rem;
+		}
+
+		main {
+			width: min(1040px, 100%);
+			background: var(--panel);
+			border: 1px solid var(--line);
+			box-shadow: var(--shadow);
+			border-radius: 22px;
+			backdrop-filter: blur(8px);
+			overflow: hidden;
+		}
+
+		.hero {
+			padding: 2.8rem clamp(1.2rem, 2.5vw, 2.5rem) 1.6rem;
+			border-bottom: 1px solid var(--line);
+		}
+
+		h1 {
+			margin: 0;
+			font-size: clamp(2rem, 3.4vw, 3rem);
+			letter-spacing: -0.03em;
+		}
+
+		.subtitle {
+			margin-top: 0.8rem;
+			max-width: 65ch;
+			color: var(--muted);
+			line-height: 1.65;
+		}
+
+		.content {
+			padding: 1.5rem clamp(1.2rem, 2.5vw, 2.5rem) 2.3rem;
+			display: grid;
+			grid-template-columns: 1.4fr 1fr;
+			gap: 1.2rem;
+		}
+
+		.panel {
+			border: 1px solid var(--line);
+			border-radius: 16px;
+			background: rgba(255, 255, 255, 0.88);
+			padding: 1rem;
+		}
+
+		h2 {
+			margin: 0 0 0.9rem;
+			font-size: 1.2rem;
+			letter-spacing: -0.02em;
+		}
+
+		.form-grid {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 0.85rem;
+		}
+
+		.field {
+			display: flex;
+			flex-direction: column;
+			gap: 0.3rem;
+		}
+
+		.field.full {
+			grid-column: 1 / -1;
+		}
+
+		label {
+			font-size: 0.9rem;
+			font-weight: 700;
+			color: #24313f;
+		}
+
+		input,
+		select,
+		textarea {
+			width: 100%;
+			font: inherit;
+			color: var(--ink);
+			border: 1px solid rgba(15, 23, 32, 0.17);
+			border-radius: 10px;
+			padding: 0.68rem 0.72rem;
+			background: #ffffff;
+		}
+
+		textarea {
+			resize: vertical;
+			min-height: 140px;
+		}
+
+		input:focus,
+		select:focus,
+		textarea:focus {
+			outline: 2px solid rgba(31, 122, 140, 0.18);
+			border-color: rgba(31, 122, 140, 0.6);
+		}
+
+		.checkbox-row {
+			display: flex;
+			align-items: flex-start;
+			gap: 0.6rem;
+			margin-top: 0.2rem;
+			color: var(--muted);
+			font-size: 0.9rem;
+			line-height: 1.45;
+		}
+
+		.checkbox-row input {
+			width: auto;
+			margin-top: 0.2rem;
+		}
+
+		.actions {
+			margin-top: 0.9rem;
+			display: flex;
+			gap: 0.7rem;
+			flex-wrap: wrap;
+		}
+
+		button,
+		.ghost-btn {
+			border: 0;
+			border-radius: 999px;
+			padding: 0.62rem 1rem;
+			font: inherit;
+			font-weight: 700;
+			cursor: pointer;
+		}
+
+		button {
+			background: var(--accent);
+			color: #ffffff;
+		}
+
+		button:hover,
+		button:focus-visible {
+			background: var(--accent-strong);
+			outline: none;
+		}
+
+		.ghost-btn {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			text-decoration: none;
+			border: 1px solid rgba(15, 23, 32, 0.18);
+			color: var(--ink);
+			background: #ffffff;
+		}
+
+		.ghost-btn:hover,
+		.ghost-btn:focus-visible {
+			border-color: rgba(31, 122, 140, 0.6);
+			outline: none;
+		}
+
+		.help {
+			margin-top: 0.65rem;
+			font-size: 0.86rem;
+			color: var(--muted);
+		}
+
+		.social-list {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			display: grid;
+			gap: 0.6rem;
+		}
+
+		.social-list a {
+			display: block;
+			text-decoration: none;
+			border: 1px solid var(--line);
+			border-radius: 11px;
+			background: #ffffff;
+			padding: 0.65rem 0.75rem;
+			color: var(--ink);
+			transition: transform 0.2s ease, border-color 0.2s ease;
+		}
+
+		.social-list a:hover,
+		.social-list a:focus-visible {
+			transform: translateY(-2px);
+			border-color: rgba(31, 122, 140, 0.6);
+			outline: none;
+		}
+
+		.social-name {
+			font-weight: 700;
+			display: block;
+			margin-bottom: 0.1rem;
+		}
+
+		.social-handle {
+			color: var(--muted);
+			font-size: 0.88rem;
+		}
+
+		.home-link {
+			margin-top: 1rem;
+			display: inline-block;
+			text-decoration: none;
+			color: var(--accent);
+			font-weight: 700;
+		}
+
+		.home-link:hover,
+		.home-link:focus-visible {
+			text-decoration: underline;
+			outline: none;
+		}
+
+		@media (max-width: 880px) {
+			.content {
+				grid-template-columns: 1fr;
+			}
+		}
+
+		@media (max-width: 620px) {
+			.form-grid {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<main>
+		<section class="hero">
+			<h1>Contact</h1>
+			<p class="subtitle">
+				Send me a message using the form, or reach out on social platforms below.
+				Delete any links you do not want to keep.
+			</p>
+		</section>
+
+		<section class="content">
+			<article class="panel">
+				<h2>Send a Message</h2>
+				<form action="mailto:your.email@example.com" method="post" enctype="text/plain">
+					<div class="form-grid">
+						<div class="field">
+							<label for="name">Full name</label>
+							<input id="name" name="name" type="text" autocomplete="name" required />
+						</div>
+
+						<div class="field">
+							<label for="email">Email address</label>
+							<input id="email" name="email" type="email" autocomplete="email" required />
+						</div>
+
+						<div class="field">
+							<label for="company">Organization (optional)</label>
+							<input id="company" name="company" type="text" autocomplete="organization" />
+						</div>
+
+						<div class="field">
+							<label for="topic">Topic</label>
+							<select id="topic" name="topic" required>
+								<option value="" selected disabled>Select one</option>
+								<option value="general">General</option>
+								<option value="research">Research</option>
+								<option value="collaboration">Collaboration</option>
+								<option value="speaking">Speaking</option>
+								<option value="other">Other</option>
+							</select>
+						</div>
+
+						<div class="field full">
+							<label for="subject">Subject</label>
+							<input id="subject" name="subject" type="text" required />
+						</div>
+
+						<div class="field full">
+							<label for="message">Message</label>
+							<textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
+						</div>
+					</div>
+
+					<label class="checkbox-row">
+						<input type="checkbox" name="consent" required />
+						<span>I am happy for you to reply to this message via email.</span>
+					</label>
+
+					<div class="actions">
+						<button type="submit">Send</button>
+						<button type="reset" class="ghost-btn">Clear</button>
+					</div>
+				</form>
+				<p class="help">Update the form action email address before publishing.</p>
+			</article>
+
+			<aside class="panel">
+				<h2>Social Links</h2>
+				<ul class="social-list">
+					<li>
+						<a href="https://instagram.com/yourhandle" target="_blank" rel="noopener noreferrer">
+							<span class="social-name">Instagram</span>
+							<span class="social-handle">instagram.com/yourhandle</span>
+						</a>
+					</li>
+					<li>
+						<a href="https://linkedin.com/in/yourhandle" target="_blank" rel="noopener noreferrer">
+							<span class="social-name">LinkedIn</span>
+							<span class="social-handle">linkedin.com/in/yourhandle</span>
+						</a>
+					</li>
+					<li>
+						<a href="https://www.researchgate.net/profile/Your-Name" target="_blank" rel="noopener noreferrer">
+							<span class="social-name">ResearchGate</span>
+							<span class="social-handle">researchgate.net/profile/Your-Name</span>
+						</a>
+					</li>
+					<li>
+						<a href="mailto:your.email@example.com">
+							<span class="social-name">Email</span>
+							<span class="social-handle">your.email@example.com</span>
+						</a>
+					</li>
+					<li>
+						<a href="https://github.com/yourhandle" target="_blank" rel="noopener noreferrer">
+							<span class="social-name">GitHub</span>
+							<span class="social-handle">github.com/yourhandle</span>
+						</a>
+					</li>
+					<li>
+						<a href="https://scholar.google.com/citations?user=YOURID" target="_blank" rel="noopener noreferrer">
+							<span class="social-name">Google Scholar</span>
+							<span class="social-handle">scholar.google.com/citations?user=YOURID</span>
+						</a>
+					</li>
+					<li>
+						<a href="https://orcid.org/0000-0000-0000-0000" target="_blank" rel="noopener noreferrer">
+							<span class="social-name">ORCID</span>
+							<span class="social-handle">orcid.org/0000-0000-0000-0000</span>
+						</a>
+					</li>
+					<li>
+						<a href="https://x.com/yourhandle" target="_blank" rel="noopener noreferrer">
+							<span class="social-name">X / Twitter</span>
+							<span class="social-handle">x.com/yourhandle</span>
+						</a>
+					</li>
+				</ul>
+				<a class="home-link" href="/">Back to Home</a>
+			</aside>
+		</section>
+	</main>
+</body>
+
+</html>

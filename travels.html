@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Travels</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --panel: rgba(255, 255, 255, 0.8);
+      --ink: #0f1720;
+      --muted: #516273;
+      --line: rgba(15, 23, 32, 0.1);
+      --accent: #1f7a8c;
+      --shadow: 0 16px 50px rgba(10, 25, 41, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Manrope", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 16%, rgba(31, 122, 140, 0.2), transparent 38%),
+        radial-gradient(circle at 86% 16%, rgba(191, 219, 247, 0.6), transparent 30%),
+        linear-gradient(160deg, #edf2f7 0%, #f8fafc 45%, #e9f1f8 100%);
+      padding: 2rem 1rem;
+      display: grid;
+      place-items: center;
+    }
+
+    main {
+      width: min(1100px, 100%);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+      overflow: hidden;
+    }
+
+    .hero {
+      padding: 2.8rem clamp(1.2rem, 2.5vw, 2.6rem) 1.6rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 3.3vw, 3rem);
+      letter-spacing: -0.03em;
+    }
+
+    .subtitle {
+      margin: 0.85rem 0 0;
+      max-width: 66ch;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: clamp(1rem, 1.5vw, 1.1rem);
+    }
+
+    .tip {
+      margin-top: 0.8rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .grid {
+      padding: 1.4rem clamp(1.2rem, 2.5vw, 2.6rem) 2.4rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .country-card {
+      position: relative;
+      display: block;
+      text-decoration: none;
+      color: white;
+      border-radius: 16px;
+      overflow: hidden;
+      min-height: 170px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 12px 26px rgba(15, 23, 32, 0.16);
+      transform: translateY(0);
+      transition: transform 0.24s ease, box-shadow 0.24s ease;
+      isolation: isolate;
+      background:
+        linear-gradient(135deg, rgba(31, 122, 140, 0.95), rgba(15, 75, 88, 0.95));
+    }
+
+    .country-card:hover,
+    .country-card:focus-visible {
+      transform: translateY(-5px);
+      box-shadow: 0 18px 30px rgba(15, 23, 32, 0.24);
+      outline: none;
+    }
+
+    .country-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(8, 14, 20, 0.62), rgba(8, 14, 20, 0.15));
+      z-index: 1;
+    }
+
+    .label {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 0.8rem;
+    }
+
+    .flag-badge {
+      width: 74px;
+      height: 74px;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.75);
+      background: rgba(255, 255, 255, 0.14);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      margin: 0 auto 0.6rem;
+      display: grid;
+      place-items: center;
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .flag-badge img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .label strong {
+      display: block;
+      font-size: 1.15rem;
+      letter-spacing: 0.01em;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    }
+
+    .year {
+      margin-top: 0.45rem;
+      display: inline-block;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.42);
+      font-size: 0.86rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .home-link-wrap {
+      padding: 0 clamp(1.2rem, 2.5vw, 2.6rem) 2.2rem;
+    }
+
+    .home-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .home-link:hover,
+    .home-link:focus-visible {
+      text-decoration: underline;
+      outline: none;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <section class="hero">
+      <h1>Travels</h1>
+      <p class="subtitle">
+        Add a country and year in the list below and this page will auto-create the card, flag,
+        and link to the gallery page.
+      </p>
+      <p class="tip">
+        Folder convention for photos: /assets/images/travels/YEAR/country-slug/
+      </p>
+    </section>
+
+    <section class="grid" id="trip-grid" aria-label="Countries visited"></section>
+
+    <div class="home-link-wrap">
+      <a class="home-link" href="/">Back to Home</a>
+    </div>
+  </main>
+
+  <script>
+    // Add new trips here only.
+    const trips = [
+      { country: "Austria", year: 2025 },
+      { country: "Malaysia", year: 2025 }
+    ];
+
+    function slugifyCountry(country) {
+      return country.trim().toLowerCase().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-");
+    }
+
+    function flagFile(country) {
+      return `/assets/images/flags/Flag_of_${country.trim().replace(/\s+/g, "_")}.svg`;
+    }
+
+    const grid = document.getElementById("trip-grid");
+
+    trips.forEach((trip) => {
+      const slug = slugifyCountry(trip.country);
+      const url = `/travel-gallery.html?country=${encodeURIComponent(slug)}&year=${encodeURIComponent(trip.year)}&label=${encodeURIComponent(trip.country)}`;
+
+      const card = document.createElement("a");
+      card.className = "country-card";
+      card.href = url;
+
+      card.innerHTML = `
+        <div class="label">
+          <div>
+            <div class="flag-badge">
+              <img src="${flagFile(trip.country)}" alt="Flag of ${trip.country}" />
+            </div>
+            <strong>${trip.country}</strong>
+            <span class="year">${trip.year}</span>
+          </div>
+        </div>
+      `;
+
+      const img = card.querySelector("img");
+      img.addEventListener("error", () => {
+        const fallback = document.createElement("span");
+        fallback.textContent = trip.country.slice(0, 2).toUpperCase();
+        img.replaceWith(fallback);
+      });
+
+      grid.appendChild(card);
+    });
+  </script>
+</body>
+
+</html>

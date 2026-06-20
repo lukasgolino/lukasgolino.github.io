@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Research</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+	<style>
+		:root {
+			--panel: rgba(255, 255, 255, 0.82);
+			--ink: #0f1720;
+			--muted: #516273;
+			--line: rgba(15, 23, 32, 0.1);
+			--accent: #1f7a8c;
+			--shadow: 0 16px 50px rgba(10, 25, 41, 0.12);
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			min-height: 100vh;
+			font-family: "Manrope", sans-serif;
+			color: var(--ink);
+			background:
+				radial-gradient(circle at 12% 20%, rgba(31, 122, 140, 0.2), transparent 38%),
+				radial-gradient(circle at 88% 18%, rgba(191, 219, 247, 0.65), transparent 30%),
+				linear-gradient(160deg, #edf2f7 0%, #f8fafc 45%, #e9f1f8 100%);
+			padding: 2rem 1rem;
+			display: grid;
+			place-items: center;
+		}
+
+		main {
+			width: min(1020px, 100%);
+			background: var(--panel);
+			border: 1px solid var(--line);
+			box-shadow: var(--shadow);
+			border-radius: 22px;
+			backdrop-filter: blur(8px);
+			overflow: hidden;
+		}
+
+		.hero {
+			padding: 2.8rem clamp(1.2rem, 2.5vw, 2.5rem) 1.5rem;
+			border-bottom: 1px solid var(--line);
+		}
+
+		h1 {
+			margin: 0;
+			font-size: clamp(2rem, 3.2vw, 3rem);
+			letter-spacing: -0.03em;
+		}
+
+		.subtitle {
+			margin: 0.8rem 0 0;
+			color: var(--muted);
+			line-height: 1.65;
+			max-width: 70ch;
+		}
+
+		.pubs {
+			padding: 1.2rem clamp(1.2rem, 2.5vw, 2.5rem) 2.2rem;
+			display: grid;
+			gap: 1rem;
+		}
+
+		.pub {
+			border: 1px solid var(--line);
+			border-radius: 14px;
+			padding: 1rem;
+			background: rgba(255, 255, 255, 0.92);
+		}
+
+		.pub h2 {
+			margin: 0;
+			font-size: 1.15rem;
+			line-height: 1.35;
+			letter-spacing: -0.01em;
+		}
+
+		.pub h2 a {
+			color: var(--ink);
+			text-decoration: none;
+		}
+
+		.pub h2 a:hover,
+		.pub h2 a:focus-visible {
+			text-decoration: underline;
+			outline: none;
+		}
+
+		.meta {
+			margin: 0.7rem 0 0;
+			display: grid;
+			gap: 0.35rem;
+			color: var(--muted);
+			font-size: 0.95rem;
+			line-height: 1.6;
+		}
+
+		.meta a {
+			color: var(--accent);
+			text-decoration: none;
+			font-weight: 700;
+		}
+
+		.meta a:hover,
+		.meta a:focus-visible {
+			text-decoration: underline;
+			outline: none;
+		}
+
+		.actions {
+			margin-top: 0.75rem;
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.5rem;
+		}
+
+		.chip {
+			border: 1px solid rgba(31, 122, 140, 0.35);
+			border-radius: 999px;
+			padding: 0.35rem 0.7rem;
+			text-decoration: none;
+			color: var(--accent);
+			font-size: 0.86rem;
+			font-weight: 700;
+			background: rgba(31, 122, 140, 0.07);
+		}
+
+		.chip:hover,
+		.chip:focus-visible {
+			background: rgba(31, 122, 140, 0.14);
+			outline: none;
+		}
+
+		.home-link-wrap {
+			padding: 0 clamp(1.2rem, 2.5vw, 2.5rem) 2rem;
+		}
+
+		.home-link {
+			color: var(--accent);
+			text-decoration: none;
+			font-weight: 700;
+		}
+
+		.home-link:hover,
+		.home-link:focus-visible {
+			text-decoration: underline;
+			outline: none;
+		}
+	</style>
+</head>
+
+<body>
+	<main>
+		<section class="hero">
+			<h1>Research</h1>
+			<p class="subtitle">
+				Selected publications. Each entry links directly to the article, DOI, journal page, and license.
+			</p>
+		</section>
+
+		<section class="pubs" aria-label="Publication list">
+			<article class="pub">
+				<h2>
+					<a href="https://www.nature.com/articles/s41586-026-10556-x" target="_blank" rel="noopener noreferrer">
+						Four ppm measurement of the antihydrogen ground-state hyperfine splitting
+					</a>
+				</h2>
+				<div class="meta">
+					<div>May 2026</div>
+					<div>Journal: <a href="https://www.researchgate.net/journal/Nature-1476-4687" target="_blank" rel="noopener noreferrer">Nature</a> 653(8116):1022-1026</div>
+					<div>DOI: <a href="https://doi.org/10.1038/s41586-026-10556-x" target="_blank" rel="noopener noreferrer">10.1038/s41586-026-10556-x</a></div>
+					<div>License: <a href="https://www.researchgate.net/deref/https%3A%2F%2Fcreativecommons.org%2Flicenses%2Fby%2F4.0%2F" target="_blank" rel="noopener noreferrer">CC BY 4.0</a></div>
+				</div>
+				<div class="actions">
+					<a class="chip" href="https://www.nature.com/articles/s41586-026-10556-x" target="_blank" rel="noopener noreferrer">Read Article</a>
+				</div>
+			</article>
+
+			<article class="pub">
+				<h2>
+					<a href="https://www.nature.com/articles/s41467-025-65085-4?utm_source=researchgate.net&utm_medium=article" target="_blank" rel="noopener noreferrer">
+						Be assisted, simultaneous confinement of more than 15000 antihydrogen atoms
+					</a>
+				</h2>
+				<div class="meta">
+					<div>November 2025</div>
+					<div>Journal: <a href="https://www.researchgate.net/journal/Nature-Communications-2041-1723" target="_blank" rel="noopener noreferrer">Nature Communications</a> 16(1)</div>
+					<div>DOI: <a href="https://doi.org/10.1038/s41467-025-65085-4?urlappend=%3Futm_source%3Dresearchgate.net%26utm_medium%3Darticle" target="_blank" rel="noopener noreferrer">10.1038/s41467-025-65085-4</a></div>
+					<div>License: <a href="https://www.researchgate.net/deref/https%3A%2F%2Fcreativecommons.org%2Flicenses%2Fby-nc-nd%2F4.0%2F" target="_blank" rel="noopener noreferrer">CC BY-NC-ND 4.0</a></div>
+				</div>
+				<div class="actions">
+					<a class="chip" href="https://www.nature.com/articles/s41467-025-65085-4?utm_source=researchgate.net&utm_medium=article" target="_blank" rel="noopener noreferrer">Read Article</a>
+				</div>
+			</article>
+
+			<article class="pub">
+				<h2>
+					<a href="https://www.nature.com/articles/s41586-023-06527-1?utm_source=researchgate.net&utm_medium=article" target="_blank" rel="noopener noreferrer">
+						Observation of the effect of gravity on the motion of antimatter
+					</a>
+				</h2>
+				<div class="meta">
+					<div>September 2023</div>
+					<div>Journal: <a href="https://www.researchgate.net/journal/Nature-1476-4687?_sg=gkSIaMjBfaDEyNVfQKf4DWRYXA3lFt_BGcxoZ-bGPJ6HrlFCoyahoRnari_GiGJLFmOblavUZo0lh27uDUBQh2xsS8-AtQ.hqXlVDOyMKizJVfOkgPuw6cT2od4KTupJGUSv6Q5jOslBJeF9XXBst8IQ-jXCRoFUEUS4WQEaDXiCQ0tMnnKFg" target="_blank" rel="noopener noreferrer">Nature</a> 621(7980):716-722</div>
+					<div>DOI: <a href="https://doi.org/10.1038/s41586-023-06527-1?urlappend=%3Futm_source%3Dresearchgate.net%26utm_medium%3Darticle" target="_blank" rel="noopener noreferrer">10.1038/s41586-023-06527-1</a></div>
+					<div>License: <a href="https://www.researchgate.net/deref/https%3A%2F%2Fcreativecommons.org%2Flicenses%2Fby%2F4.0%2F" target="_blank" rel="noopener noreferrer">CC BY 4.0</a></div>
+				</div>
+				<div class="actions">
+					<a class="chip" href="https://www.nature.com/articles/s41586-023-06527-1?utm_source=researchgate.net&utm_medium=article" target="_blank" rel="noopener noreferrer">Read Article</a>
+				</div>
+			</article>
+		</section>
+
+		<div class="home-link-wrap">
+			<a class="home-link" href="/">Back to Home</a>
+		</div>
+	</main>
+</body>
+
+</html>
