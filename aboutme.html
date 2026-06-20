@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Me</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #f3f6f9;
+            --panel: rgba(255, 255, 255, 0.8);
+            --ink: #0f1720;
+            --muted: #516273;
+            --line: rgba(15, 23, 32, 0.1);
+            --accent: #1f7a8c;
+            --shadow: 0 16px 50px rgba(10, 25, 41, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Manrope", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 14% 10%, rgba(31, 122, 140, 0.2), transparent 35%),
+                radial-gradient(circle at 85% 25%, rgba(191, 219, 247, 0.55), transparent 32%),
+                linear-gradient(155deg, #edf2f7 0%, #f8fafc 50%, #eaf1f7 100%);
+            padding: 2rem 1rem;
+            display: grid;
+            place-items: center;
+        }
+
+        main {
+            width: min(920px, 100%);
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(8px);
+            overflow: hidden;
+        }
+
+        .hero,
+        .section {
+            padding: 2.2rem clamp(1.2rem, 2.5vw, 2.4rem);
+        }
+
+        .hero {
+            border-bottom: 1px solid var(--line);
+            padding-top: 2.8rem;
+            padding-bottom: 1.7rem;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(2rem, 3.3vw, 3rem);
+            letter-spacing: -0.03em;
+        }
+
+        .subtitle {
+            margin: 0.7rem 0 0;
+            color: var(--muted);
+            font-size: clamp(1rem, 1.6vw, 1.15rem);
+            line-height: 1.65;
+            max-width: 65ch;
+        }
+
+        h2 {
+            margin: 0 0 0.8rem;
+            font-size: 1.3rem;
+            letter-spacing: -0.02em;
+        }
+
+        .bio {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.75;
+            max-width: 70ch;
+        }
+
+        .timeline {
+            list-style: none;
+            margin: 0;
+            padding: 0.2rem 0 0;
+            border-left: 2px solid rgba(31, 122, 140, 0.25);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 0 0 1.1rem 1.25rem;
+            margin-left: 0.45rem;
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -0.49rem;
+            top: 0.33rem;
+            width: 0.7rem;
+            height: 0.7rem;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 2px solid var(--accent);
+        }
+
+        .time {
+            display: inline-block;
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+            letter-spacing: 0.01em;
+        }
+
+        .item-title {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .item-text {
+            margin: 0.22rem 0 0;
+            color: var(--muted);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .note {
+            margin-top: 1rem;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .home-link {
+            display: inline-block;
+            margin-top: 1.2rem;
+            color: var(--accent);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .home-link:hover,
+        .home-link:focus-visible {
+            text-decoration: underline;
+            outline: none;
+        }
+
+        @media (max-width: 700px) {
+
+            .hero,
+            .section {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <section class="hero">
+            <h1>Timeline</h1>
+            <p class="subtitle">A quick overview of my life.</p>
+        </section>
+
+        <section class="section">
+            <h2>Bio</h2>
+            <p class="bio">
+                Maths into software into Physics. A natural progression.
+            </p>
+        </section>
+
+        <section class="section">
+            <h2>Timeline</h2>
+            <ol class="timeline">
+                <li class="timeline-item">
+                    <span class="time">2024-present</span>
+                    <p class="item-title">Geneve, Suisse</p>
+                    <p class="item-text">Postdoctoral researcher at CERN writing control and data acquisition software
+                        for the BGI project.</p>
+                </li>
+                <li class="timeline-item">
+                    <span class="time">2020-2024</span>
+                    <p class="item-title">Geneve, Suisse</p>
+                    <p class="item-text">PhD in Physics with Prifysgol Abertawe based in Geneva studying detector
+                        physics with the ALPHA experiment at CERN.</p>
+                </li>
+                <li class="timeline-item">
+                    <span class="time">2019-2020</span>
+                    <p class="item-title">Penybont ar Ogwr, Cymru</p>
+                    <p class="item-text">First professional role, software engineer working with C++.</p>
+                </li>
+                <li class="timeline-item">
+                    <span class="time">2018-2019</span>
+                    <p class="item-title">Val d'Isere, France</p>
+                    <p class="item-text">Skiing, working, and exploring.</p>
+                </li>
+                <li class="timeline-item">
+                    <span class="time">2014-2018</span>
+                    <p class="item-title">University of Nottingham, England</p>
+                    <p class="item-text">First class master of mathematics (MMath). Focus on number theory,
+                        cryptography, and computational mathematics.</p>
+                </li>
+                <li class="timeline-item">
+                    <span class="time">2001-2014</span>
+                    <p class="item-title">Ysgol Pen-y-coed, Cymru</p>
+                    <p class="item-text">Schooling and early education.</p>
+                </li>
+                <li class="timeline-item">
+                    <span class="time">1996</span>
+                    <p class="item-title">Born in Penybont ar Ogwr, Cymru</p>
+                    <p class="item-text">The day the world became a little brighter.</p>
+                </li>
+            </ol>
+            <a class="home-link" href="/">Back to Home</a>
+        </section>
+    </main>
+</body>
+
+</html>

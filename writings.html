@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Writings</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --panel: rgba(255, 255, 255, 0.8);
+            --ink: #0f1720;
+            --muted: #516273;
+            --line: rgba(15, 23, 32, 0.1);
+            --accent: #1f7a8c;
+            --shadow: 0 16px 50px rgba(10, 25, 41, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Manrope", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 12% 14%, rgba(31, 122, 140, 0.2), transparent 36%),
+                radial-gradient(circle at 86% 20%, rgba(191, 219, 247, 0.6), transparent 30%),
+                linear-gradient(160deg, #edf2f7 0%, #f8fafc 45%, #e9f1f8 100%);
+            padding: 2rem 1rem;
+            display: grid;
+            place-items: center;
+        }
+
+        main {
+            width: min(980px, 100%);
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(8px);
+            overflow: hidden;
+        }
+
+        .hero,
+        .section {
+            padding: 2.4rem clamp(1.2rem, 2.5vw, 2.5rem);
+        }
+
+        .hero {
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 1.5rem;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(2rem, 3.4vw, 3.2rem);
+            letter-spacing: -0.03em;
+        }
+
+        .subtitle,
+        .meta,
+        .caption {
+            color: var(--muted);
+            line-height: 1.65;
+        }
+
+        .subtitle {
+            margin: 0.8rem 0 0;
+            max-width: 64ch;
+            font-size: clamp(1rem, 1.6vw, 1.1rem);
+        }
+
+        .section {
+            display: grid;
+            grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .book-link {
+            display: inline-block;
+            text-decoration: none;
+            color: inherit;
+            perspective: 1500px;
+        }
+
+        .book-link:focus-visible {
+            outline: 3px solid rgba(31, 122, 140, 0.35);
+            outline-offset: 10px;
+            border-radius: 20px;
+        }
+
+        .book {
+            position: relative;
+            width: min(100%, 300px);
+            aspect-ratio: 2 / 3;
+            transform-style: preserve-3d;
+            transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+            border-radius: 18px;
+            box-shadow: 0 24px 55px rgba(15, 23, 32, 0.22);
+        }
+
+        .book-link:hover .book,
+        .book-link:focus-visible .book {
+            transform: rotateY(180deg);
+        }
+
+        .book-face {
+            position: absolute;
+            inset: 0;
+            border-radius: 18px;
+            overflow: hidden;
+            backface-visibility: hidden;
+            border: 1px solid rgba(15, 23, 32, 0.08);
+            background: linear-gradient(160deg, #dfeaf2 0%, #f8fafc 100%);
+        }
+
+        .book-face img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .book-face.back {
+            transform: rotateY(180deg);
+        }
+
+        .fallback {
+            display: grid;
+            place-items: center;
+            height: 100%;
+            padding: 1.4rem;
+            text-align: center;
+            background:
+                linear-gradient(160deg, rgba(31, 122, 140, 0.12), rgba(255, 255, 255, 0.9)),
+                #ffffff;
+        }
+
+        .fallback strong {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 {
+            margin: 0 0 0.9rem;
+            font-size: 1.4rem;
+            letter-spacing: -0.02em;
+        }
+
+        .meta {
+            margin: 0 0 1rem;
+            max-width: 56ch;
+        }
+
+        .instruction-list {
+            margin: 0;
+            padding-left: 1.1rem;
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        .caption {
+            margin: 1rem 0 0;
+            font-size: 0.92rem;
+        }
+
+        .home-link {
+            display: inline-block;
+            margin-top: 1.4rem;
+            color: var(--accent);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .home-link:hover,
+        .home-link:focus-visible {
+            text-decoration: underline;
+            outline: none;
+        }
+
+        @media (max-width: 760px) {
+            .section {
+                grid-template-columns: 1fr;
+            }
+
+            .book-link {
+                justify-self: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <section class="hero">
+            <h1>Writings</h1>
+            <p class="subtitle">
+                A small library of my work. Hover over the cover to flip the book and click it to open the full piece.
+            </p>
+        </section>
+
+        <section class="section">
+            <a class="book-link" href="/writings-book.html" aria-label="Open book page">
+                <div class="book">
+                    <div class="book-face front">
+                        <img src="/assets/images/YMLIB/FrontCover.png" alt="Front cover of the book"
+                            onerror="this.style.display='none';this.nextElementSibling.hidden=false;" />
+                        <div class="fallback" hidden>
+                            <div>
+                                <strong>Front Cover</strong>
+                                <span>Add your front cover as /assets/images/book-front.jpg</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="book-face back">
+                        <img src="/assets/images/YMLIB/BackCoverLarge.png" alt="Back cover of the book"
+                            onerror="this.style.display='none';this.nextElementSibling.hidden=false;" />
+                        <div class="fallback" hidden>
+                            <div>
+                                <strong>Back Cover</strong>
+                                <span>Add your back cover as /assets/images/book-back.jpg</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <div>
+                <h2>You Must Leave It Behind</h2>
+                <p class="meta">
+                    Cairo, 1798. The French have arrived, and they are taking everything.
+                </p>
+
+                <p class="meta">
+                    In the shadow of Napoleon's occupation, a city holds its breath. But for some, the weight of their
+                    past presses harder than any foreign boot could. Victor, a young thief, moves through a Cairo that
+                    mirrors his own fractured past, a place of ancient richness being slowly hollowed out.
+                    When an unlikely opportunity arrives, offering to lift his burden and free him from guilt, what
+                    should he choose?
+                </p>
+
+                <p class="meta">
+                    This novella is a taut, propulsive story set against the backdrop of colonial plunder, asking
+                    questions as old as Egypt itself: who does history belong to? Can greed ever serve a noble cause?
+                    And is redemption something that can be seized or only earned.
+                </p>
+                <a class="home-link" href="/">Back to Home</a>
+            </div>
+        </section>
+
+        <section class="section">
+            <a class="book-link" href="/writings-book.html" aria-label="Open book page">
+                <div class="book">
+                    <div class="book-face front">
+                        <img src="/assets/images/book-front.jpg" alt="Front cover of the book"
+                            onerror="this.style.display='none';this.nextElementSibling.hidden=false;" />
+                        <div class="fallback" hidden>
+                            <div>
+                                <strong>Front Cover</strong>
+                                <span>Add your front cover as /assets/images/book-front.jpg</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="book-face back">
+                        <img src="/assets/images/book-back.jpg" alt="Back cover of the book"
+                            onerror="this.style.display='none';this.nextElementSibling.hidden=false;" />
+                        <div class="fallback" hidden>
+                            <div>
+                                <strong>Back Cover</strong>
+                                <span>Add your back cover as /assets/images/book-back.jpg</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <div>
+                <h2>Featured Book</h2>
+                <p class="meta">
+                    This layout is set up for image-based covers, because that gives you the cleanest flip animation.
+                    The next page is ready to embed the book itself.
+                </p>
+                <ol class="instruction-list">
+                    <li>Export the front cover as a JPG or PNG named /assets/images/book-front.jpg.</li>
+                    <li>Export the back cover as a JPG or PNG named /assets/images/book-back.jpg.</li>
+                    <li>Export the full book as a PDF named /assets/book/book.pdf.</li>
+                </ol>
+                <p class="caption">
+                    If your source is currently a Word document, convert it to cover images plus a PDF for the cleanest
+                    result.
+                </p>
+                <a class="home-link" href="/">Back to Home</a>
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>
