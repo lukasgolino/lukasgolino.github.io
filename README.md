@@ -1,147 +1,70 @@
-# The Hacker theme
+# Lukas Golino Personal Website
 
-[![Build Status](https://travis-ci.org/pages-themes/hacker.svg?branch=master)](https://travis-ci.org/pages-themes/hacker) [![Gem Version](https://badge.fury.io/rb/jekyll-theme-hacker.svg)](https://badge.fury.io/rb/jekyll-theme-hacker)
+Personal website and portfolio hosted on GitHub Pages.
 
-*Hacker is a Jekyll theme for GitHub Pages. You can [preview the theme to see what it looks like](http://pages-themes.github.io/hacker), or even [use it today](#usage).*
+- Domain: www.lukasgolino.com
+- Repo: lukasgolino.github.io
+- Site config: [_config.yml](_config.yml)
 
-![Thumbnail of Hacker](thumbnail.png)
+## Current Pages
 
-## Usage
+- [index.html](index.html): homepage and section navigation
+- [aboutme.html](aboutme.html): bio and timeline
+- [writings.html](writings.html): writings landing page
+- [writings-book.html](writings-book.html): embedded book page
+- [travels.html](travels.html): travel cards and trip links
+- [travel-gallery.html](travel-gallery.html): generic travel gallery page
+- [research.html](research.html): publications list
+- [contact.html](contact.html): contact form and social links
 
-To use the Hacker theme:
+## Travel Gallery System
 
-1. Add the following to your site's `_config.yml`:
+Travel content is now managed by one generic gallery page instead of one full page per country/year.
 
-    ```yml
-    theme: jekyll-theme-hacker
-    ```
+### Add a new trip
 
-2. Optionally, if you'd like to preview your site on your computer, add the following to your site's `Gemfile`:
+1. Add a trip entry in [travels.html](travels.html) inside the trips array.
+2. Use folder structure for photos:
 
-    ```ruby
-    gem "github-pages", group: :jekyll_plugins
-    ```
+   assets/images/travels/YEAR/country-slug/
 
-## Customizing
+3. Add a flag file (optional but recommended) in:
 
-### Configuration variables
+   assets/images/flags/Flag_of_Country_Name.svg
 
-Hacker will respect the following variables, if set in your site's `_config.yml`:
+Example:
 
-```yml
-title: [The title of your site]
-description: [A short description of your site's purpose]
-```
+- Country: New Zealand
+- Year: 2027
+- Photos folder: assets/images/travels/2027/new-zealand/
+- Flag file: assets/images/flags/Flag_of_New_Zealand.svg
 
-Additionally, you may choose to set the following optional variables:
+### Refresh image index
 
-```yml
-show_downloads: ["true" or "false" to indicate whether to provide a download URL]
-google_analytics: [Your Google Analytics tracking ID]
-```
+The gallery uses a generated manifest file at [assets/images/travels/index.json](assets/images/travels/index.json).
 
-### Stylesheet
+After adding/removing travel photos, run:
 
-If you'd like to add your own custom styles:
+./script/update-travel-index
 
-1. Create a file called `/assets/css/style.scss` in your site
-2. Add the following content to the top of the file, exactly as shown:
-    ```scss
-    ---
-    ---
+Script location: [script/update-travel-index](script/update-travel-index)
 
-    @import "{{ site.theme }}";
-    ```
-3. Add any custom CSS (or Sass, including imports) you'd like immediately after the `@import` line
+## Key Asset Folders
 
-*Note: If you'd like to change the theme's Sass variables, you must set new values before the `@import` line in your stylesheet.*
+- [assets/images/travels](assets/images/travels): travel photos and index.json
+- [assets/images/flags](assets/images/flags): country flag images used by travel cards
 
-### Layouts
+## Local Preview
 
-If you'd like to change the theme's HTML layout:
+If you just need a quick static preview:
 
-1. [Copy the original template](https://github.com/pages-themes/hacker/blob/master/_layouts/default.html) from the theme's repository<br />(*Pro-tip: click "raw" to make copying easier*)
-2. Create a file called `/_layouts/default.html` in your site
-3. Paste the default layout content copied in the first step
-4. Customize the layout as you'd like
+python3 -m http.server 4000
 
-### Overriding GitHub-generated URLs
+Then open:
 
-Templates often rely on URLs supplied by GitHub such as links to your repository or links to download your project. If you'd like to override one or more default URLs:
+http://localhost:4000
 
-1. Look at [the template source](https://github.com/pages-themes/hacker/blob/master/_layouts/default.html) to determine the name of the variable. It will be in the form of `{{ site.github.zip_url }}`.
-2. Specify the URL that you'd like the template to use in your site's `_config.yml`. For example, if the variable was `site.github.url`, you'd add the following:
-    ```yml
-    github:
-      zip_url: http://example.com/download.zip
-      another_url: another value
-    ```
-3. When your site is built, Jekyll will use the URL you specified, rather than the default one provided by GitHub.
+## Deployment
 
-*Note: You must remove the `site.` prefix, and each variable name (after the `github.`) should be indent with two space below `github:`.*
-
-For more information, see [the Jekyll variables documentation](https://jekyllrb.com/docs/variables/).
-
-## Roadmap
-
-See the [open issues](https://github.com/pages-themes/hacker/issues) for a list of proposed features (and known issues).
-
-## Project philosophy
-
-The Hacker theme is intended to make it quick and easy for GitHub Pages users to create their first (or 100th) website. The theme should meet the vast majority of users' needs out of the box, erring on the side of simplicity rather than flexibility, and provide users the opportunity to opt-in to additional complexity if they have specific needs or wish to further customize their experience (such as adding custom CSS or modifying the default layout). It should also look great, but that goes without saying.
-
-## Contributing
-
-Interested in contributing to Hacker? We'd love your help. Hacker is an open source project, built one contribution at a time by users like you. See [the CONTRIBUTING file](docs/CONTRIBUTING.md) for instructions on how to contribute.
-
-### Previewing the theme locally
-
-If you'd like to preview the theme locally (for example, in the process of proposing a change):
-
-1. Clone down the theme's repository (`git clone https://github.com/pages-themes/hacker`)
-2. `cd` into the theme's directory
-3. Run `script/bootstrap` to install the necessary dependencies
-4. Run `bundle exec jekyll serve` to start the preview server
-5. Visit [`localhost:4000`](http://localhost:4000) in your browser to preview the theme
-
-### Running tests
-
-The theme contains a minimal test suite, to ensure a site with the theme would build successfully. To run the tests, simply run `script/cibuild`. You'll need to run `script/bootstrap` one before the test script will work.
-=======
-## Welcome to GitHub Pages
-
-You can use the [editor on GitHub](https://github.com/lukasgolino/lukasgolino.github.io/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/lukasgolino/lukasgolino.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+- Hosted via GitHub Pages from this repository.
+- Custom domain configured in [CNAME](CNAME).
