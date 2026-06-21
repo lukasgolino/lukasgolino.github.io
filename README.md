@@ -28,9 +28,11 @@ Travel content is now managed by one generic gallery page instead of one full pa
 
    assets/images/travels/YEAR/country-slug/
 
-3. Add a flag file (optional but recommended) in:
+3. Add a flag file (from https://flagdownload.com/) in:
 
    assets/images/flags/Flag_of_Country_Name.svg
+
+
 
 Example:
 
