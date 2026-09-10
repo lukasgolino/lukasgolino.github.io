@@ -1,0 +1,35 @@
+“You must leave it behind!”
+
+“I can’t…”
+
+“Victor… don’t be stupid, I have enough gold for both of us.”
+
+“No… I need this…”
+
+With a violent heave Victor slung the heavy sack back off the ground and over his shoulder, then continued running, the silence of the night interrupted only by the sound of their bare feet padding forcefully on the cobblestone street. Further behind followed the sound of sturdy leather boots hitting the same floor with their dull monotone thuds. *How has this happened,* Victor thought as he was running, *we were supposed to have more time…* His thoughts were interrupted by a bullet flying past his head and landing with a dense clunk in the stone wall beside him. He flinched but continued running, not daring to slow. Karim was faster than him, a shadow blurring through the night. He had already rounded the corner up ahead. His pursuers were still far behind, but with this weight on his shoulder they would be on him soon. The burlap sack burned into his shoulder and the smooth edges of the vase knocked against his spine as he moved.
+
+Victor rounded the same corner into a tight alleyway and climbed the narrow staircase leading up to the rooftops. He looked out over the midnight landscape of Cairo, roofs stretching out in uneven layers, the moon casting its pale white gaze over the red city.  He knew these rooftops well. *The French have only been occupying the city for a few months, they will not feel so comfortable up here*.
+
+They followed their escape route religiously. Despite the weight on his shoulder, Victor was still more nimble over the rooftops than Karim and was almost catching up. Victor afforded himself a quick glance behind and saw the soldiers on the rooftops with them now, one aiming his knife tipped bayonet in their direction. He continued forward, not flinching this time as the bullet whizzed passed him. They had almost made it to safety. They jumped down into a lower section of buildings, flanked on either side by large impassable stone walls. Trapped between these great walls there would soon be only one direction to go, forward. Like Moses crossing the sea, there was no turning back now. Fifty metres later they reached the end of their crossing, and the crux of their escape. This section of rooftops ended abruptly, and they now stood suspended above a twenty metre drop to the streets below, separated from the building opposite by some metres. Too far to jump. Thankfully the wooden beam was still here.
+
+If they could cross using their makeshift bridge, then kick it out behind them, they would be free.
+
+Karim was already tugging at the beam.
+
+“Come on, put that thing down and help me.”
+
+Victor placed his sack next to the wall and together they pushed the beam out across the gap. They were quick, but careful. Dropping it before it was securely resting on the other side would be the end.
+
+The moment it reached across, Karim stepped onto it and started moving quickly over. Victor picked the sack up and hauled it back over his shoulder.
+
+The soldiers were at the drop now, stepping onto the seabed. Victor wished he could close the passage behind him as Moses had, he would have to trust their plan instead.
+
+A well-aimed bullet skimmed past him.
+
+Victor heard a cry from behind, and then, a noise that made his heart sink. The resonant thump of the heavy wooden beam implanting itself in the sand below. He turned back to see Karim scrambling to pull himself up on the other side, and the bridge sitting idly in the street below. The bullet must have knocked him off balance. The soldiers were gaining now. The silence felt deafening. Karim was up now extending an arm to Victor beckoning him to jump. Victor couldn’t hear what he was saying, only the blood pumping in his ears and the sound of his shaky breaths. Maybe if he dropped the vase he could make it. But what would be the point without it?
+
+*You cannot buy your way out of this.*
+
+The words echoed in his mind, as did the sound of his brother's screams.
+
+How could he go back to the same life he had finally been given an opportunity to escape. He still wasn’t sure he believed what he had been told about this thing, was he willing to bet his life on it. The soldiers were almost on him now. His mind was racing. As another bullet flew over his shoulder soaring straight up into Cairo’s cool midnight air, he knew what he had to do. He gripped the sack tightly and started his run-up towards Karim.
