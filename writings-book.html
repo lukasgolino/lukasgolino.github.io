@@ -127,29 +127,7 @@
     </main>
 
     <script>
-        const books = {
-            ymlib: {
-                title: "You Must Leave It Behind",
-                chapterPath: "/assets/images/YMLIB/Chapter1.md",
-                email: "lukas.golino@hotmail.co.uk",
-                subject: "Request full PDF of You Must Leave It Behind",
-                body: "Hello Lukas,\n\nI would like to request the full PDF of \"You Must Leave It Behind.\"\n\nThank you."
-            },
-            isaofib: {
-                title: "I Saw An Old Friend In Burma",
-                chapterPath: "/assets/images/ISAOFIB/Chapter1.md",
-                email: "lukas.golino@hotmail.co.uk",
-                subject: "Request full PDF of I Saw An Old Friend In Burma",
-                body: "Hello Lukas,\n\nI would like to request the full PDF of \"I Saw An Old Friend In Burma.\"\n\nThank you."
-            },
-            tm: {
-                title: "The Message",
-                chapterPath: "/assets/images/TM/Chapter1.md",
-                email: "lukas.golino@hotmail.co.uk",
-                subject: "Request full PDF of The Message",
-                body: "Hello Lukas,\n\nI would like to request the full PDF of \"The Message.\"\n\nThank you."
-            }
-        };
+        const bookSlugs = ["ymlib", "isaofib", "tm"];
 
         function renderMarkdown(markdown) {
             const escaped = markdown
@@ -169,33 +147,51 @@
             return blocks || "<p>Chapter preview is not available yet.</p>";
         }
 
-        const params = new URLSearchParams(window.location.search);
-        const slug = params.get("book") || "ymlib";
-        const book = books[slug] || books.ymlib;
+        async function initBook() {
+            const params = new URLSearchParams(window.location.search);
+            const slug = params.get("book") || "ymlib";
 
-        document.title = `${book.title} — Chapter Preview`;
-        document.getElementById("book-title").textContent = book.title;
-        document.getElementById("book-intro").textContent = `Previewing the opening chapter of ${book.title}.`;
+            try {
+                const books = await Promise.all(bookSlugs.map(async (bookSlug) => {
+                    const metadataResponse = await fetch(`/writings/${bookSlug}/metadata.json`);
+                    if (!metadataResponse.ok) return null;
+                    const metadata = await metadataResponse.json();
+                    return {
+                        slug: bookSlug,
+                        title: metadata.title || bookSlug,
+                        folder: `/writings/${bookSlug}`,
+                        preview: metadata.preview || "preview.md",
+                        email: metadata.email || "lukas.golino@hotmail.co.uk",
+                        subject: metadata.subject || `Request full PDF of ${metadata.title || bookSlug}`,
+                        emailBody: metadata.emailBody || `Hello Lukas,\n\nI would like to request the full PDF of \"${metadata.title || bookSlug}.\"\n\nThank you.`
+                    };
+                }));
 
-        const emailLink = document.getElementById("request-email");
-        emailLink.href = `mailto:${book.email}?subject=${encodeURIComponent(book.subject)}&body=${encodeURIComponent(book.body)}`;
+                const book = books.filter(Boolean).find((entry) => entry.slug === slug) || books.filter(Boolean)[0];
+                if (!book) throw new Error("No book found");
 
-        const chapterContent = document.getElementById("chapter-content");
+                document.title = `${book.title} — Chapter Preview`;
+                document.getElementById("book-title").textContent = book.title;
+                document.getElementById("book-intro").textContent = `Previewing the opening chapter of ${book.title}.`;
 
-        fetch(book.chapterPath)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Chapter preview not found");
-                }
-                return response.text();
-            })
-            .then((text) => {
+                const emailLink = document.getElementById("request-email");
+                emailLink.href = `mailto:${book.email}?subject=${encodeURIComponent(book.subject)}&body=${encodeURIComponent(book.emailBody)}`;
+
+                const chapterPath = `${book.folder}/${book.preview}`;
+                const chapterContent = document.getElementById("chapter-content");
+
+                const chapterResponse = await fetch(chapterPath);
+                if (!chapterResponse.ok) throw new Error("Chapter preview not found");
+                const text = await chapterResponse.text();
                 chapterContent.innerHTML = renderMarkdown(text.trim());
-            })
-            .catch(() => {
+            } catch (error) {
+                const chapterContent = document.getElementById("chapter-content");
                 chapterContent.innerHTML = "<p class=\"empty\">The first chapter for this book is not available yet. Please check back soon.</p>";
                 chapterContent.classList.add("empty");
-            });
+            }
+        }
+
+        initBook();
     </script>
 </body>
 

@@ -206,147 +206,100 @@
             </p>
         </section>
 
-        <section class="section">
-            <a class="book-link" href="/writings-book.html?book=ymlib" aria-label="Open You Must Leave It Behind">
-                <div class="book">
-                    <div class="book-face front">
-                        <img src="/assets/images/YMLIB/FrontSmall.png" alt="Front cover of the book"
-                            onerror="this.style.display='none';this.nextElementSibling.hidden=false;" />
-                        <div class="fallback" hidden>
-                            <div>
-                                <strong>Front Cover</strong>
-                                <span>Add your front cover as /assets/images/book-front.jpg</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="book-face back">
-                        <img src="/assets/images/YMLIB/BackLargeTextSmallSize.png" alt="Back cover of the book"
-                            onerror="this.style.display='none';this.nextElementSibling.hidden=false;" />
-                        <div class="fallback" hidden>
-                            <div>
-                                <strong>Back Cover</strong>
-                                <span>Add your back cover as /assets/images/book-back.jpg</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-
-            <div>
-                <h2>You Must Leave It Behind</h2>
-                <p class="meta">
-                    Cairo, 1798. The French have arrived, and they are taking everything.
-                </p>
-
-                <p class="meta">
-                    In the shadow of Napoleon's occupation, a city holds its breath. But for some, the weight of their
-                    past presses harder than any foreign boot could. Victor, a young thief, moves through a Cairo that
-                    mirrors his own fractured past, a place of ancient richness being slowly hollowed out.
-                    When an unlikely opportunity arrives, offering to lift his burden and free him from guilt, what
-                    should he choose?
-                </p>
-
-                <p class="meta">
-                    This novella is a taut, propulsive story set against the backdrop of colonial plunder, asking
-                    questions as old as Egypt itself: who does history belong to? Can greed ever serve a noble cause?
-                    And is redemption something that can be seized or only earned.
-                </p>
-                <a class="home-link" href="/">Back to Home</a>
-            </div>
-        </section>
-
-        <section class="section">
-            <a class="book-link" href="/writings-book.html?book=isaofib" aria-label="Open I Saw An Old Friend In Burma">
-                <div class="book">
-                    <div class="book-face front">
-                        <img src="/assets/images/ISAOFIB/Front.png" alt="Front cover of the book"
-                            onerror="this.style.display='none';this.nextElementSibling.hidden=false;" />
-                        <div class="fallback" hidden>
-                            <div>
-                                <strong>Front Cover</strong>
-                                <span>Add your front cover as /assets/images/book-front.jpg</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="book-face back">
-                        <img src="/assets/images/ISAOFIB/Back.png" alt="Back cover of the book"
-                            onerror="this.style.display='none';this.nextElementSibling.hidden=false;" />
-                        <div class="fallback" hidden>
-                            <div>
-                                <strong>Back Cover</strong>
-                                <span>Add your back cover as /assets/images/book-back.jpg</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-
-            <div>
-                <h2>I Saw An Old Friend In Burma</h2>
-                <p class="meta">
-                    The ferry from Rangoon to Port Blair carries soldiers, prisoners, and old friends.
-                </p>
-                <p class="meta">
-                    When the newly appointed governor of a remote island prison encounters an old friend who doesn't
-                    seem to recognise him, he finds the man has changed beyond all recognition in the twenty years since
-                    the war.
-                </p>
-                <p class="meta">
-                    Over the course of the three days at sea, the two men circle each other. The governor receives
-                    questions he doesn't like and gives answers he's never had to defend before.
-                </p>
-                <p class="meta">
-                    By the time land appears on the horizon, the man who boarded the ferry is no more, and in his place
-                    stands someone who has only just begun to look at the world through new eyes.
-                </p>
-                <a class="home-link" href="/">Back to Home</a>
-            </div>
-        </section>
-        
-        <section class="section">
-            <a class="book-link" href="/writings-book.html?book=tm" aria-label="Open The Message">
-                <div class="book">
-                    <div class="book-face front">
-                        <img src="/assets/images/TM/Front.png" alt="Front cover of the book"
-                            onerror="this.style.display='none';this.nextElementSibling.hidden=false;" />
-                        <div class="fallback" hidden>
-                            <div>
-                                <strong>Front Cover</strong>
-                                <span>Add your front cover as /assets/images/book-front.jpg</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="book-face back">
-                        <img src="/assets/images/TM/Back.png" alt="Back cover of the book"
-                            onerror="this.style.display='none';this.nextElementSibling.hidden=false;" />
-                        <div class="fallback" hidden>
-                            <div>
-                                <strong>Back Cover</strong>
-                                <span>Add your back cover as /assets/images/book-back.jpg</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-
-            <div>
-                <h2>The Message</h2>
-                <p class="meta">
-                    At 13:53:11 CET, every human being on Earth hears the same voice inside their head.
-                </p>
-                <p class="meta">
-                    ‘You have 29.53 days. You must make your choice.’
-                </p>
-                <p class="meta">
-                    Get it wrong, and you will be removed.
-                </p>
-                <p class="meta">
-                    A darkly funny, unnerving story about what happens when eight billion strangers are asked to vote on who gets to live.
-                </p>
-                <a class="home-link" href="/">Back to Home</a>
-            </div>
-        </section>
+        <div id="books-root"></div>
     </main>
+
+    <script>
+        const bookSlugs = ["ymlib", "isaofib", "tm"];
+
+        function renderMarkdownText(markdown) {
+            return markdown
+                .replace(/\*\*(.*?)\*\*/g, "$1")
+                .replace(/\*(.*?)\*/g, "$1")
+                .replace(/_(.*?)_/g, "$1")
+                .replace(/\[(.*?)\]\((.*?)\)/g, "$1")
+                .replace(/\n+/g, " ")
+                .replace(/\s+/g, " ")
+                .trim();
+        }
+
+        async function loadBooks() {
+            const root = document.getElementById("books-root");
+            if (!root) return;
+
+            try {
+                const books = await Promise.all(bookSlugs.map(async (slug) => {
+                    const metadataUrl = `/writings/${slug}/metadata.json`;
+                    const metadataResponse = await fetch(metadataUrl);
+                    if (!metadataResponse.ok) return null;
+
+                    const metadata = await metadataResponse.json();
+                    const title = metadata.title || slug;
+                    const blurbText = renderMarkdownText(metadata.blurb || "");
+                    const displayOrder = Number(metadata.display_order ?? 9999);
+
+                    return {
+                        slug,
+                        title,
+                        folder: `/writings/${slug}`,
+                        front: metadata.front || "front.png",
+                        back: metadata.back || "back.png",
+                        preview: metadata.preview || "preview.md",
+                        description: metadata.description || blurbText,
+                        blurbText,
+                        display_order: displayOrder,
+                        email: metadata.email || "lukas.golino@hotmail.co.uk",
+                        subject: metadata.subject || `Request full PDF of ${title}`,
+                        emailBody: metadata.emailBody || `Hello Lukas,\n\nI would like to request the full PDF of "${title}."\n\nThank you.`
+                    };
+                }));
+
+                const entries = books
+                    .filter(Boolean)
+                    .sort((a, b) => (a.display_order || 9999) - (b.display_order || 9999));
+
+                root.innerHTML = entries.map((book) => `
+                    <section class="section">
+                        <a class="book-link" href="/writings-book.html?book=${book.slug}" aria-label="Open ${book.title}">
+                            <div class="book">
+                                <div class="book-face front">
+                                    <img src="${book.folder}/${book.front}" alt="Front cover of ${book.title}"
+                                        onerror="this.style.display='none';this.nextElementSibling.hidden=false;" />
+                                    <div class="fallback" hidden>
+                                        <div>
+                                            <strong>Front Cover</strong>
+                                            <span>Add your front cover as ${book.folder}/${book.front}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="book-face back">
+                                    <img src="${book.folder}/${book.back}" alt="Back cover of ${book.title}"
+                                        onerror="this.style.display='none';this.nextElementSibling.hidden=false;" />
+                                    <div class="fallback" hidden>
+                                        <div>
+                                            <strong>Back Cover</strong>
+                                            <span>Add your back cover as ${book.folder}/${book.back}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                        <div>
+                            <h2>${book.title}</h2>
+                            <p class="meta">${book.description || book.blurbText}</p>
+                            ${book.blurbText && book.description ? '<p class="meta">' + book.blurbText + '</p>' : ""}
+                            <a class="home-link" href="/">Back to Home</a>
+                        </div>
+                    </section>
+                `).join("");
+            } catch (error) {
+                root.innerHTML = "<p class='meta'>The writing library could not be loaded.</p>";
+            }
+        }
+
+        loadBooks();
+    </script>
 </body>
 
 </html>
