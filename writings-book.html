@@ -79,6 +79,16 @@
             color: var(--ink);
             line-height: 1.9;
             font-size: clamp(1rem, 1.5vw, 1.1rem);
+            text-align: left;
+        }
+
+        .chapter-body p,
+        .chapter-body em,
+        .chapter-body strong,
+        .chapter-body b,
+        .chapter-body i {
+            margin: 0 0 1.2rem;
+            text-align: left;
         }
 
         .chapter-body.empty {
@@ -127,8 +137,6 @@
     </main>
 
     <script>
-        const bookSlugs = ["ymlib", "isaofib", "tm"];
-
         function renderMarkdown(markdown) {
             const escaped = markdown
                 .replace(/&/g, "&amp;")
@@ -147,28 +155,43 @@
             return blocks || "<p>Chapter preview is not available yet.</p>";
         }
 
+        function extractRenderedMarkdownHtml(rawText) {
+            if (!rawText || typeof rawText !== "string") return "";
+
+            const trimmed = rawText.trim();
+            if (!trimmed) return "";
+            if (!trimmed.includes("<html") && !trimmed.includes("window.__MDLS__") && !trimmed.includes("<main id=\"content\">")) {
+                return "";
+            }
+
+            try {
+                const doc = new DOMParser().parseFromString(trimmed, "text/html");
+                const main = doc.querySelector("#content") || doc.querySelector("main");
+                if (main) return main.innerHTML.trim();
+                return doc.body?.innerHTML?.trim() || "";
+            } catch (error) {
+                return "";
+            }
+        }
+
         async function initBook() {
             const params = new URLSearchParams(window.location.search);
             const slug = params.get("book") || "ymlib";
 
             try {
-                const books = await Promise.all(bookSlugs.map(async (bookSlug) => {
-                    const metadataResponse = await fetch(`/writings/${bookSlug}/metadata.json`);
-                    if (!metadataResponse.ok) return null;
-                    const metadata = await metadataResponse.json();
-                    return {
-                        slug: bookSlug,
-                        title: metadata.title || bookSlug,
-                        folder: `/writings/${bookSlug}`,
-                        preview: metadata.preview || "preview.md",
-                        email: metadata.email || "lukas.golino@hotmail.co.uk",
-                        subject: metadata.subject || `Request full PDF of ${metadata.title || bookSlug}`,
-                        emailBody: metadata.emailBody || `Hello Lukas,\n\nI would like to request the full PDF of \"${metadata.title || bookSlug}.\"\n\nThank you.`
-                    };
-                }));
+                const metadataResponse = await fetch(`/writings/${slug}/metadata.json`);
+                if (!metadataResponse.ok) throw new Error("Book metadata not found");
+                const metadata = await metadataResponse.json();
 
-                const book = books.filter(Boolean).find((entry) => entry.slug === slug) || books.filter(Boolean)[0];
-                if (!book) throw new Error("No book found");
+                const book = {
+                    slug,
+                    title: metadata.title || slug,
+                    folder: `/writings/${slug}`,
+                    preview: metadata.preview || "preview.md",
+                    email: metadata.email || "lukas.golino@hotmail.co.uk",
+                    subject: metadata.subject || `Request full PDF of ${metadata.title || slug}`,
+                    emailBody: metadata.emailBody || `Hello Lukas,\n\nI would like to request the full PDF of \"${metadata.title || slug}.\"\n\nThank you.`
+                };
 
                 document.title = `${book.title} — Chapter Preview`;
                 document.getElementById("book-title").textContent = book.title;
@@ -182,8 +205,10 @@
 
                 const chapterResponse = await fetch(chapterPath);
                 if (!chapterResponse.ok) throw new Error("Chapter preview not found");
+
                 const text = await chapterResponse.text();
-                chapterContent.innerHTML = renderMarkdown(text.trim());
+                const renderedHtml = extractRenderedMarkdownHtml(text);
+                chapterContent.innerHTML = renderedHtml || renderMarkdown(text.trim());
             } catch (error) {
                 const chapterContent = document.getElementById("chapter-content");
                 chapterContent.innerHTML = "<p class=\"empty\">The first chapter for this book is not available yet. Please check back soon.</p>";

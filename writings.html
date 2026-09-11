@@ -157,6 +157,7 @@
         .meta {
             margin: 0 0 1rem;
             max-width: 56ch;
+            text-align: left;
         }
 
         .instruction-list {
@@ -288,7 +289,6 @@
                         <div>
                             <h2>${book.title}</h2>
                             <p class="meta">${book.description || book.blurbText}</p>
-                            ${book.blurbText && book.description ? '<p class="meta">' + book.blurbText + '</p>' : ""}
                             <a class="home-link" href="/">Back to Home</a>
                         </div>
                     </section>

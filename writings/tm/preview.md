@@ -1,2 +1,1 @@
-Chapter 1 preview coming soon.
-
+On Monday 22nd June 2026 at exactly 13:53:11CET every human being on earth heard a message directly in their heads. It went as follows...
