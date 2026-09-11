@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Places I've Been</title>
+
+<!--
+PROMPT USED FOR THIS FILE:
+Okay, I want a very specific element for my website. An interactive world map with a few specific features. Show country names in tooltips. Include zoom control buttons with a home button. Clicking the ocean background should zoom back to the world view. Exclude Antarctica. Animate the chart on load.
+Only countries I list should be highlighted the rest should be gray and non-clickable.
+The map should be decent quality, and zooming in gives more details on the borders, not stay the polygon shape you see on the world view. Much like zooming in on google maps gives more and more detail on borders, so would this map.
+Note: No details need to be present on the map like roads, topography, towns, fields nothing. Simply the borders.
+Clicking on a highlighted country should do 1 of two things:
+zoom to that country and open a small tab. If I have only visited that country once it should show the flag somewhere as a design element, and a link "see photos 20XX" should exist or something similar, or the options to go back
+If I have visited multiple times, it should have multiple links "20XX" "20YY" etc etc or a back button.
+How should I do this?
+please feel free to ask questions about this task if you are confused about something
+
+-->
+
+<!--
+  ===========================================================================
+  INTERACTIVE TRAVEL MAP
+  ===========================================================================
+  Drop this file, plus the three files below, into the SAME folder on your
+  site (or point DATA_URLS lower down at wherever you host them):
+    - countries-110m.json   (world view)
+    - countries-50m.json    (mid zoom)
+    - countries-10m.json    (close zoom, loaded on demand)
+
+  This must be served over http(s) — opening the .html file directly by
+  double-clicking it (file://) will block the map data from loading in most
+  browsers. Any static server / your live site will work fine.
+
+  To customize:
+    1. Edit the `visitedCountries` object below (search "YOUR DATA HERE").
+       Keys must exactly match the country names used on the map — hover
+       any country to see its name in the tooltip, or check the console,
+       which logs the full name list once the map loads.
+    2. Edit the title text in the <header> markup below.
+    3. Colors/fonts live in the CSS variables at the top of the <style>
+       block under .travel-map.
+  ===========================================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  .travel-map {
+    --ocean: #12313f;
+    --ocean-deep: #0a1f29;
+    --land: #6b7a78;
+    --visited: #d4a537;
+    --visited-hover: #e6ba52;
+    --border-land: rgba(18, 49, 63, 0.55);
+    --border-visited: #8a6423;
+    --frame: #c9a84a;
+    --parchment: #f6f1e4;
+    --ink: #1c2b30;
+    --text-soft: #b9c6c0;
+    --text-strong: #f2ecd9;
+
+    max-width: 760px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--frame);
+    border-radius: 12px;
+    padding: 7px;
+  }
+  .travel-map *, .travel-map *::before, .travel-map *::after { box-sizing: border-box; }
+
+  .travel-map__inner {
+    position: relative;
+    background: linear-gradient(160deg, var(--ocean), var(--ocean-deep));
+    border: 1px solid rgba(201, 168, 74, 0.55);
+    border-radius: 8px;
+    padding: 20px 22px 16px;
+    overflow: hidden;
+  }
+
+  .travel-map__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .travel-map__title {
+    margin: 0;
+    font-family: 'Fraunces', Georgia, 'Iowan Old Style', serif;
+    font-weight: 500;
+    font-size: 1.4rem;
+    color: var(--text-strong);
+  }
+  .travel-map__subtitle {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--text-soft);
+  }
+
+  .travel-map__stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 960 / 500;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .travel-map__svg { width: 100%; height: 100%; display: block; overflow: visible; cursor: grab; }
+  .travel-map__svg:active { cursor: grabbing; }
+
+  .tm-status {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-soft);
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 20px;
+    pointer-events: none;
+  }
+
+  .country {
+    fill: var(--land);
+    stroke: var(--border-land);
+    stroke-width: 0.6;
+    cursor: default;
+    transform-box: fill-box;
+    transform-origin: center;
+    vector-effect: non-scaling-stroke;
+  }
+  .country--visited {
+    fill: var(--visited);
+    stroke: var(--border-visited);
+    stroke-width: 0.8;
+    cursor: pointer;
+  }
+  .country--visited:hover { fill: var(--visited-hover); }
+  .country--visited:focus-visible { outline: 2px solid var(--text-strong); outline-offset: 1px; }
+
+  .tm-controls {
+    position: absolute;
+    right: 14px;
+    bottom: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    z-index: 3;
+  }
+  .tm-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(201, 168, 74, 0.6);
+    background: rgba(10, 31, 41, 0.75);
+    color: var(--text-strong);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: background-color 150ms ease, transform 150ms ease;
+  }
+  .tm-btn:hover { background: rgba(201, 168, 74, 0.3); }
+  .tm-btn:active { transform: scale(0.92); }
+  .tm-btn svg { width: 15px; height: 15px; }
+  .tm-btn:focus-visible { outline: 2px solid var(--visited); outline-offset: 2px; }
+
+  .tm-tooltip {
+    position: absolute;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    z-index: 5;
+    background: rgba(10, 31, 41, 0.94);
+    color: var(--text-strong);
+    font-size: 0.78rem;
+    padding: 4px 9px;
+    border-radius: 4px;
+    border: 1px solid rgba(201, 168, 74, 0.35);
+    transform: translate(-50%, -135%);
+    opacity: 0;
+    transition: opacity 120ms ease;
+    white-space: nowrap;
+  }
+  .tm-tooltip.is-visible { opacity: 1; }
+
+  .tm-popup {
+    position: absolute;
+    left: 14px;
+    bottom: 14px;
+    max-width: 230px;
+    background: var(--parchment);
+    color: var(--ink);
+    border-radius: 8px;
+    padding: 16px 16px 14px;
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(28, 43, 48, 0.12);
+    transform: translateY(12px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 220ms ease, transform 220ms ease;
+    z-index: 4;
+  }
+  .tm-popup.is-open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .tm-popup__flag { font-size: 2rem; line-height: 1; margin-bottom: 6px; }
+  .tm-popup__name {
+    margin: 0 0 10px;
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: 1.12rem;
+  }
+  .tm-popup__links { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .tm-popup__link {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: rgba(28, 43, 48, 0.08);
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 0.82rem;
+    border: 1px solid rgba(28, 43, 48, 0.15);
+    transition: background-color 150ms ease;
+  }
+  .tm-popup__link:hover { background: rgba(212, 165, 55, 0.4); }
+  .tm-popup__back {
+    display: inline-block;
+    border: none;
+    background: none;
+    padding: 0;
+    font: inherit;
+    font-size: 0.82rem;
+    color: #5a6b63;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .tm-popup__back:hover { color: var(--ink); }
+  .tm-popup__back:focus-visible, .tm-popup__link:focus-visible { outline: 2px solid var(--visited); outline-offset: 2px; }
+
+  .tm-credit {
+    margin-top: 8px;
+    font-size: 0.68rem;
+    color: rgba(185, 198, 192, 0.55);
+    text-align: right;
+  }
+
+  @media (max-width: 480px) {
+    .travel-map__title { font-size: 1.18rem; }
+    .travel-map__inner { padding: 16px 14px 12px; }
+    .tm-popup { max-width: 168px; padding: 12px; }
+    .tm-popup__name { font-size: 1rem; }
+    .tm-btn { width: 30px; height: 30px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tm-popup, .tm-tooltip, .tm-btn { transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="travel-map" id="travel-map">
+  <div class="travel-map__inner">
+    <header class="travel-map__header">
+      <h2 class="travel-map__title">Places I've Been</h2>
+      <p class="travel-map__subtitle" id="tm-count"></p>
+    </header>
+
+    <div class="travel-map__stage" id="tm-stage">
+      <svg class="travel-map__svg" id="tm-svg" viewBox="0 0 960 500" role="img" aria-label="Interactive world map of countries visited"></svg>
+
+      <div class="tm-status" id="tm-status">Loading map…</div>
+
+      <div class="tm-tooltip" id="tm-tooltip" aria-hidden="true"></div>
+
+      <div class="tm-controls">
+        <button class="tm-btn" id="tm-zoom-in" type="button" aria-label="Zoom in" title="Zoom in">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <button class="tm-btn" id="tm-zoom-out" type="button" aria-label="Zoom out" title="Zoom out">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <button class="tm-btn" id="tm-home" type="button" aria-label="Reset to world view" title="Reset to world view">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8.3"/><ellipse cx="12" cy="12" rx="3.6" ry="8.3"/><line x1="3.7" y1="12" x2="20.3" y2="12"/></svg>
+        </button>
+      </div>
+
+      <aside class="tm-popup" id="tm-popup" aria-hidden="true">
+        <div class="tm-popup__flag" id="tm-popup-flag"></div>
+        <h3 class="tm-popup__name" id="tm-popup-name"></h3>
+        <div class="tm-popup__links" id="tm-popup-links"></div>
+        <button class="tm-popup__back" id="tm-popup-back" type="button">← World view</button>
+      </aside>
+    </div>
+
+    <div class="tm-credit">Boundaries: Natural Earth</div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson-client/3.1.0/topojson-client.min.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  /* =========================================================================
+     YOUR DATA HERE
+     Keys must match the country's name exactly as used on the map (hover a
+     country to check, or open the browser console — the full list is logged
+     once the map loads). "code" is the 2-letter country code, used to show
+     the flag. Add as many "visits" entries as you like per country.
+     ========================================================================= */
+  const visitedCountries = {
+    "France":      { code: "FR", visits: [ { year: 2019, link: "#" }, { year: 2023, link: "#" } ] },
+    "Japan":       { code: "JP", visits: [ { year: 2022, link: "#" } ] },
+    "Italy":       { code: "IT", visits: [ { year: 2018, link: "#" } ] },
+    "Peru":        { code: "PE", visits: [ { year: 2021, link: "#" } ] },
+    "New Zealand": { code: "NZ", visits: [ { year: 2017, link: "#" }, { year: 2020, link: "#" } ] },
+    "Morocco":     { code: "MA", visits: [ { year: 2024, link: "#" } ] }
+  };
+  /* ========================================================================= */
+
+  const DATA_URLS = { 110: "countries-110m.json", 50: "countries-50m.json", 10: "countries-10m.json" };
+  const TIER_RANK = { 110: 0, 50: 1, 10: 2 };
+  const ZOOM_THRESHOLD_50 = 2.5;
+  const ZOOM_THRESHOLD_10 = 8;
+  const MIN_ZOOM = 1;
+  const MAX_ZOOM = 16;
+  const W = 960, H = 500;
+  const REDUCE_MOTION = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const root = document.getElementById('travel-map');
+  const stage = document.getElementById('tm-stage');
+  const svg = d3.select('#tm-svg');
+  const statusEl = document.getElementById('tm-status');
+  const tooltip = document.getElementById('tm-tooltip');
+  const popup = document.getElementById('tm-popup');
+  const popupFlag = document.getElementById('tm-popup-flag');
+  const popupName = document.getElementById('tm-popup-name');
+  const popupLinks = document.getElementById('tm-popup-links');
+
+  document.getElementById('tm-count').textContent =
+    Object.keys(visitedCountries).length + (Object.keys(visitedCountries).length === 1 ? ' country visited' : ' countries visited');
+
+  svg.append('defs').html(
+    '<radialGradient id="tm-ocean-grad" cx="50%" cy="38%" r="75%">' +
+    '<stop offset="0%" stop-color="#173b4c"/><stop offset="100%" stop-color="#0a1f29"/>' +
+    '</radialGradient>'
+  );
+
+  const oceanRect = svg.append('rect')
+    .attr('class', 'tm-ocean-bg')
+    .attr('x', 0).attr('y', 0).attr('width', W).attr('height', H)
+    .attr('fill', 'url(#tm-ocean-grad)');
+
+  const g = svg.append('g');
+
+  const projection = d3.geoMercator();
+  const path = d3.geoPath(projection);
+
+  let currentTier = null;
+  const tierCache = {};
+  const tierPromises = {};
+
+  function dur(ms) { return REDUCE_MOTION ? 0 : ms; }
+
+  function isVisited(feature) {
+    return Object.prototype.hasOwnProperty.call(visitedCountries, feature.properties.name);
+  }
+
+  function flagEmoji(code) {
+    if (!code) return '🌍';
+    return code.toUpperCase().replace(/./g, function (c) {
+      return String.fromCodePoint(127397 + c.charCodeAt(0));
+    });
+  }
+
+  function loadTier(tier) {
+    if (!tierPromises[tier]) {
+      tierPromises[tier] = fetch(DATA_URLS[tier])
+        .then(function (r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status + ' loading ' + DATA_URLS[tier]);
+          return r.json();
+        })
+        .then(function (topo) {
+          const features = topojson.feature(topo, topo.objects.countries).features
+            .filter(function (f) { return f.properties.name !== 'Antarctica'; });
+          tierCache[tier] = features;
+          return features;
+        });
+    }
+    return tierPromises[tier];
+  }
+
+  function renderTier(features, animate) {
+    const join = g.selectAll('path.country').data(features, function (d) { return d.id; });
+    join.exit().remove();
+    const merged = join.enter().append('path').attr('class', 'country').merge(join);
+
+    merged
+      .attr('d', path)
+      .classed('country--visited', isVisited)
+      .attr('tabindex', function (d) { return isVisited(d) ? 0 : null; })
+      .attr('role', function (d) { return isVisited(d) ? 'button' : null; })
+      .attr('aria-label', function (d) { return isVisited(d) ? d.properties.name + ' — view visits' : null; })
+      .on('mouseenter', onCountryEnter)
+      .on('mousemove', onCountryMove)
+      .on('mouseleave', onCountryLeave)
+      .on('click', onCountryClick)
+      .on('keydown', function (event, d) {
+        if (isVisited(d) && (event.key === 'Enter' || event.key === ' ')) {
+          event.preventDefault();
+          onCountryClick(event, d);
+        }
+      });
+
+    if (animate) {
+      merged
+        .style('opacity', 0)
+        .style('transform', 'scale(0.92)')
+        .each(function (d, i) {
+          d3.select(this).transition()
+            .delay(dur(150 + i * 3.5))
+            .duration(dur(600))
+            .ease(d3.easeCubicOut)
+            .style('opacity', 1)
+            .style('transform', 'scale(1)');
+        });
+    }
+  }
+
+  function onCountryEnter(event, d) {
+    tooltip.textContent = d.properties.name;
+    tooltip.classList.add('is-visible');
+    positionTooltip(event);
+  }
+  function onCountryMove(event) { positionTooltip(event); }
+  function onCountryLeave() { tooltip.classList.remove('is-visible'); }
+
+  function positionTooltip(event) {
+    const rect = stage.getBoundingClientRect();
+    tooltip.style.left = (event.clientX - rect.left) + 'px';
+    tooltip.style.top = (event.clientY - rect.top) + 'px';
+  }
+
+  function transformForFeature(feature) {
+    const b = path.bounds(feature);
+    const dx = b[1][0] - b[0][0];
+    const dy = b[1][1] - b[0][1];
+    const cx = (b[0][0] + b[1][0]) / 2;
+    const cy = (b[0][1] + b[1][1]) / 2;
+    if (dx === 0 || dy === 0) return d3.zoomIdentity;
+    let scale = 0.82 / Math.max(dx / W, dy / H);
+    scale = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, scale));
+    const tx = W / 2 - scale * cx;
+    const ty = H / 2 - scale * cy;
+    return d3.zoomIdentity.translate(tx, ty).scale(scale);
+  }
+
+  function onCountryClick(event, d) {
+    if (!isVisited(d)) return;
+    event.stopPropagation();
+    tooltip.classList.remove('is-visible');
+    svg.transition().duration(dur(750)).call(zoom.transform, transformForFeature(d));
+    showPopup(d);
+  }
+
+  function showPopup(d) {
+    const info = visitedCountries[d.properties.name];
+    if (!info) return;
+    popupFlag.textContent = flagEmoji(info.code);
+    popupName.textContent = d.properties.name;
+    popupLinks.innerHTML = '';
+    const visits = info.visits.slice().sort(function (a, b) { return a.year - b.year; });
+    const single = visits.length === 1;
+    visits.forEach(function (v) {
+      const a = document.createElement('a');
+      a.href = v.link;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.className = 'tm-popup__link';
+      a.textContent = single ? ('See photos, ' + v.year) : String(v.year);
+      popupLinks.appendChild(a);
+    });
+    popup.classList.add('is-open');
+    popup.setAttribute('aria-hidden', 'false');
+  }
+
+  function closePopup() {
+    popup.classList.remove('is-open');
+    popup.setAttribute('aria-hidden', 'true');
+  }
+
+  function resetToWorld() {
+    svg.transition().duration(dur(600)).call(zoom.transform, d3.zoomIdentity);
+    closePopup();
+  }
+
+  let gestureMoved = false;
+
+  const zoom = d3.zoom()
+    .scaleExtent([MIN_ZOOM, MAX_ZOOM])
+    .on('start', function () { gestureMoved = false; })
+    .on('zoom', function (event) {
+      if (event.sourceEvent) gestureMoved = true;
+      g.attr('transform', event.transform);
+      maybeUpgradeTier(event.transform.k);
+    });
+
+  svg.call(zoom);
+  svg.on('dblclick.zoom', null);
+
+  oceanRect.on('click', function () {
+    if (gestureMoved) { gestureMoved = false; return; }
+    resetToWorld();
+  });
+
+  function maybeUpgradeTier(k) {
+    let desired = 110;
+    if (k >= ZOOM_THRESHOLD_10) desired = 10;
+    else if (k >= ZOOM_THRESHOLD_50) desired = 50;
+    if (TIER_RANK[desired] > TIER_RANK[currentTier]) {
+      currentTier = desired;
+      loadTier(desired).then(function (features) { renderTier(features, false); });
+    }
+  }
+
+  document.getElementById('tm-zoom-in').addEventListener('click', function () {
+    svg.transition().duration(dur(300)).call(zoom.scaleBy, 1.6);
+  });
+  document.getElementById('tm-zoom-out').addEventListener('click', function () {
+    svg.transition().duration(dur(300)).call(zoom.scaleBy, 1 / 1.6);
+  });
+  document.getElementById('tm-home').addEventListener('click', resetToWorld);
+  document.getElementById('tm-popup-back').addEventListener('click', resetToWorld);
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && popup.classList.contains('is-open')) resetToWorld();
+  });
+
+  loadTier(110).then(function (features) {
+    projection.fitExtent([[20, 20], [W - 20, H - 20]], { type: 'FeatureCollection', features: features });
+    currentTier = 110;
+    statusEl.style.display = 'none';
+    renderTier(features, true);
+
+    console.log('Travel map: country names available for the "visitedCountries" config —');
+    console.log(features.map(function (f) { return f.properties.name; }).sort().join(', '));
+
+    setTimeout(function () { loadTier(50); }, 1500);
+  }).catch(function (err) {
+    statusEl.textContent = "Couldn't load map data. Make sure this page is served over http(s) (not opened as a local file) and that countries-110m.json, countries-50m.json and countries-10m.json sit in the same folder as this HTML file.";
+    console.error(err);
+  });
+
+})();
+</script>
+
+</body>
+</html>

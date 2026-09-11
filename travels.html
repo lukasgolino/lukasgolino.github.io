@@ -71,6 +71,317 @@
       font-size: 0.9rem;
     }
 
+    .map-section {
+      padding: 0.3rem clamp(1.2rem, 2.5vw, 2.6rem) 0;
+    }
+
+    .travel-map {
+      --ocean: #12313f;
+      --ocean-deep: #0a1f29;
+      --land: #6b7a78;
+      --visited: #d4a537;
+      --visited-hover: #e6ba52;
+      --border-land: rgba(18, 49, 63, 0.55);
+      --border-visited: #8a6423;
+      --frame: #c9a84a;
+      --parchment: #f6f1e4;
+      --ink: #1c2b30;
+      --text-soft: #b9c6c0;
+      --text-strong: #f2ecd9;
+
+      max-width: 760px;
+      margin: 0 auto;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--frame);
+      border-radius: 12px;
+      padding: 7px;
+      box-shadow: 0 16px 30px rgba(15, 23, 32, 0.12);
+    }
+
+    .travel-map *, .travel-map *::before, .travel-map *::after {
+      box-sizing: border-box;
+    }
+
+    .travel-map__inner {
+      position: relative;
+      background: linear-gradient(160deg, var(--ocean), var(--ocean-deep));
+      border: 1px solid rgba(201, 168, 74, 0.55);
+      border-radius: 8px;
+      padding: 20px 22px 16px;
+      overflow: hidden;
+    }
+
+    .travel-map__header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .travel-map__title {
+      margin: 0;
+      font-family: "Manrope", "Segoe UI", sans-serif;
+      font-weight: 800;
+      font-size: 1.4rem;
+      color: var(--text-strong);
+      letter-spacing: -0.03em;
+    }
+
+    .travel-map__subtitle {
+      margin: 0;
+      font-size: 0.82rem;
+      color: var(--text-soft);
+    }
+
+    .travel-map__stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 960 / 500;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .travel-map__svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      overflow: visible;
+      cursor: grab;
+    }
+
+    .travel-map__svg:active {
+      cursor: grabbing;
+    }
+
+    .tm-status {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-soft);
+      font-size: 0.85rem;
+      text-align: center;
+      padding: 20px;
+      pointer-events: none;
+    }
+
+    .country {
+      fill: var(--land);
+      stroke: var(--border-land);
+      stroke-width: 0.6;
+      cursor: default;
+      transform-box: fill-box;
+      transform-origin: center;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .country--visited {
+      fill: var(--visited);
+      stroke: var(--border-visited);
+      stroke-width: 0.8;
+      cursor: pointer;
+    }
+
+    .country--visited:hover {
+      fill: var(--visited-hover);
+    }
+
+    .country--visited:focus-visible {
+      outline: 2px solid var(--text-strong);
+      outline-offset: 1px;
+    }
+
+    .tm-controls {
+      position: absolute;
+      right: 14px;
+      bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 3;
+    }
+
+    .tm-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid rgba(201, 168, 74, 0.6);
+      background: rgba(10, 31, 41, 0.75);
+      color: var(--text-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0;
+      transition: background-color 150ms ease, transform 150ms ease;
+    }
+
+    .tm-btn:hover {
+      background: rgba(201, 168, 74, 0.3);
+    }
+
+    .tm-btn:active {
+      transform: scale(0.92);
+    }
+
+    .tm-btn svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    .tm-btn:focus-visible {
+      outline: 2px solid var(--visited);
+      outline-offset: 2px;
+    }
+
+    .tm-tooltip {
+      position: absolute;
+      left: 0;
+      top: 0;
+      pointer-events: none;
+      z-index: 5;
+      background: rgba(10, 31, 41, 0.94);
+      color: var(--text-strong);
+      font-size: 0.78rem;
+      padding: 4px 9px;
+      border-radius: 4px;
+      border: 1px solid rgba(201, 168, 74, 0.35);
+      transform: translate(-50%, -135%);
+      opacity: 0;
+      transition: opacity 120ms ease;
+      white-space: nowrap;
+    }
+
+    .tm-tooltip.is-visible {
+      opacity: 1;
+    }
+
+    .tm-popup {
+      position: absolute;
+      left: 14px;
+      bottom: 14px;
+      max-width: 240px;
+      background: var(--parchment);
+      color: var(--ink);
+      border-radius: 8px;
+      padding: 16px 16px 14px;
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(28, 43, 48, 0.12);
+      transform: translateY(12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 220ms ease, transform 220ms ease;
+      z-index: 4;
+    }
+
+    .tm-popup.is-open {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .tm-popup__flag {
+      font-size: 2rem;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .tm-popup__name {
+      margin: 0 0 10px;
+      font-family: "Manrope", "Segoe UI", sans-serif;
+      font-weight: 800;
+      font-size: 1.06rem;
+    }
+
+    .tm-popup__links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .tm-popup__link {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 20px;
+      background: rgba(28, 43, 48, 0.08);
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 0.82rem;
+      border: 1px solid rgba(28, 43, 48, 0.15);
+      transition: background-color 150ms ease;
+    }
+
+    .tm-popup__link:hover {
+      background: rgba(212, 165, 55, 0.4);
+    }
+
+    .tm-popup__back {
+      display: inline-block;
+      border: none;
+      background: none;
+      padding: 0;
+      font: inherit;
+      font-size: 0.82rem;
+      color: #5a6b63;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .tm-popup__back:hover {
+      color: var(--ink);
+    }
+
+    .tm-popup__back:focus-visible,
+    .tm-popup__link:focus-visible {
+      outline: 2px solid var(--visited);
+      outline-offset: 2px;
+    }
+
+    .tm-credit {
+      margin-top: 8px;
+      font-size: 0.68rem;
+      color: rgba(185, 198, 192, 0.55);
+      text-align: right;
+    }
+
+    @media (max-width: 480px) {
+      .travel-map__title {
+        font-size: 1.18rem;
+      }
+
+      .travel-map__inner {
+        padding: 16px 14px 12px;
+      }
+
+      .tm-popup {
+        max-width: 168px;
+        padding: 12px;
+      }
+
+      .tm-popup__name {
+        font-size: 1rem;
+      }
+
+      .tm-btn {
+        width: 30px;
+        height: 30px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tm-popup,
+      .tm-tooltip,
+      .tm-btn {
+        transition-duration: 0.01ms !important;
+      }
+    }
+
     .grid {
       padding: 1.4rem clamp(1.2rem, 2.5vw, 2.6rem) 2.4rem;
       display: grid;
@@ -193,6 +504,44 @@
       </p>
     </section>
 
+    <section class="map-section" aria-labelledby="travel-map-heading">
+      <div class="travel-map" id="travel-map">
+        <div class="travel-map__inner">
+          <header class="travel-map__header">
+            <h2 class="travel-map__title" id="travel-map-heading">Places I’ve Been</h2>
+            <p class="travel-map__subtitle" id="tm-count"></p>
+          </header>
+
+          <div class="travel-map__stage" id="tm-stage">
+            <svg class="travel-map__svg" id="tm-svg" viewBox="0 0 960 500" role="img" aria-label="Interactive world map of countries visited"></svg>
+            <div class="tm-status" id="tm-status">Loading map…</div>
+            <div class="tm-tooltip" id="tm-tooltip" aria-hidden="true"></div>
+
+            <div class="tm-controls">
+              <button class="tm-btn" id="tm-zoom-in" type="button" aria-label="Zoom in" title="Zoom in">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+              <button class="tm-btn" id="tm-zoom-out" type="button" aria-label="Zoom out" title="Zoom out">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
+              <button class="tm-btn" id="tm-home" type="button" aria-label="Reset to world view" title="Reset to world view">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8.3"/><ellipse cx="12" cy="12" rx="3.6" ry="8.3"/><line x1="3.7" y1="12" x2="20.3" y2="12"/></svg>
+              </button>
+            </div>
+
+            <aside class="tm-popup" id="tm-popup" aria-hidden="true">
+              <div class="tm-popup__flag" id="tm-popup-flag"></div>
+              <h3 class="tm-popup__name" id="tm-popup-name"></h3>
+              <div class="tm-popup__links" id="tm-popup-links"></div>
+              <button class="tm-popup__back" id="tm-popup-back" type="button">← World view</button>
+            </aside>
+          </div>
+
+          <div class="tm-credit">Boundaries: Natural Earth</div>
+        </div>
+      </div>
+    </section>
+
     <section class="grid" id="trip-grid" aria-label="Countries visited"></section>
 
     <div class="home-link-wrap">
@@ -200,8 +549,9 @@
     </div>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
   <script>
-    // Add new trips here only.
     const trips = [
       { country: "Canada", year: 2026 },
       { country: "Guatemala", year: 2026 },
@@ -212,8 +562,33 @@
       { country: "Peru", year: 2025 },
     ];
 
+    const countryAliases = {
+      usa: "United States of America",
+      "u.s.a.": "United States of America",
+      "united states": "United States of America",
+      scotland: "United Kingdom",
+      uk: "United Kingdom",
+      "united kingdom": "United Kingdom",
+    };
+
+    const countryCodes = {
+      Canada: "CA",
+      Guatemala: "GT",
+      "United States of America": "US",
+      "United Kingdom": "GB",
+      Malaysia: "MY",
+      Austria: "AT",
+      Peru: "PE",
+    };
+
     function slugifyCountry(country) {
       return country.trim().toLowerCase().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-");
+    }
+
+    function normalizeMapCountry(country) {
+      const raw = String(country || "").trim();
+      const key = raw.toLowerCase();
+      return countryAliases[key] || raw;
     }
 
     function flagFile(country) {
@@ -221,6 +596,7 @@
     }
 
     const grid = document.getElementById("trip-grid");
+    const visitedCountries = {};
 
     trips.forEach((trip) => {
       const slug = slugifyCountry(trip.country);
@@ -250,7 +626,276 @@
       });
 
       grid.appendChild(card);
+
+      const mapCountry = normalizeMapCountry(trip.country);
+      if (!visitedCountries[mapCountry]) {
+        visitedCountries[mapCountry] = {
+          code: countryCodes[mapCountry] || "🌍",
+          visits: []
+        };
+      }
+
+      visitedCountries[mapCountry].visits.push({
+        year: trip.year,
+        link: url
+      });
     });
+
+    function initTravelMap() {
+      const mapRoot = document.getElementById('travel-map');
+      if (!mapRoot || !window.d3 || !window.topojson) return;
+
+      const DATA_URLS = {
+        110: 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json',
+        50: 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json',
+        10: 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-10m.json'
+      };
+      const TIER_RANK = { 110: 0, 50: 1, 10: 2 };
+      const ZOOM_THRESHOLD_50 = 2.5;
+      const ZOOM_THRESHOLD_10 = 8;
+      const MIN_ZOOM = 1;
+      const MAX_ZOOM = 16;
+      const W = 960, H = 500;
+      const REDUCE_MOTION = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const stage = document.getElementById('tm-stage');
+      const svg = window.d3.select('#tm-svg');
+      const statusEl = document.getElementById('tm-status');
+      const tooltip = document.getElementById('tm-tooltip');
+      const popup = document.getElementById('tm-popup');
+      const popupFlag = document.getElementById('tm-popup-flag');
+      const popupName = document.getElementById('tm-popup-name');
+      const popupLinks = document.getElementById('tm-popup-links');
+
+      document.getElementById('tm-count').textContent =
+        Object.keys(visitedCountries).length + (Object.keys(visitedCountries).length === 1 ? ' country visited' : ' countries visited');
+
+      svg.append('defs').html(
+        '<radialGradient id="tm-ocean-grad" cx="50%" cy="38%" r="75%">' +
+        '<stop offset="0%" stop-color="#173b4c"/><stop offset="100%" stop-color="#0a1f29"/>' +
+        '</radialGradient>'
+      );
+
+      const oceanRect = svg.append('rect')
+        .attr('class', 'tm-ocean-bg')
+        .attr('x', 0).attr('y', 0).attr('width', W).attr('height', H)
+        .attr('fill', 'url(#tm-ocean-grad)');
+
+      const g = svg.append('g');
+      const projection = window.d3.geoMercator();
+      const path = window.d3.geoPath(projection);
+
+      let currentTier = null;
+      const tierPromises = {};
+
+      function dur(ms) { return REDUCE_MOTION ? 0 : ms; }
+
+      function isVisited(feature) {
+        return Object.prototype.hasOwnProperty.call(visitedCountries, feature.properties.name);
+      }
+
+      function flagEmoji(code) {
+        if (!code) return '🌍';
+        return String(code).toUpperCase().replace(/./g, function (c) {
+          return String.fromCodePoint(127397 + c.charCodeAt(0));
+        });
+      }
+
+      function loadTier(tier) {
+        if (!tierPromises[tier]) {
+          tierPromises[tier] = fetch(DATA_URLS[tier])
+            .then(function (r) {
+              if (!r.ok) throw new Error('HTTP ' + r.status + ' loading ' + DATA_URLS[tier]);
+              return r.json();
+            })
+            .then(function (topo) {
+              const features = window.topojson.feature(topo, topo.objects.countries).features
+                .filter(function (f) { return f.properties.name !== 'Antarctica'; });
+              return features;
+            });
+        }
+        return tierPromises[tier];
+      }
+
+      function renderTier(features, animate) {
+        g.selectAll('path.country').remove();
+
+        const merged = g.selectAll('path.country')
+          .data(features, function (d) { return d.id || d.properties.name; })
+          .join(
+            function (enter) {
+              return enter.append('path').attr('class', 'country');
+            }
+          );
+
+        merged
+          .attr('d', path)
+          .classed('country--visited', isVisited)
+          .attr('tabindex', function (d) { return isVisited(d) ? 0 : null; })
+          .attr('role', function (d) { return isVisited(d) ? 'button' : null; })
+          .attr('aria-label', function (d) { return isVisited(d) ? d.properties.name + ' — view visits' : null; })
+          .on('mouseenter', onCountryEnter)
+          .on('mousemove', onCountryMove)
+          .on('mouseleave', onCountryLeave)
+          .on('click', onCountryClick)
+          .on('keydown', function (event, d) {
+            if (isVisited(d) && (event.key === 'Enter' || event.key === ' ')) {
+              event.preventDefault();
+              onCountryClick(event, d);
+            }
+          });
+
+        if (animate) {
+          merged
+            .style('opacity', 0)
+            .style('transform', 'scale(0.92)')
+            .each(function (d, i) {
+              window.d3.select(this).transition()
+                .delay(dur(150 + i * 3.5))
+                .duration(dur(600))
+                .ease(window.d3.easeCubicOut)
+                .style('opacity', 1)
+                .style('transform', 'scale(1)');
+            });
+        }
+      }
+
+      function onCountryEnter(event, d) {
+        tooltip.textContent = d.properties.name;
+        tooltip.classList.add('is-visible');
+        positionTooltip(event);
+      }
+
+      function onCountryMove(event) {
+        positionTooltip(event);
+      }
+
+      function onCountryLeave() {
+        tooltip.classList.remove('is-visible');
+      }
+
+      function positionTooltip(event) {
+        const rect = stage.getBoundingClientRect();
+        tooltip.style.left = (event.clientX - rect.left) + 'px';
+        tooltip.style.top = (event.clientY - rect.top) + 'px';
+      }
+
+      function transformForFeature(feature) {
+        const b = path.bounds(feature);
+        const dx = b[1][0] - b[0][0];
+        const dy = b[1][1] - b[0][1];
+        const cx = (b[0][0] + b[1][0]) / 2;
+        const cy = (b[0][1] + b[1][1]) / 2;
+        if (dx === 0 || dy === 0) return window.d3.zoomIdentity;
+        let scale = 0.82 / Math.max(dx / W, dy / H);
+        scale = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, scale));
+        const tx = W / 2 - scale * cx;
+        const ty = H / 2 - scale * cy;
+        return window.d3.zoomIdentity.translate(tx, ty).scale(scale);
+      }
+
+      function onCountryClick(event, d) {
+        if (!isVisited(d)) return;
+        event.stopPropagation();
+        tooltip.classList.remove('is-visible');
+        svg.transition().duration(dur(750)).call(zoom.transform, transformForFeature(d));
+        showPopup(d);
+      }
+
+      function showPopup(d) {
+        const info = visitedCountries[d.properties.name];
+        if (!info) return;
+        popupFlag.textContent = flagEmoji(info.code);
+        popupName.textContent = d.properties.name;
+        popupLinks.innerHTML = '';
+
+        const visits = info.visits.slice().sort(function (a, b) { return a.year - b.year; });
+        const single = visits.length === 1;
+
+        visits.forEach(function (visit) {
+          const a = document.createElement('a');
+          a.href = visit.link;
+          a.target = '_self';
+          a.rel = 'noopener noreferrer';
+          a.className = 'tm-popup__link';
+          a.textContent = single ? ('See photos, ' + visit.year) : String(visit.year);
+          popupLinks.appendChild(a);
+        });
+
+        popup.classList.add('is-open');
+        popup.setAttribute('aria-hidden', 'false');
+      }
+
+      function closePopup() {
+        popup.classList.remove('is-open');
+        popup.setAttribute('aria-hidden', 'true');
+      }
+
+      function resetToWorld() {
+        svg.transition().duration(dur(600)).call(zoom.transform, window.d3.zoomIdentity);
+        closePopup();
+      }
+
+      let gestureMoved = false;
+
+      const zoom = window.d3.zoom()
+        .scaleExtent([MIN_ZOOM, MAX_ZOOM])
+        .on('start', function () { gestureMoved = false; })
+        .on('zoom', function (event) {
+          if (event.sourceEvent) gestureMoved = true;
+          g.attr('transform', event.transform);
+          maybeUpgradeTier(event.transform.k);
+        });
+
+      svg.call(zoom);
+      svg.on('dblclick.zoom', null);
+
+      oceanRect.on('click', function () {
+        if (gestureMoved) { gestureMoved = false; return; }
+        resetToWorld();
+      });
+
+      function maybeUpgradeTier(k) {
+        let desired = 110;
+        if (k >= ZOOM_THRESHOLD_10) desired = 10;
+        else if (k >= ZOOM_THRESHOLD_50) desired = 50;
+
+        if (desired === currentTier) return;
+
+        currentTier = desired;
+        loadTier(desired).then(function (features) {
+          if (desired !== currentTier) return;
+          renderTier(features, false);
+        });
+      }
+
+      document.getElementById('tm-zoom-in').addEventListener('click', function () {
+        svg.transition().duration(dur(300)).call(zoom.scaleBy, 1.6);
+      });
+      document.getElementById('tm-zoom-out').addEventListener('click', function () {
+        svg.transition().duration(dur(300)).call(zoom.scaleBy, 1 / 1.6);
+      });
+      document.getElementById('tm-home').addEventListener('click', resetToWorld);
+      document.getElementById('tm-popup-back').addEventListener('click', resetToWorld);
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && popup.classList.contains('is-open')) resetToWorld();
+      });
+
+      loadTier(110).then(function (features) {
+        projection.fitExtent([[20, 20], [W - 20, H - 20]], { type: 'FeatureCollection', features: features });
+        currentTier = 110;
+        statusEl.style.display = 'none';
+        renderTier(features, true);
+
+        setTimeout(function () { loadTier(50); }, 1500);
+      }).catch(function (err) {
+        statusEl.textContent = "Couldn't load the world map. Please refresh or check your network connection.";
+        console.error(err);
+      });
+    }
+
+    initTravelMap();
   </script>
 </body>
 
