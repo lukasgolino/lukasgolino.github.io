@@ -1,16 +1,317 @@
 [
-  "/assets/images/travels/2025/austria/20251204_133752.jpg",
-  "/assets/images/travels/2025/austria/20251204_140743.jpg",
-  "/assets/images/travels/2025/austria/20251205_190412.jpg",
-  "/assets/images/travels/2025/austria/20251206_122636.jpg",
-  "/assets/images/travels/2026/malaysia/20251230_121530.jpg",
-  "/assets/images/travels/2026/malaysia/20260103_193645.jpg",
-  "/assets/images/travels/2026/malaysia/20260104_094846.jpg",
-  "/assets/images/travels/2026/malaysia/20260104_161250.jpg",
-  "/assets/images/travels/2026/malaysia/20260104_161339.jpg",
-  "/assets/images/travels/2026/malaysia/20260106_190854.jpg",
-  "/assets/images/travels/2026/malaysia/20260107_123636.jpg",
-  "/assets/images/travels/2026/malaysia/20260107_125426.jpg",
-  "/assets/images/travels/2026/malaysia/20260107_191339.jpg",
-  "/assets/images/travels/2026/malaysia/20260108_180057.jpg"
+  {
+    "src": "/assets/images/travels/2025/austria/20251204_133752.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/austria/20251204_140743.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/austria/20251205_190412.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/austria/20251206_122636.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250902_090309_01.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250902_104753.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250902_123524.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250902_161143.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250903_080901.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250903_081827.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250903_093557.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250903_094031.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250903_105446.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250903_130131.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250904_080220.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250904_091918.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250904_111531.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250904_123707.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250904_140103.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250905_064953.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250905_073731.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250907_124415.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250907_140429.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250907_141252.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250908_064441.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250908_144507.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250908_155425.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250908_164928.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250908_170214.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250909_082557.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250909_152714.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250911_141033.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250912_150443.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250913_083338.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250913_084024.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250913_090054.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250913_134250.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250913_143651.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250914_194351.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250914_201709.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250915_131220.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250916_102127.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250916_104352.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250916_105651.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250916_125707.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250916_150530.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250916_150545.jpg",
+    "width": 960,
+    "height": 720
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250916_162545.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250916_163939.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250916_164239.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250916_164720.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250917_142410.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2025/peru/20250917_143911.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2026/malaysia/20251230_121530.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2026/malaysia/20260103_193645.jpg",
+    "width": 960,
+    "height": 720
+  },
+  {
+    "src": "/assets/images/travels/2026/malaysia/20260104_094846.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2026/malaysia/20260104_161250.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2026/malaysia/20260104_161339.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2026/malaysia/20260106_190854.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2026/malaysia/20260107_123636.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2026/malaysia/20260107_125426.jpg",
+    "width": 720,
+    "height": 960
+  },
+  {
+    "src": "/assets/images/travels/2026/malaysia/20260107_191339.jpg",
+    "width": 960,
+    "height": 720
+  },
+  {
+    "src": "/assets/images/travels/2026/malaysia/20260108_180057.jpg",
+    "width": 720,
+    "height": 960
+  }
 ]

@@ -17,6 +17,11 @@ Personal website and portfolio hosted on GitHub Pages.
 - [research.html](research.html): publications list
 - [contact.html](contact.html): contact form and social links
 
+## Writings
+
+Each book is configured in `writings/<slug>/metadata.json`. Add an optional
+`preview_description` string to show a short line beneath the chapter preview heading.
+
 ## Travel Gallery System
 
 Travel content is now managed by one generic gallery page instead of one full page per country/year.
@@ -50,6 +55,10 @@ After adding/removing travel photos, run:
 ./script/update-travel-index
 
 Script location: [script/update-travel-index](script/update-travel-index)
+This also generates WebP thumbnails (maximum 960 pixels on the longest side); install `ffmpeg` first.
+The generated manifest includes each thumbnail's dimensions so the gallery can reserve its layout before loading.
+The gallery keeps the existing collage sizing, loads thumbnails initially, and preloads full-size
+photos at low priority as they approach the viewport. Full-size files load in the lightbox on click.
 
 ## Key Asset Folders
 

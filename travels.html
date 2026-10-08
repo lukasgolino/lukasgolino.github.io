@@ -72,7 +72,7 @@
     }
 
     .map-section {
-      padding: 0.3rem clamp(1.2rem, 2.5vw, 2.6rem) 0;
+      padding: 0;
     }
 
     .travel-map {
@@ -89,14 +89,13 @@
       --text-soft: #b9c6c0;
       --text-strong: #f2ecd9;
 
-      max-width: 760px;
-      margin: 0 auto;
+      width: 100%;
+      margin: 0;
       box-sizing: border-box;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: var(--frame);
-      border-radius: 12px;
-      padding: 7px;
-      box-shadow: 0 16px 30px rgba(15, 23, 32, 0.12);
+      background: transparent;
+      border-radius: 0;
+      padding: 0;
     }
 
     .travel-map *, .travel-map *::before, .travel-map *::after {
@@ -106,9 +105,9 @@
     .travel-map__inner {
       position: relative;
       background: linear-gradient(160deg, var(--ocean), var(--ocean-deep));
-      border: 1px solid rgba(201, 168, 74, 0.55);
+      border: 0;
       border-radius: 8px;
-      padding: 20px 22px 16px;
+      padding: 16px clamp(0.8rem, 2vw, 1.6rem) 10px;
       overflow: hidden;
     }
 
@@ -139,7 +138,7 @@
     .travel-map__stage {
       position: relative;
       width: 100%;
-      aspect-ratio: 960 / 500;
+      height: clamp(380px, 72vh, 820px);
       border-radius: 4px;
       overflow: hidden;
     }
@@ -148,7 +147,6 @@
       width: 100%;
       height: 100%;
       display: block;
-      overflow: visible;
       cursor: grab;
     }
 
@@ -174,8 +172,6 @@
       stroke: var(--border-land);
       stroke-width: 0.6;
       cursor: default;
-      transform-box: fill-box;
-      transform-origin: center;
       vector-effect: non-scaling-stroke;
     }
 
@@ -190,9 +186,9 @@
       fill: var(--visited-hover);
     }
 
-    .country--visited:focus-visible {
-      outline: 2px solid var(--text-strong);
-      outline-offset: 1px;
+    .country:focus,
+    .country:focus-visible {
+      outline: none;
     }
 
     .tm-controls {
@@ -495,13 +491,6 @@
   <main>
     <section class="hero">
       <h1>Travels</h1>
-      <p class="subtitle">
-        Add a country and year in the list below and this page will auto-create the card, flag,
-        and link to the gallery page.
-      </p>
-      <p class="tip">
-        Folder convention for photos: /assets/images/travels/YEAR/country-slug/
-      </p>
     </section>
 
     <section class="map-section" aria-labelledby="travel-map-heading">
@@ -513,7 +502,7 @@
           </header>
 
           <div class="travel-map__stage" id="tm-stage">
-            <svg class="travel-map__svg" id="tm-svg" viewBox="0 0 960 500" role="img" aria-label="Interactive world map of countries visited"></svg>
+            <svg class="travel-map__svg" id="tm-svg" viewBox="0 0 960 500" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Interactive world map of countries visited"></svg>
             <div class="tm-status" id="tm-status">Loading map…</div>
             <div class="tm-tooltip" id="tm-tooltip" aria-hidden="true"></div>
 
@@ -560,9 +549,37 @@
       { country: "Malaysia", year: 2026 },
       { country: "Austria", year: 2025 },
       { country: "Peru", year: 2025 },
+      { country: "Wales", year: 2020 },
+      { country: "England", year: 2020 },
+      { country: "Italy", year: 2020 },
+      { country: "France", year: 2020 },
+      { country: "Spain", year: 2020 },
+      { country: "Netherlands", year: 2020 },
+      { country: "Belgium", year: 2020 },
+      { country: "Switzerland", year: 2020 },
+      { country: "Portugal", year: 2020 },
+      { country: "Germany", year: 2020 },
+      { country: "Norway", year: 2020 },
+      { country: "Sweden", year: 2020 },
+      { country: "Denmark", year: 2020 },
+      { country: "Czech Republic", year: 2020 },
+      { country: "Croatia", year: 2020 },
+      { country: "Greece", year: 2020 },
+      { country: "Bulgaria", year: 2020 },
+      { country: "Turkey", year: 2020 },
+      { country: "Morocco", year: 2020 },
+      { country: "Vatican City", year: 2020 },
+      { country: "Malta", year: 2020 },
+      { country: "Monaco", year: 2020 },
+      { country: "Hungary", year: 2020 },
+      { country: "Ireland", year: 2020 },
     ];
 
     const countryAliases = {
+      wales: "United Kingdom",
+      england: "United Kingdom",
+      "czech republic": "Czechia",
+      "vatican city": "Vatican",
       usa: "United States of America",
       "u.s.a.": "United States of America",
       "united states": "United States of America",
@@ -579,6 +596,11 @@
       Malaysia: "MY",
       Austria: "AT",
       Peru: "PE",
+      Italy: "IT", France: "FR", Spain: "ES", Netherlands: "NL", Belgium: "BE",
+      Switzerland: "CH", Portugal: "PT", Germany: "DE", Norway: "NO", Sweden: "SE",
+      Denmark: "DK", Czechia: "CZ", Croatia: "HR", Greece: "GR", Bulgaria: "BG",
+      Turkey: "TR", Morocco: "MA", Vatican: "VA", Malta: "MT", Monaco: "MC",
+      Hungary: "HU", Ireland: "IE",
     };
 
     function slugifyCountry(country) {
@@ -651,11 +673,10 @@
         10: 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-10m.json'
       };
       const TIER_RANK = { 110: 0, 50: 1, 10: 2 };
-      const ZOOM_THRESHOLD_50 = 2.5;
-      const ZOOM_THRESHOLD_10 = 8;
       const MIN_ZOOM = 1;
-      const MAX_ZOOM = 16;
-      const W = 960, H = 500;
+      const MAX_ZOOM = 8;
+      const MAX_FOCUS_ZOOM = 5;
+      let W = 960, H = 500;
       const REDUCE_MOTION = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       const stage = document.getElementById('tm-stage');
@@ -685,7 +706,8 @@
       const projection = window.d3.geoMercator();
       const path = window.d3.geoPath(projection);
 
-      let currentTier = null;
+      let currentFeatures = null;
+      let worldFeatures = null;
       const tierPromises = {};
 
       function dur(ms) { return REDUCE_MOTION ? 0 : ms; }
@@ -748,14 +770,12 @@
         if (animate) {
           merged
             .style('opacity', 0)
-            .style('transform', 'scale(0.92)')
             .each(function (d, i) {
               window.d3.select(this).transition()
                 .delay(dur(150 + i * 3.5))
                 .duration(dur(600))
-                .ease(window.d3.easeCubicOut)
                 .style('opacity', 1)
-                .style('transform', 'scale(1)');
+                .on('end', function () { window.d3.select(this).style('opacity', null); });
             });
         }
       }
@@ -788,7 +808,7 @@
         const cy = (b[0][1] + b[1][1]) / 2;
         if (dx === 0 || dy === 0) return window.d3.zoomIdentity;
         let scale = 0.82 / Math.max(dx / W, dy / H);
-        scale = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, scale));
+        scale = Math.max(MIN_ZOOM, Math.min(MAX_FOCUS_ZOOM, scale));
         const tx = W / 2 - scale * cx;
         const ty = H / 2 - scale * cy;
         return window.d3.zoomIdentity.translate(tx, ty).scale(scale);
@@ -840,11 +860,12 @@
 
       const zoom = window.d3.zoom()
         .scaleExtent([MIN_ZOOM, MAX_ZOOM])
+        .translateExtent([[0, 0], [W, H]])
+        .extent([[0, 0], [W, H]])
         .on('start', function () { gestureMoved = false; })
         .on('zoom', function (event) {
           if (event.sourceEvent) gestureMoved = true;
           g.attr('transform', event.transform);
-          maybeUpgradeTier(event.transform.k);
         });
 
       svg.call(zoom);
@@ -855,18 +876,25 @@
         resetToWorld();
       });
 
-      function maybeUpgradeTier(k) {
-        let desired = 110;
-        if (k >= ZOOM_THRESHOLD_10) desired = 10;
-        else if (k >= ZOOM_THRESHOLD_50) desired = 50;
+      function fitToStage() {
+        W = Math.max(1, stage.clientWidth);
+        H = Math.max(1, stage.clientHeight);
+        svg.attr('viewBox', '0 0 ' + W + ' ' + H);
+        oceanRect.attr('width', W).attr('height', H);
+        projection.fitExtent([[10, 10], [W - 10, H - 10]], { type: 'FeatureCollection', features: worldFeatures });
+        zoom.translateExtent([[0, 0], [W, H]]).extent([[0, 0], [W, H]]);
+      }
 
-        if (desired === currentTier) return;
-
-        currentTier = desired;
-        loadTier(desired).then(function (features) {
-          if (desired !== currentTier) return;
-          renderTier(features, false);
-        });
+      if (window.ResizeObserver) {
+        let lastW = 0, lastH = 0;
+        new ResizeObserver(function () {
+          if (!worldFeatures) return;
+          if (stage.clientWidth === lastW && stage.clientHeight === lastH) return;
+          lastW = stage.clientWidth; lastH = stage.clientHeight;
+          fitToStage();
+          svg.interrupt().call(zoom.transform, window.d3.zoomIdentity);
+          renderTier(currentFeatures, false);
+        }).observe(stage);
       }
 
       document.getElementById('tm-zoom-in').addEventListener('click', function () {
@@ -882,13 +910,12 @@
         if (event.key === 'Escape' && popup.classList.contains('is-open')) resetToWorld();
       });
 
-      loadTier(110).then(function (features) {
-        projection.fitExtent([[20, 20], [W - 20, H - 20]], { type: 'FeatureCollection', features: features });
-        currentTier = 110;
+      loadTier(50).then(function (features) {
+        worldFeatures = features;
+        currentFeatures = features;
+        fitToStage();
         statusEl.style.display = 'none';
         renderTier(features, true);
-
-        setTimeout(function () { loadTier(50); }, 1500);
       }).catch(function (err) {
         statusEl.textContent = "Couldn't load the world map. Please refresh or check your network connection.";
         console.error(err);

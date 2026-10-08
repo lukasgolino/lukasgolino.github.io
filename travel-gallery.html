@@ -225,13 +225,25 @@
         .join(" ");
     }
 
+    function thumbnailPath(fullSizePath) {
+      const lastSlash = fullSizePath.lastIndexOf("/");
+      const folder = fullSizePath.slice(0, lastSlash);
+      const filename = fullSizePath.slice(lastSlash + 1).replace(/\.[^.]+$/, ".webp");
+      return `${folder}/thumbnails/${filename}`;
+    }
+
     async function fetchImagesFromJsonManifest(expectedPrefix) {
       try {
         const response = await fetch("/assets/images/travels/index.json", { cache: "no-store" });
         if (!response.ok) return [];
         const data = await response.json();
         if (!Array.isArray(data)) return [];
-        return data.filter((path) => typeof path === "string" && path.startsWith(expectedPrefix) && IMAGE_EXT_RE.test(path));
+        return data
+          .map((entry) => typeof entry === "string" ? { full: entry } : { ...entry, full: entry.src })
+          .filter((photo) =>
+            photo && typeof photo.full === "string" &&
+            photo.full.startsWith(expectedPrefix) && IMAGE_EXT_RE.test(photo.full)
+          );
       } catch (_err) {
         return [];
       }
@@ -290,14 +302,24 @@
 
       collage.innerHTML = "";
 
-      images.forEach((src, idx) => {
+      images.forEach((photo, idx) => {
         const item = document.createElement("div");
         item.className = "collage-item";
 
         const img = document.createElement("img");
-        img.src = src;
+        img.src = photo.thumbnail;
         img.alt = `${countryLabel} ${year} photo ${idx + 1}`;
-        img.loading = "auto";
+        if (Number.isInteger(photo.width) && Number.isInteger(photo.height)) {
+          img.width = photo.width;
+          img.height = photo.height;
+        }
+        img.loading = idx < 4 ? "eager" : "lazy";
+        img.decoding = "async";
+        img.fetchPriority = idx < 4 ? "high" : "auto";
+        img.onerror = () => {
+          img.onerror = null;
+          img.src = photo.full;
+        };
 
         item.appendChild(img);
         collage.appendChild(item);
@@ -314,27 +336,84 @@
         empty.hidden = true;
       }
 
-      setupLightbox();
+      setupLightbox(images);
+      setupFullSizePrefetch(images, collage);
     }
 
-    function setupLightbox() {
+    function setupFullSizePrefetch(images, collage) {
+      if (!("IntersectionObserver" in window) || navigator.connection?.saveData) return;
+
+      const queue = [];
+      const queued = new Set();
+      let loading = false;
+
+      function loadNext() {
+        if (loading || !queue.length) return;
+
+        const image = new Image();
+        image.fetchPriority = "low";
+        loading = true;
+        image.onload = image.onerror = () => {
+          loading = false;
+          loadNext();
+        };
+        image.src = queue.shift();
+      }
+
+      function enqueue(src) {
+        if (queued.has(src)) return;
+        queued.add(src);
+        queue.push(src);
+
+        const runWhenIdle = window.requestIdleCallback || ((callback) => window.setTimeout(callback, 500));
+        runWhenIdle(loadNext, { timeout: 1500 });
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          observer.unobserve(entry.target);
+          enqueue(images[Number(entry.target.dataset.index)].full);
+        });
+      }, { rootMargin: "800px 0px" });
+
+      Array.from(collage.querySelectorAll("img")).forEach((img, idx) => {
+        img.dataset.index = String(idx);
+        observer.observe(img);
+      });
+    }
+
+    function setupLightbox(images) {
       const items = Array.from(document.querySelectorAll(".collage-item img"));
       const lb = document.getElementById("lb");
       const lbImg = document.getElementById("lb-img");
       let current = 0;
+      let activeFullImage = null;
 
       function open(idx) {
         if (!items.length) return;
         current = (idx + items.length) % items.length;
-        lbImg.src = items[current].src;
+        const photo = images[current];
+        lbImg.src = photo.thumbnail;
         lbImg.alt = items[current].alt;
         lb.classList.add("open");
         document.body.style.overflow = "hidden";
+
+        const fullImage = new Image();
+        fullImage.fetchPriority = "high";
+        fullImage.onload = () => {
+          if (activeFullImage === fullImage && lb.classList.contains("open")) {
+            lbImg.src = photo.full;
+          }
+        };
+        activeFullImage = fullImage;
+        fullImage.src = photo.full;
       }
 
       function close() {
         lb.classList.remove("open");
         lbImg.src = "";
+        activeFullImage = null;
         document.body.style.overflow = "";
       }
 
@@ -375,7 +454,10 @@
         images = await fetchImagesFromGitHub(year, countrySlug);
       }
 
-      renderCollage(images, countryLabel, year);
+      renderCollage(images.map((photo) => {
+        const full = typeof photo === "string" ? photo : photo.full;
+        return { ...photo, full, thumbnail: thumbnailPath(full) };
+      }), countryLabel, year);
     }
 
     init();

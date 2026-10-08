@@ -65,6 +65,11 @@
             line-height: 1.7;
         }
 
+        .preview-description {
+            margin: 0.35rem 0 0;
+            font-size: 0.92rem;
+        }
+
         .chapter {
             border: 1px solid var(--line);
             border-radius: 16px;
@@ -121,6 +126,7 @@
         <section class="hero">
             <h1 id="book-title">Book</h1>
             <p id="book-intro">Loading chapter preview…</p>
+            <p id="book-description" class="preview-description" hidden></p>
         </section>
 
         <section class="viewer-wrap">
@@ -196,6 +202,10 @@
                 document.title = `${book.title} — Chapter Preview`;
                 document.getElementById("book-title").textContent = book.title;
                 document.getElementById("book-intro").textContent = `Previewing the opening chapter of ${book.title}.`;
+
+                const bookDescription = document.getElementById("book-description");
+                bookDescription.textContent = metadata.preview_description || "";
+                bookDescription.hidden = !bookDescription.textContent;
 
                 const emailLink = document.getElementById("request-email");
                 emailLink.href = `mailto:${book.email}?subject=${encodeURIComponent(book.subject)}&body=${encodeURIComponent(book.emailBody)}`;

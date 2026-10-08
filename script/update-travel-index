@@ -6,11 +6,46 @@ cd "$repo_root"
 
 python3 - <<'PY'
 import json
+import shutil
+import subprocess
 from pathlib import Path
 
 root = Path('assets/images/travels')
 exts = {'.jpg', '.jpeg', '.png', '.webp'}
-paths = sorted('/' + p.as_posix() for p in root.rglob('*') if p.is_file() and p.suffix.lower() in exts)
-(root / 'index.json').write_text(json.dumps(paths, indent=2) + '\n', encoding='utf-8')
-print(f'Updated {root / "index.json"} with {len(paths)} entries')
+photos = sorted(
+    p for p in root.rglob('*')
+    if p.is_file() and p.suffix.lower() in exts and 'thumbnails' not in p.parts
+)
+
+if shutil.which('ffmpeg') is None or shutil.which('ffprobe') is None:
+    raise SystemExit('ffmpeg and ffprobe are required to generate travel photo thumbnails')
+
+entries = []
+for photo in photos:
+    thumbnail = photo.parent / 'thumbnails' / f'{photo.stem}.webp'
+    if not thumbnail.exists() or thumbnail.stat().st_mtime_ns < photo.stat().st_mtime_ns:
+        thumbnail.parent.mkdir(parents=True, exist_ok=True)
+        subprocess.run([
+            'ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'error', '-i', str(photo),
+            '-frames:v', '1',
+            '-vf', "scale='min(960,iw)':'min(960,ih)':force_original_aspect_ratio=decrease",
+            '-c:v', 'libwebp', '-quality', '78', '-compression_level', '6',
+            '-y', str(thumbnail),
+        ], check=True)
+
+    dimensions = subprocess.run([
+        'ffprobe', '-v', 'error', '-select_streams', 'v:0',
+        '-show_entries', 'stream=width,height', '-of', 'csv=s=x:p=0', str(thumbnail),
+    ], check=True, capture_output=True, text=True).stdout.strip().split('x')
+    if len(dimensions) != 2 or not all(value.isdigit() and int(value) > 0 for value in dimensions):
+        raise SystemExit(f'Could not determine thumbnail dimensions: {thumbnail}')
+
+    entries.append({
+        'src': '/' + photo.as_posix(),
+        'width': int(dimensions[0]),
+        'height': int(dimensions[1]),
+    })
+
+(root / 'index.json').write_text(json.dumps(entries, indent=2) + '\n', encoding='utf-8')
+print(f'Updated {root / "index.json"} with {len(entries)} photos and generated thumbnails')
 PY
