@@ -543,8 +543,8 @@
     </div>
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js" integrity="sha384-9dCJK6nh7skY14HrcvlLYlFga9/MehJjL9ONWRflmiXNRuf8p2jiF4Y5PR881PTq" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
     const trips = [
       { country: "Canada", year: 2026 },
@@ -673,11 +673,9 @@
       if (!mapRoot || !window.d3 || !window.topojson) return;
 
       const DATA_URLS = {
-        110: 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json',
-        50: 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json',
-        10: 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-10m.json'
+        // world-atlas@2.0.2 (Natural Earth), self-hosted so the page CSP can stay connect-src 'self'.
+        50: '/assets/data/world-atlas/countries-50m.json'
       };
-      const TIER_RANK = { 110: 0, 50: 1, 10: 2 };
       const MIN_ZOOM = 1;
       const MAX_ZOOM = 8;
       const MAX_FOCUS_ZOOM = 5;
