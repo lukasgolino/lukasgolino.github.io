@@ -1,0 +1,12 @@
+name: site
+# lukasgolino.github.io colours: the teal accent ramp, page ink and paper.
+colors:
+  "0": { hex: "#0f1720", name: ink }
+  "1": { hex: "#0f4c58", name: teal_deep }
+  "2": { hex: "#1f7a8c", name: teal }
+  "3": { hex: "#3a9aac", name: teal_light }
+  "4": { hex: "#bfdbf7", name: sky }
+  "5": { hex: "#f8fafc", name: paper }
+ramps:
+  teal: ["1", "2", "3"]
+  paper: ["4", "5"]
