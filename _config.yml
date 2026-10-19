@@ -3,3 +3,7 @@ description: "Personal website and portfolio."
 email: "lukas.golino@hotmail `dot` co `dot` uk"
 show_downloads: false
 google_analytics: false
+exclude:
+  - art
+  - script
+  - README.md

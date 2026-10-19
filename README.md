@@ -2,7 +2,7 @@
 
 Personal website and portfolio hosted on GitHub Pages.
 
-- Domain: www.lukasgolino.com
+- Domain: lukasgolino.com
 - Repo: lukasgolino.github.io
 - Site config: [_config.yml](_config.yml)
 
@@ -15,6 +15,7 @@ Personal website and portfolio hosted on GitHub Pages.
 - [travels.html](travels.html): travel cards and trip links
 - [travel-gallery.html](travel-gallery.html): generic travel gallery page
 - [research.html](research.html): publications list
+- [projects.html](projects.html): personal projects (PAGAN, SEGAN, Age of Boom)
 - [contact.html](contact.html): contact form and social links
 
 ## Writings
@@ -64,6 +65,8 @@ photos at low priority as they approach the viewport. Full-size files load in th
 
 - [assets/images/travels](assets/images/travels): travel photos and index.json
 - [assets/images/flags](assets/images/flags): country flag images used by travel cards
+- [assets/data/world-atlas](assets/data/world-atlas): world-atlas@2.0.2 country boundaries (Natural Earth) for the travels map
+- [art](art): PAGAN project for the site icon (not published; see `_config.yml`)
 
 ## Local Preview
 
