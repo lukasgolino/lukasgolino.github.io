@@ -1,0 +1,158 @@
+#!/usr/bin/env bash
+# Render writings/<slug>/back.png from the "blurb" field in metadata.json.
+#
+# Usage: script/render-back-covers [slug ...]   (no args = every book)
+#
+# Layout matches the front covers: black panel / white band / black panel.
+# Paragraphs (split on <br><br>) are divided between the two panels, balanced
+# by length; set "back_split": N in metadata.json to put the first N paragraphs
+# on the top panel. Text is auto-sized to fit each panel.
+#
+# Needs a Chromium headless shell. Set CHROME=/path/to/binary to override.
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$repo_root"
+
+if [[ -z "${CHROME:-}" ]]; then
+    for c in ~/.cache/ms-playwright/chromium_headless_shell-*/*/headless_shell \
+             "$(command -v chromium 2>/dev/null || true)" \
+             "$(command -v chromium-browser 2>/dev/null || true)" \
+             "$(command -v google-chrome 2>/dev/null || true)"; do
+        if [[ -n "$c" && -x "$c" ]]; then CHROME="$c"; fi
+    done
+fi
+if [[ -z "${CHROME:-}" ]]; then
+    echo "No Chromium found; install one (npx playwright install chromium-headless-shell) or set CHROME." >&2
+    exit 1
+fi
+
+font=""
+for f in /usr/share/fonts/opentype/urw-base35/C059-Italic.otf \
+         /usr/share/texmf/fonts/opentype/public/tex-gyre/texgyreschola-italic.otf; do
+    if [[ -f "$f" ]]; then font="$f"; break; fi
+done
+if [[ -z "$font" ]]; then
+    echo "Century Schoolbook italic (C059 / TeX Gyre Schola) not found; install fonts-urw-base35." >&2
+    exit 1
+fi
+
+export CHROME FONT="$font"
+python3 - "$@" <<'PY'
+import json, os, re, subprocess, sys, tempfile
+from pathlib import Path
+
+# Geometry at 1748x2481 (A4 @ 150dpi); larger covers are rendered at a multiple.
+W, H = 1748, 2481
+TOP = (0, 1197)
+BOTTOM = (1351, 2481)
+PAD_X, PAD_Y = 110, 90
+MAX_FONT, MIN_FONT = 84, 30
+
+PAGE = """<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face {{ font-family: Cover; src: url("file://{font}"); font-style: italic; }}
+html, body {{ margin: 0; width: {W}px; height: {H}px; background: #fff; overflow: hidden; }}
+.panel {{ position: absolute; left: 0; width: {W}px; background: #000; color: #fff;
+  box-sizing: border-box; padding: {PAD_Y}px {PAD_X}px;
+  display: flex; flex-direction: column; justify-content: center; }}
+.text {{ font-family: Cover, "C059", "TeX Gyre Schola", "Century Schoolbook", serif;
+  font-style: italic; text-align: center; line-height: 1.27; }}
+.text p {{ margin: 0 0 0.45em; }}
+.text p:last-child {{ margin-bottom: 0; }}
+</style></head><body>
+<div class="panel" style="top:{t0}px;height:{t1}px"><div class="text">{top}</div></div>
+<div class="panel" style="top:{b0}px;height:{b1}px"><div class="text">{bottom}</div></div>
+<script>
+document.fonts.ready.then(() => {{
+  for (const panel of document.querySelectorAll('.panel')) {{
+    const text = panel.firstElementChild;
+    const avail = panel.clientHeight - 2 * {PAD_Y};
+    let lo = {MIN_FONT}, hi = {MAX_FONT};
+    while (hi - lo > 0.5) {{
+      const mid = (lo + hi) / 2;
+      text.style.fontSize = mid + 'px';
+      if (text.scrollHeight <= avail) lo = mid; else hi = mid;
+    }}
+    text.style.fontSize = lo + 'px';
+  }}
+}});
+</script></body></html>"""
+
+
+def png_size(path):
+    with open(path, 'rb') as fh:
+        head = fh.read(24)
+    return int.from_bytes(head[16:20], 'big'), int.from_bytes(head[20:24], 'big')
+
+
+def smart_quotes(html):
+    def fix(text):
+        text = re.sub(r"(^|[\s(\[\u2014-])'", '\\1\u2018', text)
+        text = re.sub(r'(^|[\s(\[\u2014-])"', '\\1\u201c', text)
+        return text.replace("'", '\u2019').replace('"', '\u201d')
+    return ''.join(part if part.startswith('<') else fix(part)
+                   for part in re.split(r'(<[^>]*>)', html))
+
+
+def split(paras, forced):
+    if forced is not None:
+        n = max(1, min(len(paras) - 1, int(forced)))
+        return paras[:n], paras[n:]
+    if len(paras) < 2:
+        return paras, []
+    total = sum(len(p) for p in paras)
+    best, best_n, acc = None, 1, 0
+    for n in range(1, len(paras)):
+        acc += len(paras[n - 1])
+        diff = abs(acc - (total - acc))
+        if best is None or diff < best:
+            best, best_n = diff, n
+    return paras[:best_n], paras[best_n:]
+
+
+def render(book_dir, chrome, font):
+    meta = json.loads((book_dir / 'metadata.json').read_text(encoding='utf-8'))
+    blurb = (meta.get('blurb') or '').strip()
+    if not blurb:
+        print(f'{book_dir.name}: no blurb, skipped')
+        return
+    paras = [p.strip() for p in re.split(r'(?:\s*<br\s*/?>\s*){2,}', blurb) if p.strip()]
+    top, bottom = split(paras, meta.get('back_split'))
+    wrap = lambda ps: ''.join(f'<p>{smart_quotes(p)}</p>' for p in ps)
+
+    out = book_dir / meta.get('back', 'back.png')
+    scale = 1
+    if out.exists():
+        w, h = png_size(out)
+        if w % W == 0 and w // W == round(h / H):
+            scale = w // W
+
+    html = PAGE.format(font=font, W=W, H=H, PAD_X=PAD_X, PAD_Y=PAD_Y,
+                       MAX_FONT=MAX_FONT, MIN_FONT=MIN_FONT,
+                       t0=TOP[0], t1=TOP[1] - TOP[0], b0=BOTTOM[0], b1=BOTTOM[1] - BOTTOM[0],
+                       top=wrap(top), bottom=wrap(bottom))
+    with tempfile.TemporaryDirectory() as tmp:
+        page = Path(tmp) / 'back.html'
+        page.write_text(html, encoding='utf-8')
+        shot = Path(tmp) / 'back.png'
+        cmd = [chrome, '--headless', '--no-sandbox', '--hide-scrollbars',
+               '--allow-file-access-from-files', '--virtual-time-budget=5000',
+               f'--window-size={W},{H}', f'--force-device-scale-factor={scale}',
+               f'--screenshot={shot}', page.as_uri()]
+        # Large (4x) renders occasionally segfault the headless shell; retry.
+        for attempt in range(3):
+            result = subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            if result.returncode == 0 and shot.exists():
+                break
+        else:
+            sys.exit(f'{book_dir.name}: chromium failed (exit {result.returncode})')
+        out.write_bytes(shot.read_bytes())
+    print(f'{book_dir.name}: wrote {out} ({W * scale}x{H * scale}, {len(top)}/{len(bottom)} paragraphs)')
+
+
+root = Path('writings')
+slugs = sys.argv[1:]
+dirs = [root / s for s in slugs] if slugs else sorted(p for p in root.iterdir() if (p / 'metadata.json').exists())
+for d in dirs:
+    render(d, os.environ['CHROME'], os.environ['FONT'])
+PY
