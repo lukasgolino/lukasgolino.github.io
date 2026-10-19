@@ -294,7 +294,7 @@
 
                 const entries = books
                     .filter(Boolean)
-                    .sort((a, b) => (a.display_order || 9999) - (b.display_order || 9999));
+                    .sort((a, b) => a.display_order - b.display_order);
 
                 root.innerHTML = entries.map((book) => `
                     <section class="section">
