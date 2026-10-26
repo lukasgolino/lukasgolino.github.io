@@ -15,7 +15,7 @@ Personal website and portfolio hosted on GitHub Pages.
 - [travels.html](travels.html): travel cards and trip links
 - [travel-gallery.html](travel-gallery.html): generic travel gallery page
 - [research.html](research.html): publications list
-- [projects.html](projects.html): personal projects (PAGAN, SEGAN, KILN, Age of Boom)
+- [projects.html](projects.html): personal projects (PAGAN, SEGAN, KILN, Age of Boom, NEXT TOKEN)
 - [contact.html](contact.html): contact form and social links
 
 ## Writings
