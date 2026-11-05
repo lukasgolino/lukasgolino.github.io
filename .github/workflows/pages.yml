@@ -3,6 +3,7 @@ name: Deploy Pages
 on:
   push:
     branches: [master]
+    paths-ignore: [CHANGELOG.md, README.md, ".github/workflows/check.yml", ".github/workflows/assets.yml", ".github/workflows/release.yml"]
   workflow_dispatch:
 
 permissions:

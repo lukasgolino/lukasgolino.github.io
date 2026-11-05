@@ -8,6 +8,7 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
-- CHANGELOG.md; a check workflow (`tools/check_site.py`: local links resolve; plus the Jekyll build) on pushes to
-  master and every PR; and a release workflow that publishes a GitHub release for each `vX.Y.Z` tag, with that
+- CHANGELOG.md; an on-demand check workflow, run once per PR before merge (`tools/check_site.py`: local links and
+  JS-fetched data resolve to published files; plus the Jekyll build); deploys skip changelog/CI-only pushes; and a
+  release workflow that publishes a GitHub release for each `vX.Y.Z` tag, with that
   version's CHANGELOG section as the notes ([#4](https://github.com/lukasgolino/lukasgolino.github.io/issues/4)).
