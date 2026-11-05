@@ -17,7 +17,6 @@ from urllib.parse import unquote, urlsplit
 SITE = Path(__file__).resolve().parent.parent
 ORIGIN = "https://lukasgolino.com/"
 TOKEN = "8157ab8d746f4868a67445fdd46c03b8"  # Cloudflare Web Analytics site token
-BEACON_SRC = "https://static.cloudflareinsights.com/beacon.min.js"
 PROJECT_SITES = ("kiln-website/", "loose-website/")  # other repos' GitHub Pages, served under this domain
 PAGES = sorted(SITE.glob("*.html"))
 # Pages rendered per query string by JS (writings-book.html?book=, travel-gallery.html?country=&year=): no static
@@ -68,7 +67,8 @@ class Refs(HTMLParser):
             self.head["title"].append("")
         if tag == "link" and "canonical" in (a.get("rel") or "").lower().split():
             self.head["canonical"].append(a.get("href"))
-        if tag == "script" and a.get("src") == BEACON_SRC:
+        src = urlsplit(a.get("src") or "")
+        if tag == "script" and src.netloc == "static.cloudflareinsights.com" and "beacon" in src.path:
             try:
                 self.beacons.append(json.loads(a.get("data-cf-beacon") or "").get("token"))
             except (ValueError, AttributeError):
@@ -98,11 +98,18 @@ for page in PAGES:
     if parser.beacons != [TOKEN]:
         errors.append(f"{page.name}: analytics beacons {parser.beacons}, expected exactly [{TOKEN!r}]")
     for policy in parser.csp:  # the page's CSP must let the beacon load and report
-        directives = {d.split()[0]: d.split()[1:] for d in policy.split(";") if d.strip()}
-        if "https://static.cloudflareinsights.com" not in directives.get("script-src", []):
-            errors.append(f"{page.name}: CSP script-src blocks the analytics beacon")
-        if "https://cloudflareinsights.com" not in directives.get("connect-src", []):
-            errors.append(f"{page.name}: CSP connect-src blocks analytics reporting")
+        directives = {}
+        for d in policy.split(";"):
+            if d.split():
+                directives.setdefault(d.split()[0].lower(), d.split()[1:])  # browsers use the first copy
+
+        def effective(*names):  # most specific directive present wins, falling back to default-src
+            return next((directives[n] for n in names if n in directives), directives.get("default-src", []))
+
+        if "https://static.cloudflareinsights.com" not in effective("script-src-elem", "script-src"):
+            errors.append(f"{page.name}: CSP blocks the analytics beacon script")
+        if "https://cloudflareinsights.com" not in effective("connect-src"):
+            errors.append(f"{page.name}: CSP blocks analytics reporting")
     for ref in parser.refs:
         if "${" in ref:  # built in JS template literals at runtime
             continue
