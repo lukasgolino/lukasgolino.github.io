@@ -8,6 +8,9 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
+- Page titles, meta descriptions, canonical links and Open Graph tags on every page. `writings-book.html` sets its
+  canonical and description per book; the bare `travel-gallery.html` template is dropped from the sitemap.
+  `check_site.py` checks all of it ([#2](https://github.com/lukasgolino/lukasgolino.github.io/issues/2)).
 - `sitemap.xml` (every page, plus one `writings-book.html?book=` entry per book, and the
   /kiln-website/ and /loose-website/ project sites) and `robots.txt`; `check_site.py`
   checks the sitemap lists exactly the pages ([#1](https://github.com/lukasgolino/lukasgolino.github.io/issues/1)).
