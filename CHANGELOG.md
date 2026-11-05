@@ -8,6 +8,9 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
+- Cloudflare Web Analytics beacon on every page (cookieless); each page's CSP allows it. `check_site.py` checks
+  every page loads it exactly once and isn't blocked by its CSP
+  ([#3](https://github.com/lukasgolino/lukasgolino.github.io/issues/3)).
 - Page titles, meta descriptions, canonical links and Open Graph tags on every page. `writings-book.html` sets its
   canonical and description per book; the bare `travel-gallery.html` template is dropped from the sitemap.
   `check_site.py` checks all of it ([#2](https://github.com/lukasgolino/lukasgolino.github.io/issues/2)).
