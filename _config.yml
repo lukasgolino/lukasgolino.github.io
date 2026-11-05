@@ -7,3 +7,5 @@ exclude:
   - art
   - script
   - README.md
+  - CHANGELOG.md
+  - tools
