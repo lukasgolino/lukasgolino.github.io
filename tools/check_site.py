@@ -2,7 +2,8 @@
 """Sanity checks on the site's pages (plain HTML, no layouts): every local href/src resolves to a file that Jekyll
 publishes, and so do the files the JS-driven pages fetch (travel photo index, world atlas, writings metadata and
 the front/back/preview files it names). Links into the project sites served under this domain (/kiln-website/,
-/loose-website/) live in other repos and are skipped. Each page has one description and OG title/description, and (unless
+/loose-website/) live in other repos and are skipped. Each page has one title, description, og:type/site_name/title/description and
+twitter:card, and (unless
 it's a JS template) a canonical and og:url equal to its own URL. sitemap.xml must list exactly the pages, and
 robots.txt must point to it."""
 import json
@@ -44,10 +45,23 @@ class Refs(HTMLParser):
     def __init__(self):
         super().__init__()
         self.refs = []
-        self.head = {"canonical": [], "og:url": [], "description": [], "og:title": [], "og:description": []}
+        self.head = {"canonical": [], "og:url": [], "title": [], "description": [], "og:title": [],
+                     "og:description": [], "og:type": [], "og:site_name": [], "twitter:card": []}
+        self._in_title = False
+
+    def handle_data(self, data):
+        if self._in_title:
+            self.head["title"][-1] += data
+
+    def handle_endtag(self, tag):
+        if tag == "title":
+            self._in_title = False
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
+        if tag == "title":
+            self._in_title = True
+            self.head["title"].append("")
         if tag == "link" and "canonical" in (a.get("rel") or "").lower().split():
             self.head["canonical"].append(a.get("href"))
         if tag == "meta":

@@ -402,6 +402,22 @@
       document.getElementById("crumb-country").textContent = `${countryLabel} ${year}`.trim();
       document.getElementById("page-title").textContent = `${countryLabel} ${year}`.trim();
 
+      // Template for ?country=&year=: give each trip its own title/description; keep the bare URL out of the index.
+      if (countrySlug && year) {
+        const trip = `${countryLabel} ${year}`;
+        document.title = `${trip} · Travel Gallery · Lukas Golino`;
+        const description = `Photos from ${trip} by Lukas Golino.`;
+        for (const sel of ['meta[name="description"]', 'meta[property="og:description"]']) {
+          document.head.querySelector(sel)?.setAttribute("content", description);
+        }
+        document.head.querySelector('meta[property="og:title"]')?.setAttribute("content", document.title);
+      } else {
+        const m = document.createElement("meta");
+        m.name = "robots";
+        m.content = "noindex";
+        document.head.appendChild(m);
+      }
+
       const expectedPrefix = `/assets/images/travels/${year}/${countrySlug}/`;
 
       const images = await fetchImagesFromJsonManifest(expectedPrefix);

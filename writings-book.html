@@ -194,8 +194,15 @@
         async function initBook() {
             const params = new URLSearchParams(window.location.search);
             const slug = params.get("book") || "ymlib";
+            const noindex = () => {
+                const m = document.createElement("meta");
+                m.name = "robots";
+                m.content = "noindex";
+                document.head.appendChild(m);
+            };
 
             try {
+                if (!/^[a-z0-9-]+$/.test(slug)) throw new Error("Bad book slug");
                 const metadataResponse = await fetch(`/writings/${slug}/metadata.json`);
                 if (!metadataResponse.ok) throw new Error("Book metadata not found");
                 const metadata = await metadataResponse.json();
@@ -211,9 +218,13 @@
                 };
 
                 document.title = `${book.title} — Chapter Preview · Lukas Golino`;
-                // The page is a template for ?book=<slug>: point search engines and link previews at this book.
+                // The page is a template for ?book=<slug>: point search engines (which run JS) at this book. Link-preview
+                // scrapers read the static head, so shared links show the generic title/description.
                 const pageUrl = `https://lukasgolino.com/writings-book.html?book=${encodeURIComponent(slug)}`;
-                const pageDescription = metadata.preview_description || `A chapter preview of ${book.title} by Lukas Golino.`;
+                const blurb = (metadata.blurb || "").replace(/<br\s*\/?>/gi, " ").replace(/\s+/g, " ").trim();
+                const pageDescription = blurb
+                    ? (blurb.length > 155 ? `${blurb.slice(0, 154).replace(/\s+\S*$/, "")}…` : blurb)
+                    : `A chapter preview of ${book.title} by Lukas Golino.`;
                 const setHead = (selector, make, attr, value) => {
                     let el = document.head.querySelector(selector);
                     if (!el) { el = make(); document.head.appendChild(el); }
@@ -245,6 +256,7 @@
                 const renderedHtml = extractRenderedMarkdownHtml(text);
                 chapterContent.innerHTML = renderedHtml || renderMarkdown(text.trim());
             } catch (error) {
+                noindex(); // unknown book or missing preview: a 200 page with no content, keep it out of the index
                 const chapterContent = document.getElementById("chapter-content");
                 chapterContent.innerHTML = "<p class=\"empty\">The first chapter for this book is not available yet. Please check back soon.</p>";
                 chapterContent.classList.add("empty");
