@@ -9,7 +9,13 @@
   <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
   <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Travel Gallery</title>
+  <title>Travel Gallery · Lukas Golino</title>
+  <meta name="description" content="Travel photos by Lukas Golino." />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Lukas Golino" />
+  <meta property="og:title" content="Travel Gallery · Lukas Golino" />
+  <meta property="og:description" content="Travel photos by Lukas Golino." />
+  <meta name="twitter:card" content="summary" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
@@ -395,6 +401,22 @@
 
       document.getElementById("crumb-country").textContent = `${countryLabel} ${year}`.trim();
       document.getElementById("page-title").textContent = `${countryLabel} ${year}`.trim();
+
+      // Template for ?country=&year=: give each trip its own title/description; keep the bare URL out of the index.
+      if (countrySlug && year) {
+        const trip = `${countryLabel} ${year}`;
+        document.title = `${trip} · Travel Gallery · Lukas Golino`;
+        const description = `Photos from ${trip} by Lukas Golino.`;
+        for (const sel of ['meta[name="description"]', 'meta[property="og:description"]']) {
+          document.head.querySelector(sel)?.setAttribute("content", description);
+        }
+        document.head.querySelector('meta[property="og:title"]')?.setAttribute("content", document.title);
+      } else {
+        const m = document.createElement("meta");
+        m.name = "robots";
+        m.content = "noindex";
+        document.head.appendChild(m);
+      }
 
       const expectedPrefix = `/assets/images/travels/${year}/${countrySlug}/`;
 

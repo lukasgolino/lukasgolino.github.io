@@ -2,8 +2,10 @@
 """Sanity checks on the site's pages (plain HTML, no layouts): every local href/src resolves to a file that Jekyll
 publishes, and so do the files the JS-driven pages fetch (travel photo index, world atlas, writings metadata and
 the front/back/preview files it names). Links into the project sites served under this domain (/kiln-website/,
-/loose-website/) live in other repos and are skipped. sitemap.xml must list exactly the pages, and robots.txt must
-point to it."""
+/loose-website/) live in other repos and are skipped. Each page has one title, description, og:type/site_name/title/description and
+twitter:card, and (unless
+it's a JS template) a canonical and og:url equal to its own URL. sitemap.xml must list exactly the pages, and
+robots.txt must point to it."""
 import json
 import re
 import sys
@@ -16,6 +18,9 @@ SITE = Path(__file__).resolve().parent.parent
 ORIGIN = "https://lukasgolino.com/"
 PROJECT_SITES = ("kiln-website/", "loose-website/")  # other repos' GitHub Pages, served under this domain
 PAGES = sorted(SITE.glob("*.html"))
+# Pages rendered per query string by JS (writings-book.html?book=, travel-gallery.html?country=&year=): no static
+# canonical, not in the sitemap as bare URLs.
+TEMPLATES = ("writings-book.html", "travel-gallery.html")
 errors = []
 
 # Jekyll's exclude list plus its built-in rule (names starting with _ or . aren't published).
@@ -40,8 +45,29 @@ class Refs(HTMLParser):
     def __init__(self):
         super().__init__()
         self.refs = []
+        self.head = {"canonical": [], "og:url": [], "title": [], "description": [], "og:title": [],
+                     "og:description": [], "og:type": [], "og:site_name": [], "twitter:card": []}
+        self._in_title = False
+
+    def handle_data(self, data):
+        if self._in_title:
+            self.head["title"][-1] += data
+
+    def handle_endtag(self, tag):
+        if tag == "title":
+            self._in_title = False
 
     def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        if tag == "title":
+            self._in_title = True
+            self.head["title"].append("")
+        if tag == "link" and "canonical" in (a.get("rel") or "").lower().split():
+            self.head["canonical"].append(a.get("href"))
+        if tag == "meta":
+            key = a.get("property") or a.get("name")
+            if key in self.head:
+                self.head[key].append(a.get("content"))
         for k, v in attrs:
             if k in ("href", "src") and v:
                 self.refs.append(v)
@@ -50,6 +76,14 @@ class Refs(HTMLParser):
 for page in PAGES:
     parser = Refs()
     parser.feed(page.read_text(encoding="utf-8"))
+    url = ORIGIN + ("" if page.name == "index.html" else page.name)
+    want = {"canonical": [] if page.name in TEMPLATES else [url], "og:url": [] if page.name in TEMPLATES else [url]}
+    for key, got in parser.head.items():
+        if key in want:
+            if got != want[key]:
+                errors.append(f"{page.name}: {key} is {got}, expected {want[key]}")
+        elif len(got) != 1 or not (got[0] or "").strip():
+            errors.append(f"{page.name}: expected exactly one non-empty {key}, got {got}")
     for ref in parser.refs:
         if "${" in ref:  # built in JS template literals at runtime
             continue
@@ -96,7 +130,7 @@ for url in root.findall(NS + "url"):
     if len(locs) != 1:
         errors.append(f"sitemap.xml: a <url> has {len(locs)} <loc> elements")
     listed += [(loc.text or "").strip() for loc in locs]
-expected = {ORIGIN + ("" if p.name == "index.html" else p.name) for p in PAGES if p.name != "writings-book.html"}
+expected = {ORIGIN + ("" if p.name == "index.html" else p.name) for p in PAGES if p.name not in TEMPLATES}
 expected |= {f"{ORIGIN}writings-book.html?book={slug}" for slug in slugs}
 expected |= {ORIGIN + p for p in PROJECT_SITES}
 for name in ("sitemap.xml", "robots.txt"):
