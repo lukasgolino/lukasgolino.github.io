@@ -6,6 +6,11 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Changed
+
+- CI checks run once per PR, when it's marked ready for review just before merge (and on demand), to save Actions
+  minutes.
+
 ## [0.1.0] - 2026-11-05
 
 ### Added
