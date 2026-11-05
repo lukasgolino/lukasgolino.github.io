@@ -2,10 +2,12 @@
 """Sanity checks on the site's pages (plain HTML, no layouts): every local href/src resolves to a file that Jekyll
 publishes, and so do the files the JS-driven pages fetch (travel photo index, world atlas, writings metadata and
 the front/back/preview files it names). Links into the project sites served under this domain (/kiln-website/,
-/loose-website/) live in other repos and are skipped."""
+/loose-website/) live in other repos and are skipped. sitemap.xml must list exactly the pages, and robots.txt must
+point to it."""
 import json
 import re
 import sys
+import xml.etree.ElementTree as ET
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
@@ -77,6 +79,33 @@ for slug in slugs:
         for key in ("front", "back", "preview"):
             if m.get(key):
                 check_target(f"writings/{slug}/metadata.json", m[key], meta.parent / m[key])
+
+# sitemap.xml lists every page once (writings-book.html once per book, as ?book=<slug>,
+# plus the project sites' roots); robots.txt points to it.
+NS = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
+try:
+    root = ET.parse(SITE / "sitemap.xml").getroot()
+except ET.ParseError as e:
+    errors.append(f"sitemap.xml: {e}")
+    root = ET.Element(NS + "urlset")
+if root.tag != NS + "urlset":
+    errors.append(f"sitemap.xml: root is {root.tag}, not a sitemaps.org <urlset>")
+listed = []
+for url in root.findall(NS + "url"):
+    locs = url.findall(NS + "loc")
+    if len(locs) != 1:
+        errors.append(f"sitemap.xml: a <url> has {len(locs)} <loc> elements")
+    listed += [(loc.text or "").strip() for loc in locs]
+expected = {ORIGIN + ("" if p.name == "index.html" else p.name) for p in PAGES if p.name != "writings-book.html"}
+expected |= {f"{ORIGIN}writings-book.html?book={slug}" for slug in slugs}
+expected |= {ORIGIN + p for p in PROJECT_SITES}
+for name in ("sitemap.xml", "robots.txt"):
+    check_target("site root", name, SITE / name)
+errors += [f"sitemap.xml: {u} listed twice" for u in sorted({u for u in listed if listed.count(u) > 1})]
+errors += [f"sitemap.xml: {u} is not a page" for u in listed if u not in expected]
+errors += [f"sitemap.xml: missing {u}" for u in sorted(expected - set(listed))]
+if f"Sitemap: {ORIGIN}sitemap.xml" not in (SITE / "robots.txt").read_text(encoding="utf-8").splitlines():
+    errors.append("robots.txt: no Sitemap line for sitemap.xml")
 
 for e in errors:
     print(f"check_site: {e}", file=sys.stderr)
