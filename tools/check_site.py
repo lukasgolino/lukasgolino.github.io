@@ -2,7 +2,7 @@
 """Sanity checks on the site's pages (plain HTML, no layouts): every local href/src resolves to a file that Jekyll
 publishes, and so do the files the JS-driven pages fetch (travel photo index, world atlas, writings metadata and
 the front/back/preview files it names). Links into the project sites served under this domain (/kiln-website/,
-/loose-website/) live in other repos and are skipped. Each page has one title, description, og:type/site_name/title/description and
+/loose-website/) live in other repos and are skipped. Each page loads the analytics beacon exactly once and its CSP allows it. Each page has one title, description, og:type/site_name/title/description and
 twitter:card, and (unless
 it's a JS template) a canonical and og:url equal to its own URL. sitemap.xml must list exactly the pages, and
 robots.txt must point to it."""
@@ -16,6 +16,7 @@ from urllib.parse import unquote, urlsplit
 
 SITE = Path(__file__).resolve().parent.parent
 ORIGIN = "https://lukasgolino.com/"
+TOKEN = "8157ab8d746f4868a67445fdd46c03b8"  # Cloudflare Web Analytics site token
 PROJECT_SITES = ("kiln-website/", "loose-website/")  # other repos' GitHub Pages, served under this domain
 PAGES = sorted(SITE.glob("*.html"))
 # Pages rendered per query string by JS (writings-book.html?book=, travel-gallery.html?country=&year=): no static
@@ -48,6 +49,8 @@ class Refs(HTMLParser):
         self.head = {"canonical": [], "og:url": [], "title": [], "description": [], "og:title": [],
                      "og:description": [], "og:type": [], "og:site_name": [], "twitter:card": []}
         self._in_title = False
+        self.beacons = []
+        self.csp = []
 
     def handle_data(self, data):
         if self._in_title:
@@ -64,6 +67,14 @@ class Refs(HTMLParser):
             self.head["title"].append("")
         if tag == "link" and "canonical" in (a.get("rel") or "").lower().split():
             self.head["canonical"].append(a.get("href"))
+        src = urlsplit(a.get("src") or "")
+        if tag == "script" and src.netloc == "static.cloudflareinsights.com" and "beacon" in src.path:
+            try:
+                self.beacons.append(json.loads(a.get("data-cf-beacon") or "").get("token"))
+            except (ValueError, AttributeError):
+                self.beacons.append(None)
+        if tag == "meta" and (a.get("http-equiv") or "").lower() == "content-security-policy":
+            self.csp.append(a.get("content") or "")
         if tag == "meta":
             key = a.get("property") or a.get("name")
             if key in self.head:
@@ -84,6 +95,21 @@ for page in PAGES:
                 errors.append(f"{page.name}: {key} is {got}, expected {want[key]}")
         elif len(got) != 1 or not (got[0] or "").strip():
             errors.append(f"{page.name}: expected exactly one non-empty {key}, got {got}")
+    if parser.beacons != [TOKEN]:
+        errors.append(f"{page.name}: analytics beacons {parser.beacons}, expected exactly [{TOKEN!r}]")
+    for policy in parser.csp:  # the page's CSP must let the beacon load and report
+        directives = {}
+        for d in policy.split(";"):
+            if d.split():
+                directives.setdefault(d.split()[0].lower(), d.split()[1:])  # browsers use the first copy
+
+        def effective(*names):  # most specific directive present wins, falling back to default-src
+            return next((directives[n] for n in names if n in directives), directives.get("default-src", []))
+
+        if "https://static.cloudflareinsights.com" not in effective("script-src-elem", "script-src"):
+            errors.append(f"{page.name}: CSP blocks the analytics beacon script")
+        if "https://cloudflareinsights.com" not in effective("connect-src"):
+            errors.append(f"{page.name}: CSP blocks analytics reporting")
     for ref in parser.refs:
         if "${" in ref:  # built in JS template literals at runtime
             continue
