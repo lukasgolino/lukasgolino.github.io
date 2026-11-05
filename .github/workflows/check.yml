@@ -1,0 +1,17 @@
+# Check the site: local links resolve, and the Jekyll build succeeds.
+name: check
+
+# Manual only (Actions minutes): run once per PR, just before merge, with `gh workflow run check --ref <branch>`.
+on:
+  workflow_dispatch:
+
+jobs:
+  site:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - run: python3 tools/check_site.py
+      - uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
