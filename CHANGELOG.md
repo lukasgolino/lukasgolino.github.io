@@ -9,6 +9,8 @@ All notable changes to this project are documented here. The format follows
 ### Changed
 
 - CI checks are cheap, so they run on every push (and on demand).
+- KILN and LOOSE! links point at their own domains, https://kiln3d.dev/ and https://loosegame.com/; the sitemap no
+  longer lists the old /kiln-website/ and /loose-website/ paths ([#10](https://github.com/lukasgolino/lukasgolino.github.io/issues/10)).
 
 ## [0.1.0] - 2026-11-05
 
