@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """Sanity checks on the site's pages (plain HTML, no layouts): every local href/src resolves to a file that Jekyll
 publishes, and so do the files the JS-driven pages fetch (travel photo index, world atlas, writings metadata and
-the front/back/preview files it names). Links into the project sites served under this domain (/kiln-website/,
-/loose-website/) live in other repos and are skipped. Each page loads the analytics beacon exactly once and its CSP allows it. Each page has one title, description, og:type/site_name/title/description and
-twitter:card, and (unless
-it's a JS template) a canonical and og:url equal to its own URL. sitemap.xml must list exactly the pages, and
-robots.txt must point to it."""
+the front/back/preview files it names). Each page loads the analytics beacon exactly once and its CSP allows it.
+Each page has one title, description, og:type/site_name/title/description and twitter:card, and (unless it's a JS
+template) a canonical and og:url equal to its own URL. sitemap.xml must list exactly the pages, and robots.txt must
+point to it."""
 import json
 import re
 import sys
@@ -17,7 +16,6 @@ from urllib.parse import unquote, urlsplit
 SITE = Path(__file__).resolve().parent.parent
 ORIGIN = "https://lukasgolino.com/"
 TOKEN = "8157ab8d746f4868a67445fdd46c03b8"  # Cloudflare Web Analytics site token
-PROJECT_SITES = ("kiln-website/", "loose-website/")  # other repos' GitHub Pages, served under this domain
 PAGES = sorted(SITE.glob("*.html"))
 # Pages rendered per query string by JS (writings-book.html?book=, travel-gallery.html?country=&year=): no static
 # canonical, not in the sitemap as bare URLs.
@@ -118,8 +116,6 @@ for page in PAGES:
         if (u.scheme or u.netloc or ref.startswith(("#", "mailto:", "data:"))) and not own:
             continue
         path = unquote(u.path)
-        if path.lstrip("/").startswith(PROJECT_SITES):
-            continue
         target = (SITE / path.lstrip("/")) if path.startswith("/") else (page.parent / path)
         check_target(page.name, ref, target)
 
@@ -158,7 +154,6 @@ for url in root.findall(NS + "url"):
     listed += [(loc.text or "").strip() for loc in locs]
 expected = {ORIGIN + ("" if p.name == "index.html" else p.name) for p in PAGES if p.name not in TEMPLATES}
 expected |= {f"{ORIGIN}writings-book.html?book={slug}" for slug in slugs}
-expected |= {ORIGIN + p for p in PROJECT_SITES}
 for name in ("sitemap.xml", "robots.txt"):
     check_target("site root", name, SITE / name)
 errors += [f"sitemap.xml: {u} listed twice" for u in sorted({u for u in listed if listed.count(u) > 1})]
