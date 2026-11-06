@@ -6,6 +6,17 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-06
+
+### Added
+
+- A standard icon set: `favicon.ico` (16/32/48 px), a 96 px icon, a 180 px apple-touch icon and `site.webmanifest`
+  with 192/512 px and maskable icons, so search results, tabs, bookmarks and home-screen shortcuts all show the
+  icon ([#12](https://github.com/lukasgolino/lukasgolino.github.io/issues/12)).
+- schema.org structured data (JSON-LD) on the home page, an `llms.txt` summary for AI assistants, and robots.txt
+  content signals allowing search and AI use; the home page title names what the site is for
+  ([#13](https://github.com/lukasgolino/lukasgolino.github.io/issues/13)).
+
 ## [0.1.1] - 2026-11-06
 
 ### Changed
@@ -32,6 +43,7 @@ All notable changes to this project are documented here. The format follows
   release workflow that publishes a GitHub release for each `vX.Y.Z` tag, with that
   version's CHANGELOG section as the notes ([#4](https://github.com/lukasgolino/lukasgolino.github.io/issues/4)).
 
-[Unreleased]: https://github.com/lukasgolino/lukasgolino.github.io/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/lukasgolino/lukasgolino.github.io/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/lukasgolino/lukasgolino.github.io/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/lukasgolino/lukasgolino.github.io/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/lukasgolino/lukasgolino.github.io/releases/tag/v0.1.0

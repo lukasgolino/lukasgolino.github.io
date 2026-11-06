@@ -1,0 +1,22 @@
+# Lukas Golino
+
+> Dr Lukas Golino is a physicist at CERN and an independent game developer. This is his personal site: writings, research, travels, and his open-source game-development tools and games.
+
+## Open-source game-development tools (free, MIT, for AI agents and Godot 4)
+
+- [PAGAN](https://pagan.top/): pixel art, sprites and tilesets written as text by an AI agent
+- [SEGAN](https://segan.top/): game sound effects and music written as text by an AI agent
+- [KILN](https://kiln3d.dev/): stylised 3D game models written as text by an AI agent
+
+## Games
+
+- [Age of Boom](https://ageofboom.online/): top-down pixel-art naval combat, online and co-op
+- [LOOSE!](https://loosegame.com/): comedic medieval siege game where you are the arrow
+- [NEXT TOKEN](https://next-token.dev/): free browser game about what it is like to be a language model
+
+## Pages
+
+- [Projects](https://lukasgolino.com/projects.html)
+- [Research](https://lukasgolino.com/research.html)
+- [Writings](https://lukasgolino.com/writings.html)
+- [About](https://lukasgolino.com/aboutme.html)
