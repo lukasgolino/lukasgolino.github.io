@@ -122,6 +122,7 @@ for page in PAGES:
         if "https://gateway.umami.is" not in effective("connect-src"):
             errors.append(f"{page.name}: CSP blocks Umami reporting")
         if "form-action" in directives:  # no default-src fallback: only an explicit form-action restricts forms
+            # exact origins, scheme sources, 'self' and * only: host wildcards and paths fail here (false alarms, never misses)
             allowed = directives["form-action"]
             for action in parser.forms:
                 u = urlsplit(action)

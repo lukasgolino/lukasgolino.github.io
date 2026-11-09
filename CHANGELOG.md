@@ -10,7 +10,7 @@ All notable changes to this project are documented here. The format follows
 
 ### Fixed
 
-- The contact form submits again: `contact.html`'s CSP had `form-action 'self'`, which blocked posting to Web3Forms.
+- The contact form submits again: `contact.html`'s CSP had `form-action 'self'`, which blocked posting to Web3Forms (and the redirect to its success page, now allowed too).
   `tools/check_site.py` now checks every form's target against its page's `form-action`
   ([#18](https://github.com/lukasgolino/lukasgolino.github.io/issues/18)).
 
