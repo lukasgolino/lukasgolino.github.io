@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Sanity checks on the site's pages (plain HTML, no layouts): every local href/src resolves to a file that Jekyll
 publishes, and so do the files the JS-driven pages fetch (travel photo index, world atlas, writings metadata and
-the front/back/preview files it names). Each page loads the analytics beacon and the Umami tag exactly once and its CSP allows both.
-Each page has one title, description, og:type/site_name/title/description and twitter:card, and (unless it's a JS
+the front/back/preview files it names). Each page loads the analytics beacon and the Umami tag exactly once and
+its CSP allows both. Each page has one title, description, og:type/site_name/title/description and twitter:card, and (unless it's a JS
 template) a canonical and og:url equal to its own URL. sitemap.xml must list exactly the pages, and robots.txt must
 point to it."""
 import json
