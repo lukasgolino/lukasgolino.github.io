@@ -6,6 +6,14 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-11-09
+
+### Fixed
+
+- The contact form submits again: `contact.html`'s CSP had `form-action 'self'`, which blocked posting to Web3Forms (and the redirect to its success page, now allowed too).
+  `tools/check_site.py` now checks every form's target against its page's `form-action`
+  ([#18](https://github.com/lukasgolino/lukasgolino.github.io/issues/18)).
+
 ## [0.4.0] - 2026-11-09
 
 ### Added
@@ -60,7 +68,8 @@ All notable changes to this project are documented here. The format follows
   release workflow that publishes a GitHub release for each `vX.Y.Z` tag, with that
   version's CHANGELOG section as the notes ([#4](https://github.com/lukasgolino/lukasgolino.github.io/issues/4)).
 
-[Unreleased]: https://github.com/lukasgolino/lukasgolino.github.io/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/lukasgolino/lukasgolino.github.io/compare/v0.4.1...HEAD
+[0.4.1]: https://github.com/lukasgolino/lukasgolino.github.io/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/lukasgolino/lukasgolino.github.io/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/lukasgolino/lukasgolino.github.io/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/lukasgolino/lukasgolino.github.io/compare/v0.1.1...v0.2.0

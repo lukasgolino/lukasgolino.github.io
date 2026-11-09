@@ -2,7 +2,7 @@
 """Sanity checks on the site's pages (plain HTML, no layouts): every local href/src resolves to a file that Jekyll
 publishes, and so do the files the JS-driven pages fetch (travel photo index, world atlas, writings metadata and
 the front/back/preview files it names). Each page loads the analytics beacon and the Umami tag exactly once and its
-CSP allows both. Each page has one title, description, og:type/site_name/title/description and twitter:card, and
+CSP allows both, and any form-action in a CSP allows the page's form targets. Each page has one title, description, og:type/site_name/title/description and twitter:card, and
 (unless it's a JS template) a canonical and og:url equal to its own URL. sitemap.xml must list exactly the pages,
 and robots.txt must point to it."""
 import json
@@ -51,6 +51,7 @@ class Refs(HTMLParser):
         self.beacons = []
         self.umami = []
         self.csp = []
+        self.forms = []
 
     def handle_data(self, data):
         if self._in_title:
@@ -75,6 +76,8 @@ class Refs(HTMLParser):
                 self.beacons.append(None)
         if tag == "script" and a.get("src") == "https://cloud.umami.is/script.js":
             self.umami.append(a.get("data-website-id"))
+        if tag == "form":
+            self.forms.append(a.get("action") or "")
         if tag == "meta" and (a.get("http-equiv") or "").lower() == "content-security-policy":
             self.csp.append(a.get("content") or "")
         if tag == "meta":
@@ -118,6 +121,15 @@ for page in PAGES:
             errors.append(f"{page.name}: CSP blocks the Umami script")
         if "https://gateway.umami.is" not in effective("connect-src"):
             errors.append(f"{page.name}: CSP blocks Umami reporting")
+        if "form-action" in directives:  # no default-src fallback: only an explicit form-action restricts forms
+            # exact origins, scheme sources, 'self' and * only: host wildcards and paths fail here (false alarms, never misses)
+            allowed = directives["form-action"]
+            for action in parser.forms:
+                u = urlsplit(action)
+                local = not (u.scheme or u.netloc) or action.startswith(ORIGIN)
+                origin = f"{u.scheme}://{u.netloc}"
+                if not ("*" in allowed or (local and "'self'" in allowed) or origin in allowed or f"{u.scheme}:" in allowed):
+                    errors.append(f"{page.name}: CSP form-action {allowed} blocks the form posting to {action}")
     for ref in parser.refs:
         if "${" in ref:  # built in JS template literals at runtime
             continue
