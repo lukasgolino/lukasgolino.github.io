@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Sanity checks on the site's pages (plain HTML, no layouts): every local href/src resolves to a file that Jekyll
 publishes, and so do the files the JS-driven pages fetch (travel photo index, world atlas, writings metadata and
-the front/back/preview files it names). Each page loads the analytics beacon exactly once and its CSP allows it.
-Each page has one title, description, og:type/site_name/title/description and twitter:card, and (unless it's a JS
-template) a canonical and og:url equal to its own URL. sitemap.xml must list exactly the pages, and robots.txt must
-point to it."""
+the front/back/preview files it names). Each page loads the analytics beacon and the Umami tag exactly once and its
+CSP allows both. Each page has one title, description, og:type/site_name/title/description and twitter:card, and
+(unless it's a JS template) a canonical and og:url equal to its own URL. sitemap.xml must list exactly the pages,
+and robots.txt must point to it."""
 import json
 import re
 import sys
@@ -16,6 +16,7 @@ from urllib.parse import unquote, urlsplit
 SITE = Path(__file__).resolve().parent.parent
 ORIGIN = "https://lukasgolino.com/"
 TOKEN = "8157ab8d746f4868a67445fdd46c03b8"  # Cloudflare Web Analytics site token
+UMAMI_ID = "6c3ba9da-9af9-49a9-a575-90c9cace445c"  # one Umami website for all our sites
 PAGES = sorted(SITE.glob("*.html"))
 # Pages rendered per query string by JS (writings-book.html?book=, travel-gallery.html?country=&year=): no static
 # canonical, not in the sitemap as bare URLs.
@@ -48,6 +49,7 @@ class Refs(HTMLParser):
                      "og:description": [], "og:type": [], "og:site_name": [], "twitter:card": []}
         self._in_title = False
         self.beacons = []
+        self.umami = []
         self.csp = []
 
     def handle_data(self, data):
@@ -71,6 +73,8 @@ class Refs(HTMLParser):
                 self.beacons.append(json.loads(a.get("data-cf-beacon") or "").get("token"))
             except (ValueError, AttributeError):
                 self.beacons.append(None)
+        if tag == "script" and a.get("src") == "https://cloud.umami.is/script.js":
+            self.umami.append(a.get("data-website-id"))
         if tag == "meta" and (a.get("http-equiv") or "").lower() == "content-security-policy":
             self.csp.append(a.get("content") or "")
         if tag == "meta":
@@ -95,6 +99,8 @@ for page in PAGES:
             errors.append(f"{page.name}: expected exactly one non-empty {key}, got {got}")
     if parser.beacons != [TOKEN]:
         errors.append(f"{page.name}: analytics beacons {parser.beacons}, expected exactly [{TOKEN!r}]")
+    if parser.umami != [UMAMI_ID]:
+        errors.append(f"{page.name}: Umami tags {parser.umami}, expected exactly [{UMAMI_ID!r}]")
     for policy in parser.csp:  # the page's CSP must let the beacon load and report
         directives = {}
         for d in policy.split(";"):
@@ -108,6 +114,10 @@ for page in PAGES:
             errors.append(f"{page.name}: CSP blocks the analytics beacon script")
         if "https://cloudflareinsights.com" not in effective("connect-src"):
             errors.append(f"{page.name}: CSP blocks analytics reporting")
+        if "https://cloud.umami.is" not in effective("script-src-elem", "script-src"):
+            errors.append(f"{page.name}: CSP blocks the Umami script")
+        if "https://gateway.umami.is" not in effective("connect-src"):
+            errors.append(f"{page.name}: CSP blocks Umami reporting")
     for ref in parser.refs:
         if "${" in ref:  # built in JS template literals at runtime
             continue
